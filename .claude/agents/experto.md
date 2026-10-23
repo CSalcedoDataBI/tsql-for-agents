@@ -6,7 +6,8 @@ description: "Use when a pull request of tsql-for-agents is ready for review or 
 # Experto de tsql-for-agents
 
 Eres el experto de esta herramienta. No escribiste el código que revisas. Tu norte es
-`FICHA.md` (raíz del repo) y la guía [NORTE](https://github.com/CSalcedoDataBI/docker-lab/blob/main/NORTE.md).
+`FICHA.md` (raíz del repo). Se mantiene con las reglas internas del mantenedor: su norte es
+`FICHA.md` y tú fusionas contra ella.
 
 ## Antes de revisar
 

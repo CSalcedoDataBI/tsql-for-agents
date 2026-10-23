@@ -31,13 +31,24 @@ El servidor y la base se pasan por variable de entorno al correr el script, **nu
 El sondeo no corre en CI (necesita la sesión de Entra del mantenedor); corre a mano y su JSON se
 commitea. El workspace lo elige Cristóbal: es una pregunta abierta de la épica.
 
+**Cómo se decide sin argumentos (medido el 2026-10-23).** Todo pasa por
+`sp_describe_first_result_set`, que compila y no ejecuta. Llamar la función sin argumentos basta:
+195/208 = no reconocida, 15871/15868 = reconocida pero «not supported», 174/313/1076/10753 =
+existe (falla solo por argumentos). Un «no soportado» solo cuenta si el mensaje nombra la función.
+Las muestras de llamada (`catalog/samples.json`, redactadas con un modelo) dan el tipo de retorno y
+resuelven predicados y funciones de tabla; una muestra equivocada solo produce un error.
+
+**Primera corrida.** El workspace elegido no tiene Warehouse, solo SQL analytics endpoints, así que
+la primera corrida fue sobre uno de ellos (mismo motor, solo lectura). Falta repetirla sobre un
+Warehouse para ver si alguna función cambia de veredicto.
+
 **El sondeo no escribe nada en el Warehouse.** Solo `SELECT` y
 `sp_describe_first_result_set`; ninguna tabla, ningún DDL.
 
 ## 3. Antes de escribir nada (NORTE R2)
 
-Hecho en el comentario de [docker-lab#38](https://github.com/CSalcedoDataBI/docker-lab/issues/38).
-Lo relevante para este repo:
+Hecho el 2026-10-23 con `gh search repos` y `gh search code`, más los plugins instalados. Lo
+relevante para este repo:
 
 - **[`MicrosoftDocs/Agent-Skills`](https://github.com/MicrosoftDocs/Agent-Skills)** (oficial,
   CC-BY-4.0) resume Azure SQL Database, Managed Instance y SQL en VM desde Microsoft Learn. **Se
