@@ -1,0 +1,234 @@
+{
+  "status": "unprobed",
+  "drafted_by": "claude-review",
+  "topic": "error-handling",
+  "title": "Error handling and transactions in Fabric Warehouse and SQL analytics endpoint",
+  "summary": "TRY...CATCH works, and so do ERROR_NUMBER, ERROR_MESSAGE, ERROR_SEVERITY, ERROR_STATE, ERROR_PROCEDURE, @@ERROR, @@TRANCOUNT, @@ROWCOUNT and ROWCOUNT_BIG. ERROR_LINE, XACT_STATE, FORMATMESSAGE and @@PROCID are rejected. One such call anywhere in a batch or procedure stops the whole thing from compiling, including code inside a CATCH block that never runs. Use @@TRANCOUNT instead of XACT_STATE to decide on ROLLBACK, and build messages with CONCAT. Transactions run under snapshot isolation only.",
+  "claims": [
+    {
+      "id": "error-line-not-supported",
+      "statement": "ERROR_LINE is not supported in Fabric. Logging code that captures the failing line number will not compile.",
+      "functions": [
+        "ERROR_LINE"
+      ],
+      "probe_sql": "SELECT ERROR_LINE() AS l",
+      "expect": {
+        "outcome": "error",
+        "error_number": null,
+        "result_type": null
+      },
+      "sql_server": "SQL Server supports ERROR_LINE inside a CATCH block.",
+      "alternative": "Drop the line number. Record a step label of your own and ERROR_PROCEDURE() in the log row instead.",
+      "confidence": "high"
+    },
+    {
+      "id": "error-line-in-catch-breaks-batch",
+      "statement": "Putting ERROR_LINE inside a CATCH block still fails the whole batch at compile time, even if the TRY block never errors. A copied SQL Server CATCH template breaks the entire procedure.",
+      "functions": [
+        "ERROR_LINE",
+        "ERROR_NUMBER"
+      ],
+      "probe_sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH SELECT ERROR_NUMBER() AS n, ERROR_LINE() AS l; END CATCH",
+      "expect": {
+        "outcome": "error",
+        "error_number": null,
+        "result_type": null
+      },
+      "sql_server": "In SQL Server this batch compiles and runs.",
+      "alternative": "Remove ERROR_LINE from CATCH templates. Keep ERROR_NUMBER, ERROR_MESSAGE, ERROR_SEVERITY, ERROR_STATE and ERROR_PROCEDURE.",
+      "confidence": "high"
+    },
+    {
+      "id": "xact-state-not-supported",
+      "statement": "XACT_STATE is not supported. The usual 'IF XACT_STATE() <> 0 ROLLBACK' line in a CATCH block fails to compile.",
+      "functions": [
+        "XACT_STATE"
+      ],
+      "probe_sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH IF XACT_STATE() <> 0 ROLLBACK; END CATCH",
+      "expect": {
+        "outcome": "error",
+        "error_number": null,
+        "result_type": null
+      },
+      "sql_server": "SQL Server supports XACT_STATE, which returns 1, 0 or -1.",
+      "alternative": "Use IF @@TRANCOUNT > 0 ROLLBACK; in the CATCH block.",
+      "confidence": "high"
+    },
+    {
+      "id": "trancount-exists",
+      "statement": "@@TRANCOUNT is supported and returns int. It is the way to test for an open transaction in Fabric.",
+      "functions": [
+        "@@TRANCOUNT"
+      ],
+      "probe_sql": "SELECT @@TRANCOUNT AS tc",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "catch-rollback-rethrow-pattern",
+      "statement": "The Fabric-safe CATCH pattern compiles: roll back when @@TRANCOUNT > 0, then rethrow with a bare THROW.",
+      "functions": [
+        "@@TRANCOUNT"
+      ],
+      "probe_sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH IF @@TRANCOUNT > 0 ROLLBACK; THROW; END CATCH",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "error-number-severity-state",
+      "statement": "ERROR_NUMBER, ERROR_SEVERITY and ERROR_STATE are supported and return int.",
+      "functions": [
+        "ERROR_NUMBER",
+        "ERROR_SEVERITY",
+        "ERROR_STATE"
+      ],
+      "probe_sql": "SELECT ERROR_NUMBER() AS n, ERROR_SEVERITY() AS s, ERROR_STATE() AS st",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "error-message-type",
+      "statement": "ERROR_MESSAGE is supported and returns nvarchar(4000).",
+      "functions": [
+        "ERROR_MESSAGE"
+      ],
+      "probe_sql": "SELECT ERROR_MESSAGE() AS m",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(4000)"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "error-procedure-exists",
+      "statement": "ERROR_PROCEDURE is supported and returns nvarchar(128). Use it to identify where the error happened.",
+      "functions": [
+        "ERROR_PROCEDURE"
+      ],
+      "probe_sql": "SELECT ERROR_PROCEDURE() AS p",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(128)"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "procid-not-supported",
+      "statement": "@@PROCID is not supported. The logging habit OBJECT_NAME(@@PROCID) fails to compile.",
+      "functions": [
+        "@@PROCID",
+        "OBJECT_NAME"
+      ],
+      "probe_sql": "SELECT OBJECT_NAME(@@PROCID) AS p",
+      "expect": {
+        "outcome": "error",
+        "error_number": null,
+        "result_type": null
+      },
+      "sql_server": "SQL Server supports @@PROCID inside modules.",
+      "alternative": "Use ERROR_PROCEDURE() in CATCH, or hard-code the procedure name as a literal.",
+      "confidence": "high"
+    },
+    {
+      "id": "formatmessage-not-supported",
+      "statement": "FORMATMESSAGE is not supported, so it cannot build THROW or RAISERROR message text.",
+      "functions": [
+        "FORMATMESSAGE"
+      ],
+      "probe_sql": "SELECT FORMATMESSAGE('Error in %s', 'step1') AS m",
+      "expect": {
+        "outcome": "error",
+        "error_number": null,
+        "result_type": null
+      },
+      "sql_server": "SQL Server supports FORMATMESSAGE with printf-style arguments.",
+      "alternative": "Build the text with CONCAT into a variable, then pass that variable to THROW.",
+      "confidence": "high"
+    },
+    {
+      "id": "raiserror-compiles",
+      "statement": "RAISERROR with an ad hoc message string compiles in Fabric. Messages from sys.messages added with custom ids are not an option.",
+      "functions": [],
+      "probe_sql": "RAISERROR('custom failure', 16, 1); SELECT 1 AS a",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": "Prefer THROW 50001, 'message', 1; for new code.",
+      "confidence": "low"
+    },
+    {
+      "id": "rowcount-types",
+      "statement": "@@ROWCOUNT (int) and ROWCOUNT_BIG (bigint) are supported. Use ROWCOUNT_BIG for large loads to avoid int overflow.",
+      "functions": [
+        "ROWCOUNT_BIG",
+        "@@ROWCOUNT"
+      ],
+      "probe_sql": "SELECT ROWCOUNT_BIG() AS rb, @@ROWCOUNT AS r",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "bigint"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "at-at-error-exists",
+      "statement": "@@ERROR is supported and returns int. As in SQL Server, it is reset by every statement, so read it right after the statement you are checking.",
+      "functions": [
+        "@@ERROR"
+      ],
+      "probe_sql": "SELECT @@ERROR AS e",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "snapshot-isolation-only",
+      "statement": "Fabric transactions run under snapshot isolation only. A SET TRANSACTION ISOLATION LEVEL statement asking for another level does not give that level. Code that relies on locking (SERIALIZABLE, READ UNCOMMITTED) can return different results without any error.",
+      "functions": [],
+      "probe_sql": "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; SELECT 1 AS a",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": "SQL Server honours all isolation levels, and READ COMMITTED is the default.",
+      "alternative": "Design for snapshot semantics: expect write-write conflicts to fail the later transaction, and retry it.",
+      "confidence": "low"
+    }
+  ]
+}

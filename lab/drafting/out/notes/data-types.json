@@ -1,0 +1,236 @@
+{
+ "status": "probed",
+ "drafted_by": "claude-review",
+ "revision": 2,
+ "topic": "data-types",
+ "title": "Data types: what Fabric Warehouse stores and what it rejects",
+ "summary": "Fabric Warehouse tables accept fewer column types than SQL Server. nvarchar, nchar, datetime, smalldatetime, datetimeoffset, money, smallmoney, tinyint, text, ntext, image, xml, sql_variant, geography and geometry cannot be table column types. datetime2 and time are limited to precision 6 in tables. Many of these types still appear at query time: GETDATE returns datetime, SYSDATETIME returns datetime2(7), SYSDATETIMEOFFSET returns datetimeoffset(7), and CAST to xml or geography compiles and returns xml or geography. Always CAST to a storable type before you persist a value. Use varchar with a UTF-8 collation instead of nvarchar, datetime2(6) instead of datetime, datetime2(7) or datetimeoffset, decimal(19,4) instead of money, smallint instead of tinyint, and varchar(max) for XML or well-known text. varchar(max), varbinary(max) and uniqueidentifier are usable. The expression probes below check result types. The CREATE TABLE probes are low confidence because a compile-only check may not validate column types.",
+ "claims": [
+  {
+   "id": "dt-nvarchar-expr",
+   "statement": "nvarchar still works in expressions; only table columns reject it. To store Unicode text, CAST to varchar, which uses a UTF-8 collation in Fabric Warehouse.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST(N'déjà vu' AS nvarchar(10)) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(10)"
+   },
+   "sql_server": "SQL Server allows nvarchar and nchar columns in tables.",
+   "alternative": "SELECT CAST(N'déjà vu' AS varchar(40)) AS c; -- size varchar in bytes: UTF-8 characters can take up to 4 bytes",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-nvarchar-table",
+   "statement": "A CREATE TABLE with an nvarchar or nchar column is rejected in Fabric Warehouse.",
+   "functions": [],
+   "probe_sql": "CREATE TABLE dbo.probe_nvarchar (c nvarchar(10));",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server accepts this CREATE TABLE.",
+   "alternative": "CREATE TABLE dbo.probe_nvarchar (c varchar(40));",
+   "confidence": "low"
+  },
+  {
+   "id": "dt-getdate-datetime",
+   "statement": "GETDATE returns datetime, which a Fabric table column cannot use. Cast it to datetime2(6) before you insert it or select it into a table.",
+   "functions": [
+    "GETDATE",
+    "CAST"
+   ],
+   "probe_sql": "SELECT GETDATE() AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime"
+   },
+   "sql_server": "SQL Server allows datetime columns.",
+   "alternative": "SELECT CAST(GETDATE() AS datetime2(6)) AS c;",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-datetime2-7-expr",
+   "statement": "SYSDATETIME returns datetime2(7), but table columns allow at most datetime2(6). CAST to datetime2(6) before you persist the value.",
+   "functions": [
+    "SYSDATETIME",
+    "CAST"
+   ],
+   "probe_sql": "SELECT SYSDATETIME() AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime2(7)"
+   },
+   "sql_server": "SQL Server allows datetime2(7) columns. datetime2 without a precision defaults to 7.",
+   "alternative": "SELECT CAST(SYSDATETIME() AS datetime2(6)) AS c;",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-datetime2-6-cast",
+   "statement": "CAST to datetime2(6) gives the storable precision. Always write the precision explicitly: datetime2 without a precision means datetime2(7).",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('2024-05-01T10:20:30.1234567' AS datetime2(6)) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime2(6)"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-datetime2-7-table",
+   "statement": "A CREATE TABLE column declared as datetime2(7), or as plain datetime2, is rejected because table columns allow at most precision 6.",
+   "functions": [],
+   "probe_sql": "CREATE TABLE dbo.probe_dt7 (c datetime2(7));",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server accepts datetime2(7) columns.",
+   "alternative": "CREATE TABLE dbo.probe_dt7 (c datetime2(6));",
+   "confidence": "low"
+  },
+  {
+   "id": "dt-datetimeoffset",
+   "statement": "SYSDATETIMEOFFSET returns datetimeoffset(7), and datetimeoffset cannot be a table column type. Normalize the value to UTC with AT TIME ZONE, then CAST it to datetime2(6).",
+   "functions": [
+    "SYSDATETIMEOFFSET",
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'UTC' AS datetime2(6)) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime2(6)"
+   },
+   "sql_server": "SQL Server allows datetimeoffset columns.",
+   "alternative": "Store a UTC datetime2(6) column. If you need the original offset, store it in a separate smallint column.",
+   "confidence": "low"
+  },
+  {
+   "id": "dt-money",
+   "statement": "money and smallmoney can appear in expressions but not in table columns. Use decimal(19,4) for money and decimal(10,4) for smallmoney.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST(CAST(12.3456 AS money) AS decimal(19,4)) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "decimal(19,4)"
+   },
+   "sql_server": "SQL Server allows money and smallmoney columns.",
+   "alternative": "CAST(x AS decimal(19,4))",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-tinyint",
+   "statement": "tinyint cannot be a table column type. Use smallint. A CAST to tinyint in a query still yields tinyint, so cast to smallint before you persist.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST(200 AS tinyint) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "tinyint"
+   },
+   "sql_server": "SQL Server allows tinyint columns.",
+   "alternative": "SELECT CAST(200 AS smallint) AS c;",
+   "confidence": "low"
+  },
+  {
+   "id": "dt-varchar-max",
+   "statement": "varchar(max) is the replacement for text, ntext and nvarchar(max) in a Warehouse. In the SQL analytics endpoint of a Lakehouse, long strings may be exposed as varchar(8000) and truncated.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('abc' AS varchar(max)) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(max)"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-uniqueidentifier",
+   "statement": "uniqueidentifier is supported, and NEWID works. NEWSEQUENTIALID is not supported, so a column default of NEWSEQUENTIALID will fail.",
+   "functions": [
+    "NEWID",
+    "NEWSEQUENTIALID"
+   ],
+   "probe_sql": "SELECT NEWID() AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "uniqueidentifier"
+   },
+   "sql_server": "SQL Server allows NEWSEQUENTIALID as a column default.",
+   "alternative": "Generate keys with NEWID at insert time.",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-sql-variant",
+   "statement": "sql_variant cannot be a column type, and SQL_VARIANT_PROPERTY is not supported, so code that inspects variant base types fails.",
+   "functions": [
+    "SQL_VARIANT_PROPERTY",
+    "CAST"
+   ],
+   "probe_sql": "SELECT SQL_VARIANT_PROPERTY(CAST(1 AS sql_variant), 'BaseType') AS c;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server supports sql_variant columns and SQL_VARIANT_PROPERTY.",
+   "alternative": "Store the value as varchar plus a separate type-tag column.",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-xml",
+   "statement": "xml works in query expressions: a CAST to xml compiles and returns xml. xml cannot be a table column type, so CAST XML text to varchar(max) before you persist it.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('<a>1</a>' AS xml) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "xml"
+   },
+   "sql_server": "SQL Server supports the xml type and xml columns.",
+   "alternative": "SELECT CAST('<a>1</a>' AS varchar(max)) AS c;",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-geography",
+   "statement": "geography works in query expressions: a CAST to geography compiles and returns geography. geography and geometry cannot be table column types, so store well-known text in varchar, or store coordinates as float columns.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('POINT(1 1)' AS geography) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "geography"
+   },
+   "sql_server": "SQL Server supports geography and geometry columns.",
+   "alternative": "Store WKT in varchar(max), or latitude and longitude as float.",
+   "confidence": "high"
+  }
+ ],
+ "refuted": []
+}

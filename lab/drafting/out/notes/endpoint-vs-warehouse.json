@@ -1,0 +1,213 @@
+{
+ "status": "probed",
+ "drafted_by": "claude-review",
+ "revision": 2,
+ "topic": "endpoint-vs-warehouse",
+ "title": "SQL analytics endpoint versus Warehouse: what compiles where",
+ "summary": "The SQL analytics endpoint of a Lakehouse is read-only over its Delta tables. Compile-time metadata discovery does not enforce that. CREATE TABLE, CTAS and SELECT INTO a permanent table all compile with no result set, so a compile check cannot tell an endpoint from a Warehouse for writes. Whether a write is rejected only shows when the statement runs. Views, inline table-valued functions, procedures and reads through catalog views compile. sp_describe_first_result_set cannot describe a multi-statement batch that uses a temp table (error 11525), so describe temp-table statements one at a time. Cross-item reads use three-part names within the same workspace. Four-part (linked server) names do not exist. Identity helpers such as SCOPE_IDENTITY and @@IDENTITY are not supported.",
+ "claims": [
+  {
+   "id": "evw-01",
+   "statement": "Reading catalog views works the same on the endpoint and the Warehouse. sys.tables on the endpoint lists the Lakehouse Delta tables that are exposed to SQL.",
+   "functions": [],
+   "probe_sql": "SELECT TOP (1) name FROM sys.tables",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(128)"
+   },
+   "sql_server": "Same catalog view and type in SQL Server.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "evw-02",
+   "statement": "CREATE VIEW is allowed on the read-only endpoint. Views are the normal way to add logic over Lakehouse tables.",
+   "functions": [],
+   "probe_sql": "CREATE VIEW dbo.v_probe_endpoint AS SELECT 1 AS c",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Same in SQL Server.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "evw-03",
+   "statement": "Inline table-valued functions can be created on the endpoint.",
+   "functions": [],
+   "probe_sql": "CREATE FUNCTION dbo.f_probe_endpoint() RETURNS TABLE AS RETURN SELECT 1 AS c",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Same in SQL Server.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "evw-04",
+   "statement": "Stored procedures can be created on the endpoint, provided their body only reads data or works with temp tables.",
+   "functions": [],
+   "probe_sql": "CREATE PROCEDURE dbo.p_probe_endpoint AS SELECT 1 AS c",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Same in SQL Server.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "evw-05",
+   "statement": "CREATE TABLE for a permanent table compiles and returns no result set. Compile-time metadata discovery does not reject it, so a compile check cannot show whether the target item is the read-only endpoint. The read-only restriction only applies when the statement runs.",
+   "functions": [],
+   "probe_sql": "CREATE TABLE dbo.t_probe_endpoint (c int)",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Works in SQL Server.",
+   "alternative": "To create permanent tables, run the CREATE TABLE in a Warehouse of the same workspace and read the Lakehouse tables from there with three-part names.",
+   "confidence": "high"
+  },
+  {
+   "id": "evw-06",
+   "statement": "CREATE TABLE AS SELECT (CTAS) is accepted Fabric syntax. It compiles and returns no result set. Compiling does not show whether the target item can store the table.",
+   "functions": [],
+   "probe_sql": "CREATE TABLE dbo.t_probe_ctas AS SELECT 1 AS c",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "CTAS is not T-SQL syntax in SQL Server; use SELECT INTO there.",
+   "alternative": "Run the CTAS in a Warehouse when the table must persist.",
+   "confidence": "high"
+  },
+  {
+   "id": "evw-07",
+   "statement": "SELECT ... INTO a permanent table compiles and returns no result set. Compiling does not show whether the write is allowed on the target item.",
+   "functions": [],
+   "probe_sql": "SELECT 1 AS c INTO dbo.t_probe_selectinto",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Works in SQL Server.",
+   "alternative": "Use SELECT INTO #temp for session-only data, or run the statement in a Warehouse.",
+   "confidence": "high"
+  },
+  {
+   "id": "evw-08",
+   "statement": "sp_describe_first_result_set cannot describe a multi-statement batch that creates and then uses a local #temp table. It fails with error 11525, because metadata discovery supports temp tables only in a single-statement batch. Describe temp-table statements one at a time.",
+   "functions": [],
+   "probe_sql": "CREATE TABLE #probe_tmp (c int); INSERT INTO #probe_tmp VALUES (1); SELECT 1 AS c",
+   "expect": {
+    "outcome": "error",
+    "error_number": 11525,
+    "result_type": null
+   },
+   "sql_server": "SQL Server's sp_describe_first_result_set has the same temp-table limitation.",
+   "alternative": "Probe each statement separately, or describe the final SELECT without the temp-table setup.",
+   "confidence": "high"
+  },
+  {
+   "id": "evw-09",
+   "statement": "Global temp tables (##name) are not supported in Fabric. Code ported from SQL Server that shares ##tables between sessions fails.",
+   "functions": [],
+   "probe_sql": "CREATE TABLE ##probe_global (c int); SELECT 1 AS c",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Global temp tables work in SQL Server.",
+   "alternative": "Use a local #temp table, or a permanent table in a Warehouse.",
+   "confidence": "low"
+  },
+  {
+   "id": "evw-10",
+   "statement": "Three-part names (item.schema.object) resolve only against Warehouses and Lakehouse endpoints in the same workspace. A name that does not match an item fails as an invalid object.",
+   "functions": [],
+   "probe_sql": "SELECT TOP (1) name FROM no_such_item_probe.sys.objects",
+   "expect": {
+    "outcome": "error",
+    "error_number": 208,
+    "result_type": null
+   },
+   "sql_server": "SQL Server resolves any database on the instance.",
+   "alternative": "Add the other item to the same workspace. For items in other workspaces, use a shortcut in the Lakehouse.",
+   "confidence": "low"
+  },
+  {
+   "id": "evw-11",
+   "statement": "Four-part names (linked servers) do not exist in Fabric.",
+   "functions": [],
+   "probe_sql": "SELECT TOP (1) name FROM no_such_server_probe.no_such_db.sys.objects",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server resolves four-part names through linked servers.",
+   "alternative": "Use three-part names within the workspace, or OPENROWSET BULK over files.",
+   "confidence": "low"
+  },
+  {
+   "id": "evw-12",
+   "statement": "SCOPE_IDENTITY is not supported in Fabric. Do not rely on the insert-then-read-identity pattern.",
+   "functions": [
+    "SCOPE_IDENTITY"
+   ],
+   "probe_sql": "SELECT SCOPE_IDENTITY() AS id",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Returns the last identity value inserted in the current scope.",
+   "alternative": "Generate keys explicitly, for example with NEWID or ROW_NUMBER over the source rows.",
+   "confidence": "high"
+  },
+  {
+   "id": "evw-13",
+   "statement": "@@IDENTITY is not supported in Fabric either.",
+   "functions": [
+    "@@IDENTITY"
+   ],
+   "probe_sql": "SELECT @@IDENTITY AS id",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Returns the last identity value inserted in the session.",
+   "alternative": "Generate keys explicitly with NEWID or ROW_NUMBER.",
+   "confidence": "high"
+  },
+  {
+   "id": "evw-14",
+   "statement": "DB_NAME works on both and returns the item name, so it can tell code which item it is running in.",
+   "functions": [
+    "DB_NAME"
+   ],
+   "probe_sql": "SELECT DB_NAME() AS item_name",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(128)"
+   },
+   "sql_server": "Returns the current database name.",
+   "alternative": null,
+   "confidence": "low"
+  }
+ ],
+ "refuted": []
+}

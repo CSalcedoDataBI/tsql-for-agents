@@ -1,0 +1,204 @@
+{
+  "samples": [
+    {
+      "name": "SESSION_USER",
+      "sql": "SESSION_USER",
+      "confidence": "high"
+    },
+    {
+      "name": "SET_BIT",
+      "sql": "SET_BIT(5, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "SIGN",
+      "sql": "SIGN(-5)",
+      "confidence": "high"
+    },
+    {
+      "name": "SIN",
+      "sql": "SIN(1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "SMALLDATETIMEFROMPARTS",
+      "sql": "SMALLDATETIMEFROMPARTS(2020, 1, 2, 3, 4)",
+      "confidence": "high"
+    },
+    {
+      "name": "SOUNDEX",
+      "sql": "SOUNDEX('Smith')",
+      "confidence": "high"
+    },
+    {
+      "name": "SPACE",
+      "sql": "SPACE(3)",
+      "confidence": "high"
+    },
+    {
+      "name": "SQRT",
+      "sql": "SQRT(4.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "SQUARE",
+      "sql": "SQUARE(3.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "STATS_DATE",
+      "sql": "STATS_DATE(1, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "STDEV",
+      "sql": "SELECT STDEV(x) AS v FROM (VALUES (1.0),(2.0)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "STDEVP",
+      "sql": "SELECT STDEVP(x) AS v FROM (VALUES (1.0),(2.0)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "STR",
+      "sql": "STR(123.45, 6, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "STRING_AGG",
+      "sql": "SELECT STRING_AGG(x, ',') AS v FROM (VALUES ('a'),('b')) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "STRING_ESCAPE",
+      "sql": "STRING_ESCAPE('a\"b', 'json')",
+      "confidence": "high"
+    },
+    {
+      "name": "STRING_SPLIT",
+      "sql": "SELECT * FROM STRING_SPLIT('a,b', ',')",
+      "confidence": "high"
+    },
+    {
+      "name": "STUFF",
+      "sql": "STUFF('abcdef', 2, 3, 'xyz')",
+      "confidence": "high"
+    },
+    {
+      "name": "SUBSTRING",
+      "sql": "SUBSTRING('abcdef', 2, 3)",
+      "confidence": "high"
+    },
+    {
+      "name": "SUM",
+      "sql": "SELECT SUM(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "SUSER_NAME",
+      "sql": "SUSER_NAME()",
+      "confidence": "high"
+    },
+    {
+      "name": "SUSER_SID",
+      "sql": "SUSER_SID()",
+      "confidence": "high"
+    },
+    {
+      "name": "SUSER_SNAME",
+      "sql": "SUSER_SNAME()",
+      "confidence": "high"
+    },
+    {
+      "name": "SWITCHOFFSET",
+      "sql": "SWITCHOFFSET(SYSDATETIMEOFFSET(), '-05:00')",
+      "confidence": "high"
+    },
+    {
+      "name": "SYSDATETIME",
+      "sql": "SYSDATETIME()",
+      "confidence": "high"
+    },
+    {
+      "name": "SYSDATETIMEOFFSET",
+      "sql": "SYSDATETIMEOFFSET()",
+      "confidence": "high"
+    },
+    {
+      "name": "SYSTEM_USER",
+      "sql": "SYSTEM_USER",
+      "confidence": "high"
+    },
+    {
+      "name": "SYSUTCDATETIME",
+      "sql": "SYSUTCDATETIME()",
+      "confidence": "high"
+    },
+    {
+      "name": "TAN",
+      "sql": "TAN(1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "TERTIARY_WEIGHTS",
+      "sql": "TERTIARY_WEIGHTS('abc' COLLATE SQL_Latin1_General_CP1_CI_AS)",
+      "confidence": "low"
+    },
+    {
+      "name": "TIMEFROMPARTS",
+      "sql": "TIMEFROMPARTS(10, 20, 30, 0, 0)",
+      "confidence": "high"
+    },
+    {
+      "name": "TODATETIMEOFFSET",
+      "sql": "TODATETIMEOFFSET(SYSDATETIME(), '-05:00')",
+      "confidence": "high"
+    },
+    {
+      "name": "TRANSLATE",
+      "sql": "TRANSLATE('abc', 'ab', 'xy')",
+      "confidence": "high"
+    },
+    {
+      "name": "TRIM",
+      "sql": "TRIM('  abc  ')",
+      "confidence": "high"
+    },
+    {
+      "name": "TRY_CAST",
+      "sql": "TRY_CAST('1' AS int)",
+      "confidence": "high"
+    },
+    {
+      "name": "TRY_CONVERT",
+      "sql": "TRY_CONVERT(int, '1')",
+      "confidence": "high"
+    },
+    {
+      "name": "TRY_PARSE",
+      "sql": "TRY_PARSE('1' AS int)",
+      "confidence": "high"
+    },
+    {
+      "name": "TYPEPROPERTY",
+      "sql": "TYPEPROPERTY('int', 'Precision')",
+      "confidence": "high"
+    },
+    {
+      "name": "TYPE_ID",
+      "sql": "TYPE_ID('int')",
+      "confidence": "high"
+    },
+    {
+      "name": "TYPE_NAME",
+      "sql": "TYPE_NAME(56)",
+      "confidence": "high"
+    },
+    {
+      "name": "UNICODE",
+      "sql": "UNICODE(N'a')",
+      "confidence": "high"
+    }
+  ]
+}

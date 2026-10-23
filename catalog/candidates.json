@@ -1,0 +1,3054 @@
+{
+  "source": {
+    "repository": "https://github.com/MicrosoftDocs/sql-docs",
+    "license": "CC-BY-4.0",
+    "commit": "6b6717451d4e07b8deda86b43003b5eb9a1fa11e",
+    "folder": "docs/t-sql/functions/"
+  },
+  "note": "Candidates are hypotheses taken from the documentation. Only catalog/probe/ says what Fabric does.",
+  "overview_pages": [
+    "aggregate-functions-transact-sql.md",
+    "ai-functions-transact-sql.md",
+    "analytic-functions-transact-sql.md",
+    "bit-manipulation-functions-overview.md",
+    "conversion-functions-transact-sql.md",
+    "cryptographic-functions-transact-sql.md",
+    "cursor-functions-transact-sql.md",
+    "data-type-functions-transact-sql.md",
+    "date-and-time-data-types-and-functions-transact-sql.md",
+    "functions.md",
+    "graph-functions-transact-sql.md",
+    "json-functions-transact-sql.md",
+    "mathematical-functions-transact-sql.md",
+    "metadata-functions-transact-sql.md",
+    "odbc-scalar-functions-transact-sql.md",
+    "ranking-functions-transact-sql.md",
+    "security-functions-transact-sql.md",
+    "system-functions-transact-sql.md",
+    "system-statistical-functions-transact-sql.md",
+    "trigger-functions-transact-sql.md",
+    "vector-functions-transact-sql.md"
+  ],
+  "candidates": [
+    {
+      "name": "$PARTITION",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/partition-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@CONNECTIONS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/connections-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@CPU_BUSY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cpu-busy-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@CURSOR_ROWS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cursor-rows-transact-sql",
+      "categories": [
+        "Cursor Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@DATEFIRST",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datefirst-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "@@DBTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/dbts-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@ERROR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/error-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "@@FETCH_STATUS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/fetch-status-transact-sql",
+      "categories": [
+        "Cursor Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@IDENTITY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/identity-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@IDLE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/idle-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@IO_BUSY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/io-busy-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@LANGID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/langid-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@LANGUAGE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/language-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@LOCK_TIMEOUT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/lock-timeout-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@MAX_CONNECTIONS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/max-connections-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@MAX_PRECISION",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/max-precision-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@NESTLEVEL",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/nestlevel-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@OPTIONS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/options-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@PACKET_ERRORS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/packet-errors-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@PACK_RECEIVED",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/pack-received-transact-sql",
+      "categories": [
+        "System Functions",
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@PACK_SENT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/pack-sent-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@PROCID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/procid-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@REMSERVER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/remserver-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@ROWCOUNT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/rowcount-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@SERVERNAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/servername-transact-sql",
+      "categories": [
+        "What Are the Microsoft SQL Database Functions?"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@SERVICENAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/servicename-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@SPID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/spid-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@TEXTSIZE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/textsize-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@TIMETICKS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/timeticks-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@TOTAL_ERRORS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/total-errors-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@TOTAL_READ",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/total-read-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@TOTAL_WRITE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/total-write-transact-sql",
+      "categories": [
+        "System Statistical Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "@@TRANCOUNT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/trancount-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "@@VERSION",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/version-transact-sql-configuration-functions",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ABS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/abs-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ACOS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/acos-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "AI_ANALYZE_SENTIMENT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-analyze-sentiment-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_CLASSIFY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-classify-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_EXTRACT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-extract-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_FIX_GRAMMAR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-fix-grammar-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_GENERATE_CHUNKS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-generate-chunks-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_GENERATE_EMBEDDINGS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-generate-embeddings-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_GENERATE_RESPONSE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-generate-response-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_SUMMARIZE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-summarize-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "AI_TRANSLATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ai-translate-transact-sql",
+      "categories": [
+        "AI Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ANY_VALUE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/any-value-transact-sql",
+      "categories": [
+        "Aggregate Functions",
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "APPLOCK_MODE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/applock-mode-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "APPLOCK_TEST",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/applock-test-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "APPROX_COUNT_DISTINCT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/approx-count-distinct-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sqlserver2019-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "APPROX_MEDIAN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/approx-median-transact-sql",
+      "categories": [
+        "Aggregate Functions",
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "APPROX_PERCENTILE_CONT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/approx-percentile-cont-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "APPROX_PERCENTILE_DISC",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/approx-percentile-disc-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "APPROX_QUANTILE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/approx-quantile-transact-sql",
+      "categories": [
+        "Aggregate Functions",
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "APP_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/app-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ASCII",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ascii-transact-sql",
+      "categories": [
+        "What Are the Microsoft SQL Database Functions?"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ASIN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/asin-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ASSEMBLYPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/assemblyproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ASYMKEYPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/asymkeyproperty-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ASYMKEY_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/asymkey-id-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ATAN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/atan-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ATN2",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/atn2-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "AVG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/avg-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "BASE64_DECODE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/base64-decode-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "BASE64_ENCODE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/base64-encode-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "BINARY_CHECKSUM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/binary-checksum-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "BIT_COUNT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/bit-count-transact-sql",
+      "categories": [
+        "Bit manipulation functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CAST",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cast-and-convert-transact-sql",
+      "categories": [
+        "Conversion functions",
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CEILING",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ceiling-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CERTENCODED",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/certencoded-transact-sql",
+      "categories": [
+        "Cryptographic Functions",
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CERTPRIVATEKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/certprivatekey-transact-sql",
+      "categories": [
+        "Cryptographic Functions",
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CERTPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/certproperty-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CERT_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cert-id-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CHAR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/char-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CHARINDEX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/charindex-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CHECKSUM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/checksum-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CHECKSUM_AGG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/checksum-agg-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CHOOSE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/logical-functions-choose-transact-sql",
+      "categories": [
+        "What Are the Microsoft SQL Database Functions?"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COLLATIONPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/collation-functions-collationproperty-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COLUMNPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/columnproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COLUMNS_UPDATED",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/columns-updated-transact-sql",
+      "categories": [
+        "Trigger Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "COL_LENGTH",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/col-length-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "COL_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/col-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COMPRESS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/compress-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CONCAT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/concat-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CONCAT_WS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/concat-ws-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CONNECTIONPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/connectionproperty-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CONTEXT_INFO",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/context-info-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CONVERT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cast-and-convert-transact-sql",
+      "categories": [
+        "Conversion functions",
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cos-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cot-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COUNT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/count-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "COUNT_BIG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/count-big-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CRYPT_GEN_RANDOM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/crypt-gen-random-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CUME_DIST",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cume-dist-transact-sql",
+      "categories": [
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CURRENT_DATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/current-date-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CURRENT_REQUEST_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/current-request-id-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CURRENT_TIMESTAMP",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/current-timestamp-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CURRENT_TIMEZONE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/current-timezone-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CURRENT_TIMEZONE_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/current-timezone-id-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CURRENT_TRANSACTION_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/current-transaction-id-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "CURRENT_USER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/current-user-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "CURSOR_STATUS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/cursor-status-transact-sql",
+      "categories": [
+        "Cursor Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DATABASEPROPERTYEX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/databasepropertyex-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DATABASE_PRINCIPAL_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/database-principal-id-transact-sql",
+      "categories": [
+        "Metadata Functions",
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DATALENGTH",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datalength-transact-sql",
+      "categories": [
+        "Data Type Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DATEADD",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/dateadd-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATEDIFF",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datediff-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATEDIFF_BIG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datediff-big-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATEFROMPARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datefromparts-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATENAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datename-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATEPART",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datepart-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATETIME2FROMPARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datetime2fromparts-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATETIMEFROMPARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datetimefromparts-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATETIMEOFFSETFROMPARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datetimeoffsetfromparts-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATETRUNC",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/datetrunc-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DATE_BUCKET",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/date-bucket-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DAY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/day-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DB_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/db-id-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DB_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/db-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DECOMPRESS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/decompress-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DECRYPTBYASYMKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/decryptbyasymkey-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DECRYPTBYCERT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/decryptbycert-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DECRYPTBYKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/decryptbykey-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DECRYPTBYKEYAUTOASYMKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/decryptbykeyautoasymkey-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DECRYPTBYKEYAUTOCERT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/decryptbykeyautocert-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DECRYPTBYPASSPHRASE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/decryptbypassphrase-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "DEGREES",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/degrees-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DENSE_RANK",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/dense-rank-transact-sql",
+      "categories": [
+        "Ranking Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "DIFFERENCE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/difference-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "EDGE_ID_FROM_PARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/edge-id-from-parts-transact-sql",
+      "categories": [
+        "Graph Functions"
+      ],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "EDIT_DISTANCE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/edit-distance-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "EDIT_DISTANCE_SIMILARITY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/edit-distance-similarity-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ENCRYPTBYASYMKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/encryptbyasymkey-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ENCRYPTBYCERT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/encryptbycert-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ENCRYPTBYKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/encryptbykey-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ENCRYPTBYPASSPHRASE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/encryptbypassphrase-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "EOMONTH",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/eomonth-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ERROR_LINE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/error-line-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ERROR_MESSAGE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/error-message-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ERROR_NUMBER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/error-number-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ERROR_PROCEDURE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/error-procedure-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ERROR_SEVERITY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/error-severity-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ERROR_STATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/error-state-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi-asa-fabricse-fabricdw",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "EVENTDATA",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/eventdata-transact-sql",
+      "categories": [
+        "Trigger Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "EXP",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/exp-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "FILEGROUPPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/filegroupproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FILEGROUP_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/filegroup-id-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FILEGROUP_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/filegroup-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FILEPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/fileproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FILEPROPERTYEX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/filepropertyex-transact-sql",
+      "categories": [],
+      "docs_applies_to": "",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FILE_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/file-id-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FILE_IDEX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/file-idex-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FILE_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/file-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FIRST_VALUE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/first-value-transact-sql",
+      "categories": [
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-edge-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "FLOOR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/floor-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "FORMAT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/format-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "FORMATMESSAGE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/formatmessage-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FULLTEXTCATALOGPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/fulltextcatalogproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "FULLTEXTSERVICEPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/fulltextserviceproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "GENERATE_SERIES",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/generate-series-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "GETANSINULL",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/getansinull-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "GETDATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/getdate-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "GETUTCDATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/getutcdate-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "GET_BIT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/get-bit-transact-sql",
+      "categories": [
+        "Bit manipulation functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "GET_FILESTREAM_TRANSACTION_CONTEXT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/get-filestream-transaction-context-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sqlserver",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "GRAPH_ID_FROM_EDGE_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/graph-id-from-edge-id-transact-sql",
+      "categories": [
+        "Graph Functions"
+      ],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "GRAPH_ID_FROM_NODE_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/graph-id-from-node-id-transact-sql",
+      "categories": [
+        "Graph Functions"
+      ],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "GREATEST",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/logical-functions-greatest-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "GROUPING",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/grouping-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "GROUPING_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/grouping-id-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "HASHBYTES",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/hashbytes-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "HAS_DBACCESS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/has-dbaccess-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi-asa",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "HAS_PERMS_BY_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/has-perms-by-name-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "HOST_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/host-id-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "HOST_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/host-name-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "IDENTITY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/identity-function-transact-sql",
+      "categories": [
+        "Data Type Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "IDENT_CURRENT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ident-current-transact-sql",
+      "categories": [
+        "Data Type Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "IDENT_INCR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ident-incr-transact-sql",
+      "categories": [
+        "Data Type Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "IDENT_SEED",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ident-seed-transact-sql",
+      "categories": [
+        "Data Type Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "IIF",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/logical-functions-iif-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "INDEXKEY_PROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/indexkey-property-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi-fabricse-fabricdw",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "INDEXPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/indexproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "INDEX_COL",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/index-col-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ISDATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/isdate-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ISJSON",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/isjson-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ISNULL",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/isnull-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ISNUMERIC",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/isnumeric-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "IS_MEMBER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/is-member-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "IS_OBJECTSIGNED",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/is-objectsigned-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "IS_ROLEMEMBER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/is-rolemember-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "IS_SRVROLEMEMBER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/is-srvrolemember-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "JARO_WINKLER_DISTANCE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/jaro-winkler-distance-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JARO_WINKLER_SIMILARITY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/jaro-winkler-similarity-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_ARRAY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-array-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_ARRAYAGG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-arrayagg-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_CONTAINS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-contains-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "JSON_MODIFY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-modify-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_OBJECT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-object-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_OBJECTAGG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-objectagg-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_PATH_EXISTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-path-exists-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_QUERY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-query-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "JSON_VALUE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/json-value-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "KEY_GUID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/key-guid-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "KEY_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/key-id-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "KEY_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/key-name-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "LAG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/lag-transact-sql",
+      "categories": [
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LAST_VALUE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/last-value-transact-sql",
+      "categories": [
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-edge-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LEAD",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/lead-transact-sql",
+      "categories": [
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LEAST",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/logical-functions-least-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LEFT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/left-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LEFT_SHIFT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/left-shift-transact-sql",
+      "categories": [
+        "Bit manipulation functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LEN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/len-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LOG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/log-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LOG10",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/log10-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LOGINPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/loginproperty-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "LOWER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/lower-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "LTRIM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ltrim-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "MAX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/max-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "MEDIAN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/median-transact-sql",
+      "categories": [
+        "Aggregate Functions",
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "MIN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/min-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "MIN_ACTIVE_ROWVERSION",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/min-active-rowversion-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "MONTH",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/month-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "NCHAR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/nchar-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "NEWID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/newid-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "NEWSEQUENTIALID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/newsequentialid-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "NEXT VALUE FOR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/next-value-for-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "NODE_ID_FROM_PARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/node-id-from-parts-transact-sql",
+      "categories": [
+        "Graph Functions"
+      ],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "NTILE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/ntile-transact-sql",
+      "categories": [
+        "Ranking Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "OBJECTPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/objectproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OBJECTPROPERTYEX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/objectpropertyex-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OBJECT_DEFINITION",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/object-definition-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OBJECT_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/object-id-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OBJECT_ID_FROM_EDGE_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/object-id-from-edge-id-transact-sql",
+      "categories": [
+        "Graph Functions"
+      ],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "OBJECT_ID_FROM_NODE_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/object-id-from-node-id-transact-sql",
+      "categories": [
+        "Graph Functions"
+      ],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "OBJECT_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/object-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OBJECT_SCHEMA_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/object-schema-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OPENDATASOURCE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/opendatasource-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "OPENJSON",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/openjson-transact-sql",
+      "categories": [
+        "JSON Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OPENQUERY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/openquery-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "OPENROWSET",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/openrowset-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2016",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "OPENROWSET BULK",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/openrowset-bulk-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "OPENXML",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/openxml-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ORIGINAL_DB_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/original-db-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ORIGINAL_LOGIN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/original-login-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "PARSE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/parse-transact-sql",
+      "categories": [
+        "Conversion functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PARSENAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/parsename-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PATINDEX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/patindex-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PERCENTILE_CONT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/percentile-cont-transact-sql",
+      "categories": [
+        "Aggregate Functions",
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PERCENTILE_DISC",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/percentile-disc-transact-sql",
+      "categories": [
+        "Aggregate Functions",
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PERCENT_RANK",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/percent-rank-transact-sql",
+      "categories": [
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PERMISSIONS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/permissions-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "PI",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/pi-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "POWER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/power-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PRODUCT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/product-aggregate-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-asa-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "PUBLISHINGSERVERNAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/replication-functions-publishingservername",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "PWDCOMPARE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/pwdcompare-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "PWDENCRYPT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/pwdencrypt-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "QUANTILE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/quantile-transact-sql",
+      "categories": [
+        "Aggregate Functions",
+        "Analytic Functions"
+      ],
+      "docs_applies_to": "fabric-se-dw",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "QUOTENAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/quotename-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "RADIANS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/radians-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "RAND",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/rand-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "RANK",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/rank-transact-sql",
+      "categories": [
+        "Ranking Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REGEXP_COUNT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/regexp-count-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REGEXP_INSTR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/regexp-instr-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REGEXP_LIKE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/regexp-like-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REGEXP_MATCHES",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/regexp-matches-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "REGEXP_REPLACE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/regexp-replace-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REGEXP_SPLIT_TO_TABLE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/regexp-split-to-table-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "REGEXP_SUBSTR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/regexp-substr-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REPLACE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/replace-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REPLICATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/replicate-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "REVERSE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/reverse-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "RIGHT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/right-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "RIGHT_SHIFT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/right-shift-transact-sql",
+      "categories": [
+        "Bit manipulation functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ROUND",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/round-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "ROWCOUNT_BIG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/rowcount-big-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "ROW_NUMBER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/row-number-transact-sql",
+      "categories": [
+        "Ranking Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "RTRIM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/rtrim-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SCHEMA_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/schema-id-transact-sql",
+      "categories": [
+        "Metadata Functions",
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SCHEMA_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/schema-name-transact-sql",
+      "categories": [
+        "Metadata Functions",
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SCOPE_IDENTITY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/scope-identity-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SERVERPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/serverproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SESSIONPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sessionproperty-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SESSION_CONTEXT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/session-context-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SESSION_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/session-id-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SESSION_USER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/session-user-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SET_BIT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/set-bit-transact-sql",
+      "categories": [
+        "Bit manipulation functions"
+      ],
+      "docs_applies_to": "sqlserver2022-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SIGN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sign-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SIGNBYASYMKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/signbyasymkey-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SIGNBYCERT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/signbycert-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SIN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sin-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SMALLDATETIMEFROMPARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/smalldatetimefromparts-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SOUNDEX",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/soundex-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SPACE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/space-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SQL_VARIANT_PROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sql-variant-property-transact-sql",
+      "categories": [
+        "Data Type Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SQRT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sqrt-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SQUARE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/square-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STATS_DATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/stats-date-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STDEV",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/stdev-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STDEVP",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/stdevp-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/str-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STRING_AGG",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/string-agg-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STRING_ESCAPE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/string-escape-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STRING_SPLIT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/string-split-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2016-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "STUFF",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/stuff-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SUBSTRING",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/substring-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SUM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sum-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SUSER_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/suser-id-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SUSER_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/suser-name-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi-asa-svrless-poolonly-fabricse-fabricdw",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SUSER_SID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/suser-sid-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SUSER_SNAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/suser-sname-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SWITCHOFFSET",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/switchoffset-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SYMKEYPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/symkeyproperty-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SYSDATETIME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sysdatetime-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SYSDATETIMEOFFSET",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sysdatetimeoffset-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "SYSTEM_USER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/system-user-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdbmi-asa-fabricse-fabricdw",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "SYSUTCDATETIME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/sysutcdatetime-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TAN",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/tan-transact-sql",
+      "categories": [
+        "Mathematical Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TERTIARY_WEIGHTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/collation-functions-tertiary-weights-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "TEXTPTR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/text-and-image-functions-textptr-transact-sql",
+      "categories": [
+        "What Are the Microsoft SQL Database Functions?"
+      ],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "TEXTVALID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/text-and-image-functions-textvalid-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdbmi",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "TIMEFROMPARTS",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/timefromparts-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TODATETIMEOFFSET",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/todatetimeoffset-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TRANSLATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/translate-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TRIGGER_NESTLEVEL",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/trigger-nestlevel-transact-sql",
+      "categories": [
+        "Trigger Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "TRIM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/trim-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2017-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TRY_CAST",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/try-cast-transact-sql",
+      "categories": [
+        "Conversion functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TRY_CONVERT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/try-convert-transact-sql",
+      "categories": [
+        "Conversion functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TRY_PARSE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/try-parse-transact-sql",
+      "categories": [
+        "Conversion functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TYPEPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/typeproperty-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TYPE_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/type-id-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "TYPE_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/type-name-transact-sql",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "UNICODE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/unicode-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "UNISTR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/unistr-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "UPDATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/update-trigger-functions-transact-sql",
+      "categories": [
+        "Trigger Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "UPPER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/upper-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "USER",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/user-transact-sql",
+      "categories": [],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "USER_ID",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/user-id-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "USER_NAME",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/user-name-transact-sql",
+      "categories": [
+        "Security Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "VAR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/var-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "VARP",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/varp-transact-sql",
+      "categories": [
+        "Aggregate Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    },
+    {
+      "name": "VECTORPROPERTY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/vectorproperty-transact-sql",
+      "categories": [
+        "Vector Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "VECTOR_DISTANCE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/vector-distance-transact-sql",
+      "categories": [
+        "Vector Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "VECTOR_NORM",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/vector-norm-transact-sql",
+      "categories": [
+        "Vector Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "VECTOR_NORMALIZE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/vector-normalize-transact-sql",
+      "categories": [
+        "Vector Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "VECTOR_SEARCH",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/vector-search-transact-sql",
+      "categories": [
+        "Vector Functions"
+      ],
+      "docs_applies_to": "sqlserver2025-asdb-asmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "VERIFYSIGNEDBYASYMKEY",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/verifysignedbyasymkey-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "VERIFYSIGNEDBYCERT",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/verifysignedbycert-transact-sql",
+      "categories": [
+        "Cryptographic Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "VERSION",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/version-transact-sql-metadata-functions",
+      "categories": [
+        "Metadata Functions"
+      ],
+      "docs_applies_to": "",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "XACT_STATE",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/xact-state-transact-sql",
+      "categories": [
+        "System Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricsqldb",
+      "docs_applies_to_fabric_dw": false
+    },
+    {
+      "name": "YEAR",
+      "page": "https://learn.microsoft.com/sql/t-sql/functions/year-transact-sql",
+      "categories": [
+        "Date and Time Data Types and Functions"
+      ],
+      "docs_applies_to": "sql-asdb-asdbmi-asa-fabricse-fabricdw-fabricsqldb",
+      "docs_applies_to_fabric_dw": true
+    }
+  ]
+}

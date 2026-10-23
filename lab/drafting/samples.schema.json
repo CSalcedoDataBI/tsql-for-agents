@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["samples"],
+  "properties": {
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["name", "sql", "confidence"],
+        "properties": {
+          "name": { "type": "string" },
+          "sql": { "type": "string" },
+          "confidence": { "type": "string", "enum": ["high", "low"] }
+        }
+      }
+    }
+  }
+}

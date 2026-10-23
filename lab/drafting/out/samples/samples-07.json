@@ -1,0 +1,54 @@
+{
+  "samples": [
+    {
+      "name": "UNISTR",
+      "sql": "UNISTR(N'Hello \\0041')",
+      "confidence": "high"
+    },
+    {
+      "name": "UPDATE",
+      "sql": "SELECT 1 AS v WHERE UPDATE(x)",
+      "confidence": "low"
+    },
+    {
+      "name": "UPPER",
+      "sql": "UPPER(N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "USER",
+      "sql": "USER",
+      "confidence": "high"
+    },
+    {
+      "name": "USER_NAME",
+      "sql": "USER_NAME()",
+      "confidence": "high"
+    },
+    {
+      "name": "VAR",
+      "sql": "SELECT VAR(x) AS v FROM (VALUES (1.0),(2.0),(4.0)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "VARP",
+      "sql": "SELECT VARP(x) AS v FROM (VALUES (1.0),(2.0),(4.0)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "VECTOR_SEARCH",
+      "sql": "SELECT * FROM VECTOR_SEARCH(TABLE = t, COLUMN = embedding, SIMILAR_TO = '[1,2,3]', METRIC = 'cosine', TOP_N = 1) AS s",
+      "confidence": "low"
+    },
+    {
+      "name": "VERSION",
+      "sql": "VERSION()",
+      "confidence": "low"
+    },
+    {
+      "name": "YEAR",
+      "sql": "YEAR('2024-01-15')",
+      "confidence": "high"
+    }
+  ]
+}

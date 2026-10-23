@@ -1,0 +1,288 @@
+{
+ "status": "probed",
+ "drafted_by": "claude-review",
+ "topic": "unsupported-vs-sql-server",
+ "title": "Built-in functions SQL Server has and Fabric rejects",
+ "summary": "Fabric Warehouse and the SQL analytics endpoint reject many SQL Server built-ins with 'not supported'. The main gaps are randomness (RAND, CRYPT_GEN_RANDOM, NEWSEQUENTIALID), identity retrieval (@@IDENTITY, SCOPE_IDENTITY, IDENT_CURRENT, IDENT_SEED, IDENT_INCR), part of error handling (ERROR_LINE, XACT_STATE, FORMATMESSAGE), session and login info (APP_NAME, HOST_NAME, ORIGINAL_LOGIN, USER_ID, SUSER_ID, SESSION_ID), encryption functions, and file or filegroup metadata. Use NEWID for randomness and unique ids, ROW_NUMBER for surrogate keys, and ERROR_NUMBER, ERROR_MESSAGE and @@TRANCOUNT in TRY...CATCH. Use @@SPID, SUSER_SNAME and USER_NAME for session and identity info. Error numbers are left open: the probe settles which 'not supported' code applies.",
+ "claims": [
+  {
+   "id": "rand-not-supported",
+   "statement": "RAND is not supported. For a random integer, use ABS(CHECKSUM(NEWID())) with a modulo. It is evaluated per row, unlike RAND without a seed.",
+   "functions": [
+    "RAND",
+    "ABS",
+    "CHECKSUM",
+    "NEWID"
+   ],
+   "probe_sql": "SELECT RAND() AS r",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "RAND() returns a float and is evaluated once per query when no seed is given.",
+   "alternative": "SELECT ABS(CHECKSUM(NEWID())) % 100 AS r",
+   "confidence": "high"
+  },
+  {
+   "id": "rand-alternative-compiles",
+   "statement": "The NEWID-based random integer compiles in Fabric and returns int.",
+   "functions": [
+    "ABS",
+    "CHECKSUM",
+    "NEWID"
+   ],
+   "probe_sql": "SELECT ABS(CHECKSUM(NEWID())) % 100 AS r",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "crypt-gen-random-not-supported",
+   "statement": "CRYPT_GEN_RANDOM is not supported. For random bytes, cast NEWID to varbinary(16). This is not cryptographically strong.",
+   "functions": [
+    "CRYPT_GEN_RANDOM",
+    "NEWID"
+   ],
+   "probe_sql": "SELECT CRYPT_GEN_RANDOM(16) AS b",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "CRYPT_GEN_RANDOM returns cryptographic random varbinary bytes.",
+   "alternative": "SELECT CAST(NEWID() AS varbinary(16)) AS b",
+   "confidence": "high"
+  },
+  {
+   "id": "newsequentialid-not-supported",
+   "statement": "NEWSEQUENTIALID is not supported. NEWID exists and returns uniqueidentifier, but its values are not ordered.",
+   "functions": [
+    "NEWSEQUENTIALID",
+    "NEWID"
+   ],
+   "probe_sql": "SELECT NEWSEQUENTIALID() AS g",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "NEWSEQUENTIALID is only allowed in a DEFAULT constraint on a uniqueidentifier column.",
+   "alternative": "SELECT NEWID() AS g",
+   "confidence": "high"
+  },
+  {
+   "id": "scope-identity-not-supported",
+   "statement": "SCOPE_IDENTITY, @@IDENTITY and IDENT_CURRENT are all not supported. Do not read back a generated key after an insert. Generate keys yourself, for example with ROW_NUMBER() OVER (ORDER BY ...) added to the current MAX of the key.",
+   "functions": [
+    "SCOPE_IDENTITY",
+    "@@IDENTITY",
+    "IDENT_CURRENT",
+    "ROW_NUMBER",
+    "MAX"
+   ],
+   "probe_sql": "SELECT SCOPE_IDENTITY() AS id",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SCOPE_IDENTITY returns the last identity value inserted in the current scope.",
+   "alternative": "SELECT ROW_NUMBER() OVER (ORDER BY v) AS id FROM (VALUES ('a'),('b')) AS t(v)",
+   "confidence": "high"
+  },
+  {
+   "id": "identity-at-variable-not-supported",
+   "statement": "@@IDENTITY is not supported either. Rewriting SCOPE_IDENTITY to @@IDENTITY does not help.",
+   "functions": [
+    "@@IDENTITY"
+   ],
+   "probe_sql": "SELECT @@IDENTITY AS id",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "@@IDENTITY returns the last identity value in the session across scopes.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "ident-seed-incr-not-supported",
+   "statement": "IDENT_SEED and IDENT_INCR are not supported. You cannot inspect identity seed or increment metadata with them.",
+   "functions": [
+    "IDENT_SEED",
+    "IDENT_INCR"
+   ],
+   "probe_sql": "SELECT IDENT_SEED('sys.objects') AS s",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "error-line-not-supported",
+   "statement": "In TRY...CATCH, ERROR_LINE is not supported. ERROR_NUMBER, ERROR_MESSAGE, ERROR_SEVERITY, ERROR_STATE and ERROR_PROCEDURE exist. Copying a SQL Server CATCH block that logs ERROR_LINE makes the whole batch fail.",
+   "functions": [
+    "ERROR_LINE",
+    "ERROR_NUMBER",
+    "ERROR_MESSAGE",
+    "ERROR_SEVERITY",
+    "ERROR_STATE",
+    "ERROR_PROCEDURE"
+   ],
+   "probe_sql": "SELECT ERROR_LINE() AS l",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "ERROR_LINE returns the line number where the error occurred.",
+   "alternative": "SELECT ERROR_NUMBER() AS n, ERROR_MESSAGE() AS m, ERROR_PROCEDURE() AS p",
+   "confidence": "high"
+  },
+  {
+   "id": "xact-state-not-supported",
+   "statement": "XACT_STATE is not supported. In a CATCH block, test @@TRANCOUNT > 0 before ROLLBACK instead.",
+   "functions": [
+    "XACT_STATE",
+    "@@TRANCOUNT"
+   ],
+   "probe_sql": "SELECT XACT_STATE() AS s",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "XACT_STATE returns 1, 0 or -1 to signal a committable, absent or uncommittable transaction.",
+   "alternative": "SELECT @@TRANCOUNT AS t",
+   "confidence": "high"
+  },
+  {
+   "id": "formatmessage-not-supported",
+   "statement": "FORMATMESSAGE is not supported. Build error text with CONCAT before THROW.",
+   "functions": [
+    "FORMATMESSAGE",
+    "CONCAT"
+   ],
+   "probe_sql": "SELECT FORMATMESSAGE('Value %s', 'x') AS m",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "FORMATMESSAGE formats a printf-style message string.",
+   "alternative": "SELECT CONCAT('Value ', 'x') AS m",
+   "confidence": "high"
+  },
+  {
+   "id": "host-app-name-not-supported",
+   "statement": "APP_NAME and HOST_NAME are not supported. For a session identifier, @@SPID exists.",
+   "functions": [
+    "APP_NAME",
+    "HOST_NAME",
+    "@@SPID"
+   ],
+   "probe_sql": "SELECT APP_NAME() AS a",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "APP_NAME returns the client application name and HOST_NAME the client workstation name.",
+   "alternative": "SELECT @@SPID AS spid",
+   "confidence": "high"
+  },
+  {
+   "id": "session-id-not-recognized",
+   "statement": "SESSION_ID is not recognized as a built-in function. Use @@SPID.",
+   "functions": [
+    "SESSION_ID",
+    "@@SPID"
+   ],
+   "probe_sql": "SELECT SESSION_ID() AS s",
+   "expect": {
+    "outcome": "error",
+    "error_number": 195,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": "SELECT @@SPID AS spid",
+   "confidence": "low"
+  },
+  {
+   "id": "login-user-id-not-supported",
+   "statement": "ORIGINAL_LOGIN, SUSER_ID, USER_ID and DATABASE_PRINCIPAL_ID are not supported. For the caller's name, use SUSER_SNAME, USER_NAME, CURRENT_USER or SYSTEM_USER.",
+   "functions": [
+    "ORIGINAL_LOGIN",
+    "SUSER_ID",
+    "USER_ID",
+    "DATABASE_PRINCIPAL_ID",
+    "SUSER_SNAME",
+    "USER_NAME",
+    "CURRENT_USER",
+    "SYSTEM_USER"
+   ],
+   "probe_sql": "SELECT ORIGINAL_LOGIN() AS l",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "ORIGINAL_LOGIN returns the login that started the session, even after impersonation.",
+   "alternative": "SELECT SUSER_SNAME() AS l",
+   "confidence": "high"
+  },
+  {
+   "id": "encryption-not-supported",
+   "statement": "ENCRYPTBYPASSPHRASE, DECRYPTBYPASSPHRASE, ENCRYPTBYKEY, DECRYPTBYKEY and the certificate and asymmetric key variants are not supported. HASHBYTES exists for one-way hashing only; it is not a replacement for reversible encryption.",
+   "functions": [
+    "ENCRYPTBYPASSPHRASE",
+    "DECRYPTBYPASSPHRASE",
+    "ENCRYPTBYKEY",
+    "DECRYPTBYKEY",
+    "HASHBYTES"
+   ],
+   "probe_sql": "SELECT ENCRYPTBYPASSPHRASE('k', 'v') AS e",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "ENCRYPTBYPASSPHRASE returns varbinary ciphertext that DECRYPTBYPASSPHRASE can reverse.",
+   "alternative": "SELECT HASHBYTES('SHA2_256', 'v') AS h",
+   "confidence": "high"
+  },
+  {
+   "id": "file-metadata-not-supported",
+   "statement": "File and filegroup metadata functions are not supported: FILE_ID, FILE_NAME, FILEPROPERTY, FILEGROUP_ID, FILEGROUP_NAME and FILEGROUPPROPERTY. Storage is managed by the service, and the list offers no alternative.",
+   "functions": [
+    "FILE_ID",
+    "FILE_NAME",
+    "FILEPROPERTY",
+    "FILEGROUP_ID",
+    "FILEGROUP_NAME",
+    "FILEGROUPPROPERTY"
+   ],
+   "probe_sql": "SELECT FILEGROUP_NAME(1) AS fg",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "FILEGROUP_NAME(1) returns PRIMARY.",
+   "alternative": null,
+   "confidence": "high"
+  }
+ ],
+ "refuted": []
+}

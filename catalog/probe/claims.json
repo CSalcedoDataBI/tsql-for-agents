@@ -1,0 +1,2590 @@
+{
+ "probed_at": "2026-10-23T23:42:43Z",
+ "engine": {
+  "version": "Microsoft Azure SQL Data Warehouse (RTM) - 12.0.2000.8",
+  "build_date": "Oct 20 2026 19:34:46",
+  "item_kind": "sql_analytics_endpoint"
+ },
+ "method": "each claim's probe_sql through sp_describe_first_result_set; compiled, never executed",
+ "counts": {
+  "confirmed": 192
+ },
+ "results": [
+  {
+   "topic": "aggregates-windows",
+   "claim": "percentile-cont-grouped-aggregate",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) AS p FROM (VALUES (1),(2),(3)) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "percentile-cont-returns-float",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DISTINCT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) OVER () AS p FROM (VALUES (CAST(1.50 AS decimal(10,2))),(CAST(2.50 AS decimal(10,2)))) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "approx-percentile-is-aggregate",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) AS p FROM (VALUES (1.0E0),(2.0E0),(3.0E0)) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "approx-percentile-no-over",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) OVER () AS p FROM (VALUES (1.0E0),(2.0E0)) AS t(v);",
+    "ok": false,
+    "errors": [
+     {
+      "number": 4113,
+      "message": "The function 'APPROX_PERCENTILE_CONT' is not a valid windowing function, and cannot be used with the OVER clause."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "approx-count-distinct-bigint",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT APPROX_COUNT_DISTINCT(v) AS c FROM (VALUES ('a'),('b'),('a')) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "string-agg-within-group-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT STRING_AGG(v, ',') WITHIN GROUP (ORDER BY v) AS s FROM (VALUES ('b'),('a')) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "varchar(8000)"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "string-agg-no-distinct",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT STRING_AGG(DISTINCT v, ',') AS s FROM (VALUES ('a'),('a'),('b')) AS t(v);",
+    "ok": false,
+    "errors": [
+     {
+      "number": 102,
+      "message": "Incorrect syntax near 'distinct/all'."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "any-value-exists",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT k, ANY_VALUE(v) AS v FROM (VALUES (1,10),(1,10),(2,20)) AS t(k,v) GROUP BY k;",
+    "ok": true,
+    "result_types": [
+     "int",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "lag-ignore-nulls",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT LAG(v) IGNORE NULLS OVER (ORDER BY k) AS prev_v FROM (VALUES (1,5),(2,CAST(NULL AS int)),(3,7)) AS t(k,v);",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "last-value-default-frame",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT LAST_VALUE(v) OVER (ORDER BY k ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_v FROM (VALUES (1,5),(2,6),(3,7)) AS t(k,v);",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "range-offset-not-allowed",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SUM(v) OVER (ORDER BY k RANGE BETWEEN 1 PRECEDING AND CURRENT ROW) AS s FROM (VALUES (1,5),(2,6)) AS t(k,v);",
+    "ok": false,
+    "errors": [
+     {
+      "number": 4194,
+      "message": "RANGE is only supported with UNBOUNDED and CURRENT ROW window frame delimiters."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "grouping-returns-tinyint",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT GROUPING(k) AS g, GROUPING_ID(k) AS gid, SUM(v) AS s FROM (VALUES ('a',1),('b',2)) AS t(k,v) GROUP BY ROLLUP(k);",
+    "ok": true,
+    "result_types": [
+     "tinyint",
+     "int",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "checksum-agg-int-only",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CHECKSUM_AGG(v) AS c FROM (VALUES ('a'),('b')) AS t(v);",
+    "ok": false,
+    "errors": [
+     {
+      "number": 8117,
+      "message": "Operand data type varchar is invalid for checksum_agg operator."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "aggregates-windows",
+   "claim": "avg-int-truncates",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT AVG(v) AS a FROM (VALUES (1),(2)) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "vector-functions-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT VECTOR_DISTANCE('cosine', '[1,0]', '[0,1]') AS d",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'VECTOR_DISTANCE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "vector-type-missing",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('[1,2,3]' AS vector(3)) AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "TYPE 'vector(3)' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "vector-math-via-openjson",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SUM(CAST(a.[value] AS float) * CAST(b.[value] AS float)) AS dot FROM OPENJSON('[1,2,3]') AS a JOIN OPENJSON('[4,5,6]') AS b ON a.[key] = b.[key]",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "ai-generate-embeddings-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT AI_GENERATE_EMBEDDINGS(N'hello world' USE MODEL EmbedModel) AS e",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'AI_GENERATE_EMBEDDINGS' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "ai-generate-chunks-not-recognized",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM AI_GENERATE_CHUNKS(source = N'some long text', chunk_type = FIXED, chunk_size = 10) AS c",
+    "ok": false,
+    "errors": [
+     {
+      "number": 102,
+      "message": "Incorrect syntax near '='."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "ai-text-functions-exist",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT AI_SUMMARIZE(N'The quarterly report shows revenue grew while costs stayed flat.') AS s",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "ai-classify-labels",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT AI_CLASSIFY(N'The delivery was late and the box was damaged.', N'complaint', N'praise', N'question') AS label",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "regexp-like-is-predicate",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CASE WHEN REGEXP_LIKE('ABC123', '^[a-z]+[0-9]+$', 'i') THEN 1 ELSE 0 END AS is_match",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "regexp-like-not-selectable",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT REGEXP_LIKE('abc', '^a') AS is_match",
+    "ok": false,
+    "errors": [
+     {
+      "number": 102,
+      "message": "Incorrect syntax near 'REGEXP_LIKE'."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "regexp-count-int",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT REGEXP_COUNT('a1b22c333', '[0-9]+') AS n",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "regexp-matches-not-recognized",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM REGEXP_MATCHES('a1b22c333', '[0-9]+') AS m",
+    "ok": false,
+    "errors": [
+     {
+      "number": 208,
+      "message": "Invalid object name 'REGEXP_MATCHES'."
+     },
+     {
+      "number": 11529,
+      "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "regexp-substr-occurrence",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT REGEXP_SUBSTR('a1b22c333', '[0-9]+', 1, CAST(g.[value] AS int)) AS m FROM GENERATE_SERIES(1, REGEXP_COUNT('a1b22c333', '[0-9]+')) AS g",
+    "ok": true,
+    "result_types": [
+     "varchar(9)"
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "regexp-split-not-recognized",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a1b22c333', '[0-9]+') AS s",
+    "ok": false,
+    "errors": [
+     {
+      "number": 208,
+      "message": "Invalid object name 'REGEXP_SPLIT_TO_TABLE'."
+     },
+     {
+      "number": 11529,
+      "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "ai-vector-regex",
+   "claim": "fuzzy-match-scales",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JARO_WINKLER_DISTANCE('martha', 'marhta') AS jw, EDIT_DISTANCE('kitten', 'sitting') AS ed, EDIT_DISTANCE_SIMILARITY('kitten', 'sitting') AS eds, JARO_WINKLER_SIMILARITY('martha', 'marhta') AS jws",
+    "ok": true,
+    "result_types": [
+     "float",
+     "int",
+     "int",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-default-bin2-utf8",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS varchar(128)) AS db_collation",
+    "ok": true,
+    "result_types": [
+     "varchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-equality-case-sensitive",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CASE WHEN 'a' = 'A' THEN 1 ELSE 0 END AS same",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-like-charindex-replace",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CHARINDEX('a', 'ABC') AS pos, CASE WHEN 'Abc' LIKE 'a%' THEN 1 ELSE 0 END AS m",
+    "ok": true,
+    "result_types": [
+     "int",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-order-by-code-point",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT v FROM (VALUES ('b'), ('B'), ('a'), ('A'), ('Z')) AS t(v) ORDER BY v",
+    "ok": true,
+    "result_types": [
+     "varchar(1)"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-group-by-distinct-split",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC'), ('Abc')) AS t(v) GROUP BY v",
+    "ok": true,
+    "result_types": [
+     "varchar(3)",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-fold-with-upper",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT UPPER(v) AS v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC')) AS t(v) GROUP BY UPPER(v)",
+    "ok": true,
+    "result_types": [
+     "varchar(24)",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-collate-ci-in-expression",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC')) AS t(v) GROUP BY v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8",
+    "ok": true,
+    "result_types": [
+     "varchar(3)",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-invalid-name",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT 'a' COLLATE Not_A_Real_Collation AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 448,
+      "message": "Invalid collation 'Not_A_Real_Collation'."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-join-conflict-468",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT a.v FROM (SELECT 'x' COLLATE Latin1_General_100_BIN2_UTF8 AS v) AS a JOIN (SELECT 'X' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v) AS b ON a.v = b.v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 468,
+      "message": "Cannot resolve the collation conflict between \"Latin1_General_100_CI_AS_KS_WS_SC_UTF8\" and \"Latin1_General_100_BIN2_UTF8\" in the equal to operation."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-join-conflict-fix",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT a.v FROM (SELECT 'x' COLLATE Latin1_General_100_BIN2_UTF8 AS v) AS a JOIN (SELECT 'X' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v) AS b ON a.v = b.v COLLATE Latin1_General_100_BIN2_UTF8",
+    "ok": true,
+    "result_types": [
+     "varchar(1)"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-collationproperty-sql-variant",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(COLLATIONPROPERTY('Latin1_General_100_BIN2_UTF8', 'CodePage') AS int) AS code_page",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "collation",
+   "claim": "collation-utf8-len-vs-datalength",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DATALENGTH('é') AS bytes, LEN('é') AS chars",
+    "ok": true,
+    "result_types": [
+     "int",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-varchar-no-length",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('a fairly long string that is longer than thirty characters' AS varchar) AS v;",
+    "ok": true,
+    "result_types": [
+     "varchar(30)"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-decimal-default",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('12.345' AS decimal) AS d;",
+    "ok": true,
+    "result_types": [
+     "decimal(18,0)"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-datetime2-default-precision",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('2024-01-31 10:11:12.1234567' AS datetime2) AS d;",
+    "ok": true,
+    "result_types": [
+     "datetime2(7)"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-datetime-in-query",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('2024-01-31' AS datetime) AS d;",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-convert-style-112",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CONVERT(varchar(8), CAST('2024-01-31' AS date), 112) AS s;",
+    "ok": true,
+    "result_types": [
+     "varchar(8)"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-invalid-style",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CONVERT(varchar(10), CAST('2024-01-31' AS date), 999) AS s;",
+    "ok": true,
+    "result_types": [
+     "varchar(10)"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-try-cast-type-pair",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TRY_CAST(CAST('2024-01-31' AS date) AS int) AS i;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 529,
+      "message": "Explicit conversion from data type date to int is not allowed."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-try-convert-null",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TRY_CONVERT(int, 'abc') AS i;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-implicit-precedence",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT 'abc' + 1 AS x;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-int-truncation",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(1.9 AS int) AS i;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-format-nvarchar",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT FORMAT(CAST('2024-01-31' AS date), 'yyyy-MM-dd') AS s;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-parse-culture",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT PARSE('31/01/2024' AS date USING 'en-GB') AS d;",
+    "ok": true,
+    "result_types": [
+     "date"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-try-parse-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TRY_PARSE('abc' AS int USING 'en-US') AS i;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "conversion",
+   "claim": "conv-utf8-bytes",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(N'été' AS varchar(3)) AS s;",
+    "ok": true,
+    "result_types": [
+     "varchar(3)"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-nvarchar-expr",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(N'déjà vu' AS nvarchar(10)) AS c;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(10)"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-nvarchar-table",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE TABLE dbo.probe_nvarchar (c nvarchar(10));",
+    "ok": false,
+    "errors": [
+     {
+      "number": 24574,
+      "message": "The data type 'nvarchar(10)' in column 'c' is not supported in this edition of SQL Server."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-getdate-datetime",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT GETDATE() AS c;",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-datetime2-7-expr",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SYSDATETIME() AS c;",
+    "ok": true,
+    "result_types": [
+     "datetime2(7)"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-datetime2-6-cast",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('2024-05-01T10:20:30.1234567' AS datetime2(6)) AS c;",
+    "ok": true,
+    "result_types": [
+     "datetime2(6)"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-datetime2-7-table",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE TABLE dbo.probe_dt7 (c datetime2(7));",
+    "ok": false,
+    "errors": [
+     {
+      "number": 24597,
+      "message": "An integer precision value between 0 and 6 must be specified."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-datetimeoffset",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'UTC' AS datetime2(6)) AS c;",
+    "ok": true,
+    "result_types": [
+     "datetime2(6)"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-money",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(CAST(12.3456 AS money) AS decimal(19,4)) AS c;",
+    "ok": true,
+    "result_types": [
+     "decimal(19,4)"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-tinyint",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(200 AS tinyint) AS c;",
+    "ok": true,
+    "result_types": [
+     "tinyint"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-varchar-max",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('abc' AS varchar(max)) AS c;",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-uniqueidentifier",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT NEWID() AS c;",
+    "ok": true,
+    "result_types": [
+     "uniqueidentifier"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-sql-variant",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SQL_VARIANT_PROPERTY(CAST(1 AS sql_variant), 'BaseType') AS c;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'SQL_VARIANT_PROPERTY' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-xml",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('<a>1</a>' AS xml) AS c;",
+    "ok": true,
+    "result_types": [
+     "xml"
+    ]
+   }
+  },
+  {
+   "topic": "data-types",
+   "claim": "dt-geography",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('POINT(1 1)' AS geography) AS c;",
+    "ok": true,
+    "result_types": [
+     "geography"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-current-date-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CURRENT_DATE AS d;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "'current_date' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-getdate-is-utc",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT GETDATE() AS now_utc;",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-sysdatetime-precision",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SYSDATETIME() AS ts;",
+    "ok": true,
+    "result_types": [
+     "datetime2(7)"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-cast-datetime2-6",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(SYSUTCDATETIME() AS datetime2(6)) AS ts;",
+    "ok": true,
+    "result_types": [
+     "datetime2(6)"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-current-timezone-id-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CURRENT_TIMEZONE_ID() AS tz;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'CURRENT_TIMEZONE_ID' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-current-timezone-exists",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CURRENT_TIMEZONE() AS tz;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-at-time-zone",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST(SYSUTCDATETIME() AS datetime2(6)) AT TIME ZONE 'UTC' AT TIME ZONE 'Pacific Standard Time' AS local_ts;",
+    "ok": true,
+    "result_types": [
+     "datetimeoffset(6)"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-datediff-big",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DATEDIFF_BIG(millisecond, CAST('1900-01-01' AS datetime2(6)), CAST('2024-01-01' AS datetime2(6))) AS ms;",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-datetrunc-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DATETRUNC(month, CAST('2024-05-17' AS date)) AS m;",
+    "ok": true,
+    "result_types": [
+     "date"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-datetrunc-literal",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DATETRUNC(day, '2024-05-17 10:11:12') AS d;",
+    "ok": true,
+    "result_types": [
+     "datetime2(7)"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-date-bucket-origin",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DATE_BUCKET(week, 1, CAST('2024-05-17' AS date), CAST('2024-01-07' AS date)) AS wk;",
+    "ok": true,
+    "result_types": [
+     "date"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-eomonth-date",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT EOMONTH(CAST('2024-02-10 13:00:00' AS datetime2(6))) AS eom;",
+    "ok": true,
+    "result_types": [
+     "date"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-sysdatetimeoffset-utc",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SWITCHOFFSET(SYSDATETIMEOFFSET(), '-05:00') AS ts;",
+    "ok": true,
+    "result_types": [
+     "datetimeoffset(7)"
+    ]
+   }
+  },
+  {
+   "topic": "date-time",
+   "claim": "dt-todatetimeoffset",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TODATETIMEOFFSET(CAST('2024-05-17 10:00:00' AS datetime2(6)), '+02:00') AS ts;",
+    "ok": true,
+    "result_types": [
+     "datetimeoffset(6)"
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-01",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TOP (1) name FROM sys.tables",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-02",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE VIEW dbo.v_probe_endpoint AS SELECT 1 AS c",
+    "ok": true,
+    "result_types": []
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-03",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE FUNCTION dbo.f_probe_endpoint() RETURNS TABLE AS RETURN SELECT 1 AS c",
+    "ok": true,
+    "result_types": []
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-04",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE PROCEDURE dbo.p_probe_endpoint AS SELECT 1 AS c",
+    "ok": true,
+    "result_types": []
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-05",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE TABLE dbo.t_probe_endpoint (c int)",
+    "ok": true,
+    "result_types": []
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-06",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE TABLE dbo.t_probe_ctas AS SELECT 1 AS c",
+    "ok": true,
+    "result_types": []
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-07",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT 1 AS c INTO dbo.t_probe_selectinto",
+    "ok": true,
+    "result_types": []
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-08",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE TABLE #probe_tmp (c int); INSERT INTO #probe_tmp VALUES (1); SELECT 1 AS c",
+    "ok": false,
+    "errors": [
+     {
+      "number": 11525,
+      "message": "The metadata could not be determined because statement 'INSERT INTO #probe_tmp VALUES (1)' uses a temp table.  Metadata discovery only supports temp tables when analyzing a single-statement batch."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-09",
+   "status": "confirmed",
+   "observed": {
+    "sql": "CREATE TABLE ##probe_global (c int); SELECT 1 AS c",
+    "ok": false,
+    "errors": [
+     {
+      "number": 24581,
+      "message": "Global temporary tables and transient user tables in TEMPDB are not supported in this edition of SQL Server."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-10",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TOP (1) name FROM no_such_item_probe.sys.objects",
+    "ok": false,
+    "errors": [
+     {
+      "number": 208,
+      "message": "Invalid object name 'no_such_item_probe.sys.objects'."
+     },
+     {
+      "number": 11529,
+      "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-11",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TOP (1) name FROM no_such_server_probe.no_such_db.sys.objects",
+    "ok": false,
+    "errors": [
+     {
+      "number": 7202,
+      "message": "Could not find server 'no_such_server_probe' in sys.servers. Verify that the correct server name was specified. If necessary, execute the stored procedure sp_addlinkedserver to add the server to sys.servers."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-12",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SCOPE_IDENTITY() AS id",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'SCOPE_IDENTITY' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-13",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT @@IDENTITY AS id",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "'@@IDENTITY' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "endpoint-vs-warehouse",
+   "claim": "evw-14",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DB_NAME() AS item_name",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "error-line-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ERROR_LINE() AS l",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'ERROR_LINE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "error-line-in-catch-breaks-batch",
+   "status": "confirmed",
+   "observed": {
+    "sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH SELECT ERROR_NUMBER() AS n, ERROR_LINE() AS l; END CATCH",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'ERROR_LINE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "xact-state-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH IF XACT_STATE() <> 0 ROLLBACK; END CATCH",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'XACT_STATE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "trancount-exists",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT @@TRANCOUNT AS tc",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "catch-rollback-rethrow-pattern",
+   "status": "confirmed",
+   "observed": {
+    "sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH IF @@TRANCOUNT > 0 ROLLBACK; THROW; END CATCH",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "error-number-severity-state",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ERROR_NUMBER() AS n, ERROR_SEVERITY() AS s, ERROR_STATE() AS st",
+    "ok": true,
+    "result_types": [
+     "int",
+     "int",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "error-message-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ERROR_MESSAGE() AS m",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "error-procedure-exists",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ERROR_PROCEDURE() AS p",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "procid-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT OBJECT_NAME(@@PROCID) AS p",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "'@@PROCID' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "formatmessage-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT FORMATMESSAGE('Error in %s', 'step1') AS m",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'FORMATMESSAGE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "raiserror-ends-describe-path",
+   "status": "confirmed",
+   "observed": {
+    "sql": "RAISERROR('custom failure', 16, 1); SELECT 1 AS a",
+    "ok": false,
+    "errors": [
+     {
+      "number": 11530,
+      "message": "The metadata could not be determined because there are no code paths that reach the end of the batch."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "rowcount-types",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ROWCOUNT_BIG() AS rb, @@ROWCOUNT AS r",
+    "ok": true,
+    "result_types": [
+     "bigint",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "at-at-error-exists",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT @@ERROR AS e",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "error-handling",
+   "claim": "snapshot-isolation-only",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; SELECT 1 AS a",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-contains-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_CONTAINS('{\"a\":1}', 1, '$.a') AS c;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'JSON_CONTAINS' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-native-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('{\"a\":1}' AS json) AS j;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "TYPE 'json' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-value-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_VALUE('{\"a\":\"x\"}', '$.a') AS v;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-value-object-null",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_VALUE('{\"a\":{\"b\":1}}', '$.a') AS v;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-query-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_QUERY('{\"a\":[1,2]}', '$.a') AS q;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "openjson-default-schema",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT [key], [value], [type] FROM OPENJSON('[10,20]');",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)",
+     "nvarchar(7)",
+     "tinyint"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "openjson-with-as-json",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT j FROM OPENJSON('{\"a\":{\"b\":1}}') WITH (j nvarchar(100) '$.a' AS JSON);",
+    "ok": false,
+    "errors": [
+     {
+      "number": 13618,
+      "message": "AS JSON option can be specified only for column of nvarchar(max) type in WITH clause."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "openjson-with-typed",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT n FROM OPENJSON('[{\"n\":1},{\"n\":2}]') WITH (n int '$.n');",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-path-exists-int",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_PATH_EXISTS('{\"a\":1}', '$.a') AS e;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-object-builder",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_OBJECT('a':1, 'b':'x') AS o;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-arrayagg",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_ARRAYAGG(v) AS a FROM (VALUES (1),(2),(3)) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-objectagg",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_OBJECTAGG(k:v) AS o FROM (VALUES ('a',1),('b',2)) AS t(k,v);",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "json-modify",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT JSON_MODIFY('{\"a\":[1]}', 'append $.a', 2) AS m;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "json",
+   "claim": "isjson-type-constraint",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ISJSON('{\"a\":1}', OBJECT) AS ok;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "rand-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT RAND() AS r;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'RAND' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "random-from-newid",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ABS(CAST(CHECKSUM(NEWID()) AS bigint)) % 100 AS bucket;",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "crypt-gen-random-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CRYPT_GEN_RANDOM(16) AS b;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'CRYPT_GEN_RANDOM' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "newid-exists",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT NEWID() AS id;",
+    "ok": true,
+    "result_types": [
+     "uniqueidentifier"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "hashbytes-encoding",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT HASHBYTES('SHA2_256', 'abc') AS h;",
+    "ok": true,
+    "result_types": [
+     "varbinary(8000)"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "checksum-int-collisions",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CHECKSUM('a', 1) AS c;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "integer-division",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT 7 / 2 AS q;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "power-first-arg-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT POWER(2, 0.5) AS p;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "sqrt-log-float",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SQRT(16) AS s;",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "round-keeps-decimal-type",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ROUND(748.58, -1) AS r;",
+    "ok": true,
+    "result_types": [
+     "numeric(5,2)"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "floor-ceiling-decimal",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CEILING(123.45) AS c;",
+    "ok": true,
+    "result_types": [
+     "numeric(5,0)"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "greatest-least-null",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT GREATEST(1, NULL, 3) AS g;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "bit-count-bigint",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT BIT_COUNT(CAST(255 AS int)) AS n;",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   }
+  },
+  {
+   "topic": "math-hashing",
+   "claim": "shift-functions",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT LEFT_SHIFT(1, 4) AS s;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-01",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT USER_ID() AS uid;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'USER_ID' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-02",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DATABASE_PRINCIPAL_ID() AS pid;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'DATABASE_PRINCIPAL_ID' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-03",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SUSER_ID() AS login_id;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'SUSER_ID' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-04",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ORIGINAL_LOGIN() AS who;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'ORIGINAL_LOGIN' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-05",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SUSER_SNAME() AS who;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-06",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CURRENT_USER AS cu, SESSION_USER AS su, USER_NAME() AS un;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)",
+     "nvarchar(128)",
+     "nvarchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-07",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT COL_LENGTH('sys.objects', 'name') AS len;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'COL_LENGTH' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-08",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT APP_NAME() AS app, HOST_NAME() AS host;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'APP_NAME' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-09",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SESSIONPROPERTY('ANSI_NULLS') AS ansi_nulls;",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'SESSIONPROPERTY' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-10",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SERVERPROPERTY('Edition') AS edition;",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-11",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS coll;",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-12",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT OBJECT_ID('sys.objects') AS oid, OBJECT_NAME(OBJECT_ID('sys.objects')) AS oname, SCHEMA_NAME(1) AS sname;",
+    "ok": true,
+    "result_types": [
+     "int",
+     "nvarchar(128)",
+     "nvarchar(128)"
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-13",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT IS_ROLEMEMBER('db_owner') AS is_owner;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "metadata-security",
+   "claim": "ms-14",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT @@VERSION AS v;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(300)"
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-01",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM OPENQUERY(remote_srv, 'SELECT 1 AS a') AS q",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15868,
+      "message": "OPENQUERY is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-02",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM OPENDATASOURCE('MSOLEDBSQL', 'Data Source=srv;Integrated Security=SSPI').master.sys.objects",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15868,
+      "message": "OPENDATASOURCE is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-03",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT name FROM remote_srv.master.sys.objects",
+    "ok": false,
+    "errors": [
+     {
+      "number": 7202,
+      "message": "Could not find server 'remote_srv' in sys.servers. Verify that the correct server name was specified. If necessary, execute the stored procedure sp_addlinkedserver to add the server to sys.servers."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-04",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM OPENROWSET('MSOLEDBSQL', 'Server=srv;Trusted_Connection=yes;', 'SELECT 1 AS a') AS r",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15281,
+      "message": "SQL Server blocked access to STATEMENT 'OpenRowset/OpenDatasource' of component 'Ad Hoc Distributed Queries' because this component is turned off as part of the security configuration for this server. A system administrator can enable the use of 'Ad Hoc Distributed Queries' by using sp_configure. For more information about enabling 'Ad Hoc Distributed Queries', search for 'Ad Hoc Distributed Queries' in SQL Server Books Online."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-05",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT r.id FROM OPENROWSET(BULK 'https://onelake.dfs.fabric.microsoft.com/ws/lh.Lakehouse/Files/data/f.parquet', FORMAT = 'PARQUET') WITH (id int) AS r",
+    "ok": false,
+    "errors": [
+     {
+      "number": 13836,
+      "message": "For onelake container paths, only files in '<Workspace>/<Artifact>/<Subfolder>' directory are allowed."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-08",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM OPENXML(1, '/root/row', 1) WITH (id int) AS x",
+    "ok": false,
+    "errors": [
+     {
+      "number": 102,
+      "message": "Incorrect syntax near '1'."
+     },
+     {
+      "number": 319,
+      "message": "Incorrect syntax near the keyword 'with'. If this statement is a common table expression, an xmlnamespaces clause or a change tracking context clause, the previous statement must be terminated with a semicolon."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-09",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT [key], [value], [type] FROM OPENJSON(N'{\"a\":1,\"b\":\"x\"}')",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)",
+     "nvarchar(15)",
+     "tinyint"
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-10",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT j.a FROM OPENJSON(N'{\"a\":{\"b\":1}}') WITH (a nvarchar(max) '$.a' AS JSON) AS j",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-11",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT j.a FROM OPENJSON(N'{\"a\":{\"b\":1}}') WITH (a nvarchar(100) '$.a' AS JSON) AS j",
+    "ok": false,
+    "errors": [
+     {
+      "number": 13618,
+      "message": "AS JSON option can be specified only for column of nvarchar(max) type in WITH clause."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-12",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT value FROM STRING_SPLIT('a||b', '||')",
+    "ok": true,
+    "result_types": [
+     "varchar(4)"
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-13",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT value, ordinal FROM STRING_SPLIT('a,b,c', ',', 1)",
+    "ok": true,
+    "result_types": [
+     "varchar(5)",
+     "bigint"
+    ]
+   }
+  },
+  {
+   "topic": "rowset-external",
+   "claim": "rowset-external-14",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT value FROM GENERATE_SERIES(1, 10)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-len-vs-datalength",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT LEN('héllo') AS chars, DATALENGTH('héllo') AS bytes;",
+    "ok": true,
+    "result_types": [
+     "int",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-varchar-n-is-bytes",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CAST('abc' AS varchar(3)) AS v;",
+    "ok": true,
+    "result_types": [
+     "varchar(3)"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-nvarchar-literals",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT N'é' AS v;",
+    "ok": true,
+    "result_types": [
+     "nvarchar(1)"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-case-sensitive-default",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CHARINDEX('B', REPLACE('abc','A','x')) AS pos;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-collate-ci",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CHARINDEX('B', 'abc' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8) AS pos;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-substring-chars",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SUBSTRING('héllo', 2, 3) AS s, LEFT('héllo', 2) AS l, RIGHT('héllo', 2) AS r;",
+    "ok": true,
+    "result_types": [
+     "varchar(6)",
+     "varchar(6)",
+     "varchar(6)"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-string-agg-8000",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT STRING_AGG(v, ',') WITHIN GROUP (ORDER BY v) AS s FROM (VALUES ('a'),('b')) AS t(v);",
+    "ok": true,
+    "result_types": [
+     "varchar(8000)"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-string-split-ordinal",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT value, ordinal FROM STRING_SPLIT('a,b,c', ',', 1);",
+    "ok": true,
+    "result_types": [
+     "varchar(5)",
+     "bigint"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-concat-ws-nulls",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CONCAT_WS(',', 'a', NULL, '', 'b') AS s;",
+    "ok": true,
+    "result_types": [
+     "varchar(6)"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-trim-chars",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT TRIM('x' FROM 'xxabcxx') AS a, TRIM(LEADING 'x' FROM 'xxabc') AS b;",
+    "ok": true,
+    "result_types": [
+     "varchar(7)",
+     "varchar(5)"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-regexp-like-predicate",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT IIF(REGEXP_LIKE('abc', '^a'), 1, 0) AS m;",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-regexp-case-flag",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT REGEXP_REPLACE('Abc', 'a', 'x', 1, 0, 'i') AS r, REGEXP_COUNT('AbA', 'a', 1, 'i') AS c;",
+    "ok": true,
+    "result_types": [
+     "varchar(8000)",
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "strings-utf8",
+   "claim": "strings-utf8-regexp-tvf-missing",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a1b2c', '[0-9]');",
+    "ok": false,
+    "errors": [
+     {
+      "number": 208,
+      "message": "Invalid object name 'REGEXP_SPLIT_TO_TABLE'."
+     },
+     {
+      "number": 11529,
+      "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "rand-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT RAND() AS r",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'RAND' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "rand-alternative-compiles",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ABS(CHECKSUM(NEWID())) % 100 AS r",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "crypt-gen-random-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT CRYPT_GEN_RANDOM(16) AS b",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'CRYPT_GEN_RANDOM' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "newsequentialid-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT NEWSEQUENTIALID() AS g",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'NEWSEQUENTIALID' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "scope-identity-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SCOPE_IDENTITY() AS id",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'SCOPE_IDENTITY' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "identity-at-variable-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT @@IDENTITY AS id",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "'@@IDENTITY' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "ident-seed-incr-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT IDENT_SEED('sys.objects') AS s",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'IDENT_SEED' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "error-line-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ERROR_LINE() AS l",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'ERROR_LINE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "xact-state-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT XACT_STATE() AS s",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'XACT_STATE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "formatmessage-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT FORMATMESSAGE('Value %s', 'x') AS m",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'FORMATMESSAGE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "host-app-name-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT APP_NAME() AS a",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'APP_NAME' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "session-id-not-recognized",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT SESSION_ID() AS s",
+    "ok": false,
+    "errors": [
+     {
+      "number": 195,
+      "message": "'SESSION_ID' is not a recognized built-in function name."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "login-user-id-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ORIGINAL_LOGIN() AS l",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'ORIGINAL_LOGIN' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "encryption-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT ENCRYPTBYPASSPHRASE('k', 'v') AS e",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'ENCRYPTBYPASSPHRASE' is not supported."
+     }
+    ]
+   }
+  },
+  {
+   "topic": "unsupported-vs-sql-server",
+   "claim": "file-metadata-not-supported",
+   "status": "confirmed",
+   "observed": {
+    "sql": "SELECT FILEGROUP_NAME(1) AS fg",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'FILEGROUP_NAME' is not supported."
+     }
+    ]
+   }
+  }
+ ]
+}

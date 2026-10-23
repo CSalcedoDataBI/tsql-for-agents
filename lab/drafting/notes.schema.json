@@ -1,0 +1,37 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["topic", "title", "summary", "claims"],
+  "properties": {
+    "topic": { "type": "string" },
+    "title": { "type": "string" },
+    "summary": { "type": "string" },
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "statement", "functions", "probe_sql", "expect", "sql_server", "alternative", "confidence"],
+        "properties": {
+          "id": { "type": "string" },
+          "statement": { "type": "string" },
+          "functions": { "type": "array", "items": { "type": "string" } },
+          "probe_sql": { "type": "string" },
+          "expect": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["outcome", "error_number", "result_type"],
+            "properties": {
+              "outcome": { "type": "string", "enum": ["compiles", "error"] },
+              "error_number": { "type": ["integer", "null"] },
+              "result_type": { "type": ["string", "null"] }
+            }
+          },
+          "sql_server": { "type": ["string", "null"] },
+          "alternative": { "type": ["string", "null"] },
+          "confidence": { "type": "string", "enum": ["high", "low"] }
+        }
+      }
+    }
+  }
+}

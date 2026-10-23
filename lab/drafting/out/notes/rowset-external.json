@@ -1,0 +1,202 @@
+{
+ "status": "probed",
+ "drafted_by": "claude-review",
+ "revision": 2,
+ "topic": "rowset-external",
+ "title": "Rowset functions and reading files in Fabric",
+ "summary": "Fabric Warehouse and the Lakehouse SQL analytics endpoint read files with OPENROWSET(BULK) over OneLake or ADLS URLs. A OneLake path is checked when the query is compiled. It must point to a file under <Workspace>/<Artifact>/<Subfolder>; otherwise the engine raises error 13836, even inside sp_describe_first_result_set. These engines reject the SQL Server rowset functions that reach other servers: OPENQUERY, OPENDATASOURCE, linked servers and four-part names. Treat the OLE DB provider form of OPENROWSET and OPENXML as unavailable. OPENJSON, STRING_SPLIT and GENERATE_SERIES exist. Watch the output column types and nested JSON that needs AS JSON. A multi-character STRING_SPLIT separator is not caught at compile time.",
+ "claims": [
+  {
+   "id": "rowset-external-01",
+   "statement": "OPENQUERY is not supported. Fabric has no linked servers, so pass-through queries to a remote server cannot be written.",
+   "functions": [
+    "OPENQUERY"
+   ],
+   "probe_sql": "SELECT * FROM OPENQUERY(remote_srv, 'SELECT 1 AS a') AS q",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server runs the pass-through query on a configured linked server.",
+   "alternative": "Land the remote data as files in OneLake and read them with OPENROWSET(BULK ...). For another warehouse or lakehouse in the same workspace, use a three-part name.",
+   "confidence": "high"
+  },
+  {
+   "id": "rowset-external-02",
+   "statement": "OPENDATASOURCE is not supported. Ad hoc connection strings inside a query are rejected.",
+   "functions": [
+    "OPENDATASOURCE"
+   ],
+   "probe_sql": "SELECT * FROM OPENDATASOURCE('MSOLEDBSQL', 'Data Source=srv;Integrated Security=SSPI').master.sys.objects",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server allows it when 'Ad Hoc Distributed Queries' is enabled.",
+   "alternative": "Read exported files with OPENROWSET(BULK ...), or use three-part names within the workspace.",
+   "confidence": "high"
+  },
+  {
+   "id": "rowset-external-03",
+   "statement": "Four-part names (server.database.schema.object) do not work, because linked servers do not exist. Only three-part names to items in the same workspace resolve.",
+   "functions": [],
+   "probe_sql": "SELECT name FROM remote_srv.master.sys.objects",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server resolves four-part names through a linked server.",
+   "alternative": "Use a three-part name database.schema.object for another warehouse or lakehouse endpoint in the same workspace.",
+   "confidence": "high"
+  },
+  {
+   "id": "rowset-external-04",
+   "statement": "The OLE DB provider form of OPENROWSET (provider name plus connection string, without BULK) should be assumed rejected. Only OPENROWSET(BULK ...) is confirmed to work.",
+   "functions": [
+    "OPENROWSET",
+    "OPENROWSET BULK"
+   ],
+   "probe_sql": "SELECT * FROM OPENROWSET('MSOLEDBSQL', 'Server=srv;Trusted_Connection=yes;', 'SELECT 1 AS a') AS r",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server accepts the provider form when ad hoc distributed queries are enabled.",
+   "alternative": "Use OPENROWSET(BULK 'https://...') over files in OneLake or ADLS.",
+   "confidence": "low"
+  },
+  {
+   "id": "rowset-external-05",
+   "statement": "OPENROWSET(BULK) checks a OneLake URL when the query is compiled, not only when it runs. A path that does not resolve to a file under <Workspace>/<Artifact>/<Subfolder> is rejected with error 13836. As a result, a query with placeholder workspace or item names fails even in sp_describe_first_result_set, before any WITH clause or FORMAT option is checked.",
+   "functions": [
+    "OPENROWSET BULK"
+   ],
+   "probe_sql": "SELECT r.id FROM OPENROWSET(BULK 'https://onelake.dfs.fabric.microsoft.com/ws/lh.Lakehouse/Files/data/f.parquet', FORMAT = 'PARQUET') WITH (id int) AS r",
+   "expect": {
+    "outcome": "error",
+    "error_number": 13836,
+    "result_type": null
+   },
+   "sql_server": "In SQL Server, OPENROWSET(BULK) reads local or UNC file paths and needs a FORMATFILE or a SINGLE_BLOB/SINGLE_CLOB/SINGLE_NCLOB option.",
+   "alternative": "Use the real workspace and item path that the Fabric portal shows for the file, and check the query shape against a file that exists.",
+   "confidence": "high"
+  },
+  {
+   "id": "rowset-external-08",
+   "statement": "OPENXML should be assumed unavailable for XML shredding.",
+   "functions": [
+    "OPENXML"
+   ],
+   "probe_sql": "SELECT * FROM OPENXML(1, '/root/row', 1) WITH (id int) AS x",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server shreds XML with OPENXML after preparing a document handle.",
+   "alternative": "Convert the data to JSON and use OPENJSON, or parse it before loading.",
+   "confidence": "low"
+  },
+  {
+   "id": "rowset-external-09",
+   "statement": "OPENJSON without a WITH clause returns the columns key, value and type. key is nvarchar(4000) and value is nvarchar(max), so cast the values before comparing them or doing arithmetic.",
+   "functions": [
+    "OPENJSON"
+   ],
+   "probe_sql": "SELECT [key], [value], [type] FROM OPENJSON(N'{\"a\":1,\"b\":\"x\"}')",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(4000)"
+   },
+   "sql_server": "Same as SQL Server.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "rowset-external-10",
+   "statement": "In OPENJSON ... WITH, a nested object or array needs the column typed nvarchar(max) AS JSON. Without AS JSON, a scalar column that points at an object silently returns NULL.",
+   "functions": [
+    "OPENJSON"
+   ],
+   "probe_sql": "SELECT j.a FROM OPENJSON(N'{\"a\":{\"b\":1}}') WITH (a nvarchar(max) '$.a' AS JSON) AS j",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(max)"
+   },
+   "sql_server": "Same as SQL Server.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "rowset-external-11",
+   "statement": "An AS JSON column in OPENJSON ... WITH must be nvarchar(max). Any other type is a compile error.",
+   "functions": [
+    "OPENJSON"
+   ],
+   "probe_sql": "SELECT j.a FROM OPENJSON(N'{\"a\":{\"b\":1}}') WITH (a nvarchar(100) '$.a' AS JSON) AS j",
+   "expect": {
+    "outcome": "error",
+    "error_number": 13618,
+    "result_type": null
+   },
+   "sql_server": "SQL Server raises the same error.",
+   "alternative": "Declare the column as nvarchar(max) AS JSON.",
+   "confidence": "low"
+  },
+  {
+   "id": "rowset-external-12",
+   "statement": "STRING_SPLIT with a multi-character separator is not rejected at compile time. The value column takes the input's type and length, for example varchar(4) for the literal 'a||b'. A clean compile does not show that the split works: the separator is documented as a single character, so do not rely on '||'.",
+   "functions": [
+    "STRING_SPLIT"
+   ],
+   "probe_sql": "SELECT value FROM STRING_SPLIT('a||b', '||')",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(4)"
+   },
+   "sql_server": "SQL Server documents the separator as a single character.",
+   "alternative": "Use REPLACE to turn the multi-character separator into one character first, or use REGEXP_SUBSTR.",
+   "confidence": "high"
+  },
+  {
+   "id": "rowset-external-13",
+   "statement": "STRING_SPLIT does not guarantee output order. To get the position, pass 1 as the third argument (enable_ordinal) and order by the ordinal column.",
+   "functions": [
+    "STRING_SPLIT"
+   ],
+   "probe_sql": "SELECT value, ordinal FROM STRING_SPLIT('a,b,c', ',', 1)",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2022 supports enable_ordinal; without it, the order is not guaranteed.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "rowset-external-14",
+   "statement": "GENERATE_SERIES exists and returns one column named value, typed like its arguments (int for int literals). Use it instead of recursive CTEs or number tables built from sys.objects.",
+   "functions": [
+    "GENERATE_SERIES"
+   ],
+   "probe_sql": "SELECT value FROM GENERATE_SERIES(1, 10)",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same as SQL Server 2022.",
+   "alternative": null,
+   "confidence": "high"
+  }
+ ],
+ "refuted": []
+}

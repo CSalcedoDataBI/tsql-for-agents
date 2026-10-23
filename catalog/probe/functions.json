@@ -1,0 +1,9062 @@
+{
+ "probed_at": "2026-10-23T23:41:50Z",
+ "engine": {
+  "version": "Microsoft Azure SQL Data Warehouse (RTM) - 12.0.2000.8",
+  "build_date": "Oct 20 2026 19:34:46",
+  "item_kind": "sql_analytics_endpoint"
+ },
+ "candidates_commit": "6b6717451d4e07b8deda86b43003b5eb9a1fa11e",
+ "method": "sp_describe_first_result_set on a minimal SELECT; compiled, never executed",
+ "complete": true,
+ "results": [
+  {
+   "name": "$PARTITION",
+   "attempts": [
+    {
+     "sql": "SELECT $PARTITION()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near '('."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM $PARTITION()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near '$PARTITION'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT $PARTITION",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near '$PARTITION'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT $PARTITION.pf(1) AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15868,
+      "message": "$PARTITION is not supported."
+     }
+    ]
+   },
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@CONNECTIONS",
+   "attempts": [
+    {
+     "sql": "SELECT @@CONNECTIONS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@CONNECTIONS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@CPU_BUSY",
+   "attempts": [
+    {
+     "sql": "SELECT @@CPU_BUSY",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@CPU_BUSY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@CURSOR_ROWS",
+   "attempts": [
+    {
+     "sql": "SELECT @@CURSOR_ROWS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@CURSOR_ROWS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@DATEFIRST",
+   "attempts": [
+    {
+     "sql": "SELECT @@DATEFIRST",
+     "ok": true,
+     "result_types": [
+      "tinyint"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@DATEFIRST AS v",
+    "ok": true,
+    "result_types": [
+     "tinyint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "tinyint"
+  },
+  {
+   "name": "@@DBTS",
+   "attempts": [
+    {
+     "sql": "SELECT @@DBTS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@DBTS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@ERROR",
+   "attempts": [
+    {
+     "sql": "SELECT @@ERROR",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@ERROR AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "@@FETCH_STATUS",
+   "attempts": [
+    {
+     "sql": "SELECT @@FETCH_STATUS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@FETCH_STATUS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@IDENTITY",
+   "attempts": [
+    {
+     "sql": "SELECT @@IDENTITY",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@IDENTITY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@IDLE",
+   "attempts": [
+    {
+     "sql": "SELECT @@IDLE",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@IDLE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@IO_BUSY",
+   "attempts": [
+    {
+     "sql": "SELECT @@IO_BUSY",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@IO_BUSY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@LANGID",
+   "attempts": [
+    {
+     "sql": "SELECT @@LANGID",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@LANGID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@LANGUAGE",
+   "attempts": [
+    {
+     "sql": "SELECT @@LANGUAGE",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@LANGUAGE AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "@@LOCK_TIMEOUT",
+   "attempts": [
+    {
+     "sql": "SELECT @@LOCK_TIMEOUT",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@LOCK_TIMEOUT AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "@@MAX_CONNECTIONS",
+   "attempts": [
+    {
+     "sql": "SELECT @@MAX_CONNECTIONS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@MAX_CONNECTIONS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@MAX_PRECISION",
+   "attempts": [
+    {
+     "sql": "SELECT @@MAX_PRECISION",
+     "ok": true,
+     "result_types": [
+      "tinyint"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@MAX_PRECISION AS v",
+    "ok": true,
+    "result_types": [
+     "tinyint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "tinyint"
+  },
+  {
+   "name": "@@NESTLEVEL",
+   "attempts": [
+    {
+     "sql": "SELECT @@NESTLEVEL",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@NESTLEVEL' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@OPTIONS",
+   "attempts": [
+    {
+     "sql": "SELECT @@OPTIONS",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@OPTIONS AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "@@PACKET_ERRORS",
+   "attempts": [
+    {
+     "sql": "SELECT @@PACKET_ERRORS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@PACKET_ERRORS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@PACK_RECEIVED",
+   "attempts": [
+    {
+     "sql": "SELECT @@PACK_RECEIVED",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@PACK_RECEIVED' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@PACK_SENT",
+   "attempts": [
+    {
+     "sql": "SELECT @@PACK_SENT",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@PACK_SENT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@PROCID",
+   "attempts": [
+    {
+     "sql": "SELECT @@PROCID",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@PROCID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@REMSERVER",
+   "attempts": [
+    {
+     "sql": "SELECT @@REMSERVER",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@REMSERVER' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@ROWCOUNT",
+   "attempts": [
+    {
+     "sql": "SELECT @@ROWCOUNT",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@ROWCOUNT AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "@@SERVERNAME",
+   "attempts": [
+    {
+     "sql": "SELECT @@SERVERNAME",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@SERVERNAME AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "@@SERVICENAME",
+   "attempts": [
+    {
+     "sql": "SELECT @@SERVICENAME",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@SERVICENAME AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "@@SPID",
+   "attempts": [
+    {
+     "sql": "SELECT @@SPID",
+     "ok": true,
+     "result_types": [
+      "smallint"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@SPID AS v",
+    "ok": true,
+    "result_types": [
+     "smallint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "smallint"
+  },
+  {
+   "name": "@@TEXTSIZE",
+   "attempts": [
+    {
+     "sql": "SELECT @@TEXTSIZE",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@TEXTSIZE AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "@@TIMETICKS",
+   "attempts": [
+    {
+     "sql": "SELECT @@TIMETICKS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@TIMETICKS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@TOTAL_ERRORS",
+   "attempts": [
+    {
+     "sql": "SELECT @@TOTAL_ERRORS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@TOTAL_ERRORS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@TOTAL_READ",
+   "attempts": [
+    {
+     "sql": "SELECT @@TOTAL_READ",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@TOTAL_READ' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@TOTAL_WRITE",
+   "attempts": [
+    {
+     "sql": "SELECT @@TOTAL_WRITE",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'@@TOTAL_WRITE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "@@TRANCOUNT",
+   "attempts": [
+    {
+     "sql": "SELECT @@TRANCOUNT",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@TRANCOUNT AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "@@VERSION",
+   "attempts": [
+    {
+     "sql": "SELECT @@VERSION",
+     "ok": true,
+     "result_types": [
+      "nvarchar(300)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT @@VERSION AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(300)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(300)"
+  },
+  {
+   "name": "ABS",
+   "attempts": [
+    {
+     "sql": "SELECT ABS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The abs function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ABS(-1) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ACOS",
+   "attempts": [
+    {
+     "sql": "SELECT ACOS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The acos function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ACOS(0.5) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "AI_ANALYZE_SENTIMENT",
+   "attempts": [
+    {
+     "sql": "SELECT AI_ANALYZE_SENTIMENT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ai_analyze_sentiment function requires 1 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AI_ANALYZE_SENTIMENT(N'I love this product') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(max)"
+  },
+  {
+   "name": "AI_CLASSIFY",
+   "attempts": [
+    {
+     "sql": "SELECT AI_CLASSIFY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ai_classify function requires 2 to 23 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AI_CLASSIFY(N'The battery died after a day', N'hardware', N'software') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(max)"
+  },
+  {
+   "name": "AI_EXTRACT",
+   "attempts": [
+    {
+     "sql": "SELECT AI_EXTRACT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ai_extract function requires 2 to 23 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AI_EXTRACT(N'John lives in Seattle', N'name', N'city') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(max)"
+  },
+  {
+   "name": "AI_FIX_GRAMMAR",
+   "attempts": [
+    {
+     "sql": "SELECT AI_FIX_GRAMMAR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ai_fix_grammar function requires 1 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AI_FIX_GRAMMAR(N'he go to school yesterday') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(max)"
+  },
+  {
+   "name": "AI_GENERATE_CHUNKS",
+   "attempts": [
+    {
+     "sql": "SELECT AI_GENERATE_CHUNKS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'AI_GENERATE_CHUNKS' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM AI_GENERATE_CHUNKS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 208,
+       "message": "Invalid object name 'AI_GENERATE_CHUNKS'."
+      },
+      {
+       "number": 11529,
+       "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT AI_GENERATE_CHUNKS",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'AI_GENERATE_CHUNKS'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM AI_GENERATE_CHUNKS(SOURCE = N'some long text to split', CHUNK_TYPE = FIXED, CHUNK_SIZE = 10)",
+    "ok": false,
+    "errors": [
+     {
+      "number": 102,
+      "message": "Incorrect syntax near '='."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "not_recognized"
+  },
+  {
+   "name": "AI_GENERATE_EMBEDDINGS",
+   "attempts": [
+    {
+     "sql": "SELECT AI_GENERATE_EMBEDDINGS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'AI_GENERATE_EMBEDDINGS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "AI_GENERATE_RESPONSE",
+   "attempts": [
+    {
+     "sql": "SELECT AI_GENERATE_RESPONSE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ai_generate_response function requires 1 to 4 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AI_GENERATE_RESPONSE(N'Say hello') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(max)"
+  },
+  {
+   "name": "AI_SUMMARIZE",
+   "attempts": [
+    {
+     "sql": "SELECT AI_SUMMARIZE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ai_summarize function requires 1 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AI_SUMMARIZE(N'This is a long paragraph of text that should be summarized.') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(max)"
+  },
+  {
+   "name": "AI_TRANSLATE",
+   "attempts": [
+    {
+     "sql": "SELECT AI_TRANSLATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ai_translate function requires 2 to 4 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AI_TRANSLATE(N'Hello world', N'fr') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(max)"
+  },
+  {
+   "name": "ANY_VALUE",
+   "attempts": [
+    {
+     "sql": "SELECT ANY_VALUE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The ANY_VALUE function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ANY_VALUE(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "APPLOCK_MODE",
+   "attempts": [
+    {
+     "sql": "SELECT APPLOCK_MODE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'APPLOCK_MODE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "APPLOCK_TEST",
+   "attempts": [
+    {
+     "sql": "SELECT APPLOCK_TEST()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'APPLOCK_TEST' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "APPROX_COUNT_DISTINCT",
+   "attempts": [
+    {
+     "sql": "SELECT APPROX_COUNT_DISTINCT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The APPROX_COUNT_DISTINCT function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT APPROX_COUNT_DISTINCT(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "APPROX_MEDIAN",
+   "attempts": [
+    {
+     "sql": "SELECT APPROX_MEDIAN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The APPROX_MEDIAN function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT APPROX_MEDIAN(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "APPROX_PERCENTILE_CONT",
+   "attempts": [
+    {
+     "sql": "SELECT APPROX_PERCENTILE_CONT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10754,
+       "message": "The function 'APPROX_PERCENTILE_CONT' must have a WITHIN GROUP clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "APPROX_PERCENTILE_DISC",
+   "attempts": [
+    {
+     "sql": "SELECT APPROX_PERCENTILE_DISC()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10754,
+       "message": "The function 'APPROX_PERCENTILE_DISC' must have a WITHIN GROUP clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT APPROX_PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "APPROX_QUANTILE",
+   "attempts": [
+    {
+     "sql": "SELECT APPROX_QUANTILE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The APPROX_QUANTILE function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT APPROX_QUANTILE(x, 0.5) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "APP_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT APP_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'APP_NAME' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ASCII",
+   "attempts": [
+    {
+     "sql": "SELECT ASCII()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The ascii function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ASCII('A') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ASIN",
+   "attempts": [
+    {
+     "sql": "SELECT ASIN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The asin function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ASIN(0.5) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "ASSEMBLYPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT ASSEMBLYPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ASSEMBLYPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ASYMKEYPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT ASYMKEYPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ASYMKEYPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ASYMKEY_ID",
+   "attempts": [
+    {
+     "sql": "SELECT ASYMKEY_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ASYMKEY_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ATAN",
+   "attempts": [
+    {
+     "sql": "SELECT ATAN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The atan function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ATAN(1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "ATN2",
+   "attempts": [
+    {
+     "sql": "SELECT ATN2()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The atn2 function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ATN2(1.0, 1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "AVG",
+   "attempts": [
+    {
+     "sql": "SELECT AVG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The AVG function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT AVG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "BASE64_DECODE",
+   "attempts": [
+    {
+     "sql": "SELECT BASE64_DECODE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The base64_decode function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT BASE64_DECODE('QUJD') AS v",
+    "ok": true,
+    "result_types": [
+     "varbinary(8000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varbinary(8000)"
+  },
+  {
+   "name": "BASE64_ENCODE",
+   "attempts": [
+    {
+     "sql": "SELECT BASE64_ENCODE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The base64_encode function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT BASE64_ENCODE(0x414243) AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(8000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(8000)"
+  },
+  {
+   "name": "BINARY_CHECKSUM",
+   "attempts": [
+    {
+     "sql": "SELECT BINARY_CHECKSUM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 1076,
+       "message": "Function 'binary_checksum' requires at least 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT BINARY_CHECKSUM(1, N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "BIT_COUNT",
+   "attempts": [
+    {
+     "sql": "SELECT BIT_COUNT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The bit_count function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT BIT_COUNT(17) AS v",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "CAST",
+   "attempts": [
+    {
+     "sql": "SELECT CAST()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 1035,
+       "message": "Incorrect syntax near 'CAST', expected 'AS'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CAST(1 AS int) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "CEILING",
+   "attempts": [
+    {
+     "sql": "SELECT CEILING()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The ceiling function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CEILING(1.5) AS v",
+    "ok": true,
+    "result_types": [
+     "numeric(2,0)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "numeric(2,0)"
+  },
+  {
+   "name": "CERTENCODED",
+   "attempts": [
+    {
+     "sql": "SELECT CERTENCODED()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CERTENCODED' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CERTPRIVATEKEY",
+   "attempts": [
+    {
+     "sql": "SELECT CERTPRIVATEKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CERTPRIVATEKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CERTPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT CERTPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CERTPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CERT_ID",
+   "attempts": [
+    {
+     "sql": "SELECT CERT_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CERT_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CHAR",
+   "attempts": [
+    {
+     "sql": "SELECT CHAR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The char function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CHAR(65) AS v",
+    "ok": true,
+    "result_types": [
+     "char(1)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "char(1)"
+  },
+  {
+   "name": "CHARINDEX",
+   "attempts": [
+    {
+     "sql": "SELECT CHARINDEX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The charindex function requires 2 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CHARINDEX('b', 'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "CHECKSUM",
+   "attempts": [
+    {
+     "sql": "SELECT CHECKSUM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 1076,
+       "message": "Function 'checksum' requires at least 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CHECKSUM(1, 'a') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "CHECKSUM_AGG",
+   "attempts": [
+    {
+     "sql": "SELECT CHECKSUM_AGG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The CHECKSUM_AGG function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CHECKSUM_AGG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "CHOOSE",
+   "attempts": [
+    {
+     "sql": "SELECT CHOOSE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 1076,
+       "message": "Function 'choose' requires at least 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CHOOSE(2, 'a', 'b') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(1)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(1)"
+  },
+  {
+   "name": "COLLATIONPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT COLLATIONPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The collationproperty function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COLLATIONPROPERTY('Latin1_General_100_BIN2_UTF8', 'CodePage') AS v",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "sql_variant"
+  },
+  {
+   "name": "COLUMNPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT COLUMNPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The columnproperty function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COLUMNPROPERTY(1, N'name', 'AllowsNull') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "COLUMNS_UPDATED",
+   "attempts": [
+    {
+     "sql": "SELECT COLUMNS_UPDATED()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'COLUMNS_UPDATED' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "COL_LENGTH",
+   "attempts": [
+    {
+     "sql": "SELECT COL_LENGTH()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'COL_LENGTH' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "COL_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT COL_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The col_name function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COL_NAME(1, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "COMPRESS",
+   "attempts": [
+    {
+     "sql": "SELECT COMPRESS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The Compress function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COMPRESS(N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "varbinary(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varbinary(max)"
+  },
+  {
+   "name": "CONCAT",
+   "attempts": [
+    {
+     "sql": "SELECT CONCAT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The concat function requires 2 to 254 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CONCAT('a', 'b') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(2)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(2)"
+  },
+  {
+   "name": "CONCAT_WS",
+   "attempts": [
+    {
+     "sql": "SELECT CONCAT_WS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The concat_ws function requires 3 to 254 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CONCAT_WS(',', 'a', 'b') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(3)"
+  },
+  {
+   "name": "CONNECTIONPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT CONNECTIONPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The connectionproperty function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CONNECTIONPROPERTY('net_transport') AS v",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "sql_variant"
+  },
+  {
+   "name": "CONTEXT_INFO",
+   "attempts": [
+    {
+     "sql": "SELECT CONTEXT_INFO()",
+     "ok": true,
+     "result_types": [
+      "varbinary(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CONTEXT_INFO() AS v",
+    "ok": true,
+    "result_types": [
+     "varbinary(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varbinary(128)"
+  },
+  {
+   "name": "CONVERT",
+   "attempts": [
+    {
+     "sql": "SELECT CONVERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM CONVERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'CONVERT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT CONVERT",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near 'CONVERT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CONVERT(int, '1') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "COS",
+   "attempts": [
+    {
+     "sql": "SELECT COS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The cos function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COS(1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "COT",
+   "attempts": [
+    {
+     "sql": "SELECT COT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The cot function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COT(1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "COUNT",
+   "attempts": [
+    {
+     "sql": "SELECT COUNT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The COUNT function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COUNT(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "COUNT_BIG",
+   "attempts": [
+    {
+     "sql": "SELECT COUNT_BIG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The COUNT_BIG function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT COUNT_BIG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "CRYPT_GEN_RANDOM",
+   "attempts": [
+    {
+     "sql": "SELECT CRYPT_GEN_RANDOM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CRYPT_GEN_RANDOM' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CUME_DIST",
+   "attempts": [
+    {
+     "sql": "SELECT CUME_DIST()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'CUME_DIST' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CUME_DIST() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "CURRENT_DATE",
+   "attempts": [
+    {
+     "sql": "SELECT CURRENT_DATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "'current_date' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CURRENT_REQUEST_ID",
+   "attempts": [
+    {
+     "sql": "SELECT CURRENT_REQUEST_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CURRENT_REQUEST_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CURRENT_TIMESTAMP",
+   "attempts": [
+    {
+     "sql": "SELECT CURRENT_TIMESTAMP()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM CURRENT_TIMESTAMP()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'CURRENT_TIMESTAMP'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT CURRENT_TIMESTAMP",
+     "ok": true,
+     "result_types": [
+      "datetime"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CURRENT_TIMESTAMP AS v",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime"
+  },
+  {
+   "name": "CURRENT_TIMEZONE",
+   "attempts": [
+    {
+     "sql": "SELECT CURRENT_TIMEZONE()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CURRENT_TIMEZONE() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "CURRENT_TIMEZONE_ID",
+   "attempts": [
+    {
+     "sql": "SELECT CURRENT_TIMEZONE_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CURRENT_TIMEZONE_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CURRENT_TRANSACTION_ID",
+   "attempts": [
+    {
+     "sql": "SELECT CURRENT_TRANSACTION_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CURRENT_TRANSACTION_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "CURRENT_USER",
+   "attempts": [
+    {
+     "sql": "SELECT CURRENT_USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM CURRENT_USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'CURRENT_USER'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT CURRENT_USER",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT CURRENT_USER AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "CURSOR_STATUS",
+   "attempts": [
+    {
+     "sql": "SELECT CURSOR_STATUS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'CURSOR_STATUS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DATABASEPROPERTYEX",
+   "attempts": [
+    {
+     "sql": "SELECT DATABASEPROPERTYEX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The databasepropertyex function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATABASEPROPERTYEX(N'master', 'Collation') AS v",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "sql_variant"
+  },
+  {
+   "name": "DATABASE_PRINCIPAL_ID",
+   "attempts": [
+    {
+     "sql": "SELECT DATABASE_PRINCIPAL_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'DATABASE_PRINCIPAL_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DATALENGTH",
+   "attempts": [
+    {
+     "sql": "SELECT DATALENGTH()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datalength function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATALENGTH(N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "DATEADD",
+   "attempts": [
+    {
+     "sql": "SELECT DATEADD()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The dateadd function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATEADD(day, 1, '2024-01-01') AS v",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime"
+  },
+  {
+   "name": "DATEDIFF",
+   "attempts": [
+    {
+     "sql": "SELECT DATEDIFF()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datediff function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATEDIFF(day, '2024-01-01', '2024-01-02') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "DATEDIFF_BIG",
+   "attempts": [
+    {
+     "sql": "SELECT DATEDIFF_BIG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datediff_big function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATEDIFF_BIG(day, '2024-01-01', '2024-01-02') AS v",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "DATEFROMPARTS",
+   "attempts": [
+    {
+     "sql": "SELECT DATEFROMPARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datefromparts function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATEFROMPARTS(2024, 1, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "date"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "date"
+  },
+  {
+   "name": "DATENAME",
+   "attempts": [
+    {
+     "sql": "SELECT DATENAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datename function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATENAME(month, '2024-01-01') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(30)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(30)"
+  },
+  {
+   "name": "DATEPART",
+   "attempts": [
+    {
+     "sql": "SELECT DATEPART()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datepart function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATEPART(year, '2024-01-01') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "DATETIME2FROMPARTS",
+   "attempts": [
+    {
+     "sql": "SELECT DATETIME2FROMPARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datetime2fromparts function requires 8 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATETIME2FROMPARTS(2024, 1, 1, 0, 0, 0, 0, 6) AS v",
+    "ok": true,
+    "result_types": [
+     "datetime2(6)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime2(6)"
+  },
+  {
+   "name": "DATETIMEFROMPARTS",
+   "attempts": [
+    {
+     "sql": "SELECT DATETIMEFROMPARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datetimefromparts function requires 7 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATETIMEFROMPARTS(2024, 1, 1, 0, 0, 0, 0) AS v",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime"
+  },
+  {
+   "name": "DATETIMEOFFSETFROMPARTS",
+   "attempts": [
+    {
+     "sql": "SELECT DATETIMEOFFSETFROMPARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datetimeoffsetfromparts function requires 10 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATETIMEOFFSETFROMPARTS(2024, 1, 1, 0, 0, 0, 0, 0, 0, 7) AS v",
+    "ok": true,
+    "result_types": [
+     "datetimeoffset(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetimeoffset(7)"
+  },
+  {
+   "name": "DATETRUNC",
+   "attempts": [
+    {
+     "sql": "SELECT DATETRUNC()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The datetrunc function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATETRUNC(month, '2024-01-15') AS v",
+    "ok": true,
+    "result_types": [
+     "datetime2(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime2(7)"
+  },
+  {
+   "name": "DATE_BUCKET",
+   "attempts": [
+    {
+     "sql": "SELECT DATE_BUCKET()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The Date_Bucket function requires 3 to 4 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DATE_BUCKET(week, 1, '2024-01-15') AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 8116,
+      "message": "Argument data type varchar is invalid for argument 3 of Date_Bucket function."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "exists"
+  },
+  {
+   "name": "DAY",
+   "attempts": [
+    {
+     "sql": "SELECT DAY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The day function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DAY('2024-01-15') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "DB_ID",
+   "attempts": [
+    {
+     "sql": "SELECT DB_ID()",
+     "ok": true,
+     "result_types": [
+      "smallint"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DB_ID() AS v",
+    "ok": true,
+    "result_types": [
+     "smallint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "smallint"
+  },
+  {
+   "name": "DB_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT DB_NAME()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DB_NAME() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "DECOMPRESS",
+   "attempts": [
+    {
+     "sql": "SELECT DECOMPRESS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The Decompress function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DECOMPRESS(0x00) AS v",
+    "ok": true,
+    "result_types": [
+     "varbinary(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varbinary(max)"
+  },
+  {
+   "name": "DECRYPTBYASYMKEY",
+   "attempts": [
+    {
+     "sql": "SELECT DECRYPTBYASYMKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'DECRYPTBYASYMKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DECRYPTBYCERT",
+   "attempts": [
+    {
+     "sql": "SELECT DECRYPTBYCERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'DECRYPTBYCERT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DECRYPTBYKEY",
+   "attempts": [
+    {
+     "sql": "SELECT DECRYPTBYKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'DECRYPTBYKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DECRYPTBYKEYAUTOASYMKEY",
+   "attempts": [
+    {
+     "sql": "SELECT DECRYPTBYKEYAUTOASYMKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'DECRYPTBYKEYAUTOASYMKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DECRYPTBYKEYAUTOCERT",
+   "attempts": [
+    {
+     "sql": "SELECT DECRYPTBYKEYAUTOCERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'DECRYPTBYKEYAUTOCERT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DECRYPTBYPASSPHRASE",
+   "attempts": [
+    {
+     "sql": "SELECT DECRYPTBYPASSPHRASE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'DECRYPTBYPASSPHRASE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "DEGREES",
+   "attempts": [
+    {
+     "sql": "SELECT DEGREES()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The degrees function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DEGREES(1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "numeric(38,18)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "numeric(38,18)"
+  },
+  {
+   "name": "DENSE_RANK",
+   "attempts": [
+    {
+     "sql": "SELECT DENSE_RANK()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'DENSE_RANK' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DENSE_RANK() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "DIFFERENCE",
+   "attempts": [
+    {
+     "sql": "SELECT DIFFERENCE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The difference function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT DIFFERENCE('Green', 'Greene') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "EDGE_ID_FROM_PARTS",
+   "attempts": [
+    {
+     "sql": "SELECT EDGE_ID_FROM_PARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The edge_id_from_parts function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT EDGE_ID_FROM_PARTS(1, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(1000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(1000)"
+  },
+  {
+   "name": "EDIT_DISTANCE",
+   "attempts": [
+    {
+     "sql": "SELECT EDIT_DISTANCE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The edit_distance function requires 2 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT EDIT_DISTANCE('abc', 'abd') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "EDIT_DISTANCE_SIMILARITY",
+   "attempts": [
+    {
+     "sql": "SELECT EDIT_DISTANCE_SIMILARITY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The edit_distance_similarity function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT EDIT_DISTANCE_SIMILARITY('abc', 'abd') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ENCRYPTBYASYMKEY",
+   "attempts": [
+    {
+     "sql": "SELECT ENCRYPTBYASYMKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ENCRYPTBYASYMKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ENCRYPTBYCERT",
+   "attempts": [
+    {
+     "sql": "SELECT ENCRYPTBYCERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ENCRYPTBYCERT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ENCRYPTBYKEY",
+   "attempts": [
+    {
+     "sql": "SELECT ENCRYPTBYKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ENCRYPTBYKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ENCRYPTBYPASSPHRASE",
+   "attempts": [
+    {
+     "sql": "SELECT ENCRYPTBYPASSPHRASE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ENCRYPTBYPASSPHRASE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "EOMONTH",
+   "attempts": [
+    {
+     "sql": "SELECT EOMONTH()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The eomonth function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT EOMONTH('2024-01-15') AS v",
+    "ok": true,
+    "result_types": [
+     "date"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "date"
+  },
+  {
+   "name": "ERROR_LINE",
+   "attempts": [
+    {
+     "sql": "SELECT ERROR_LINE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ERROR_LINE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ERROR_MESSAGE",
+   "attempts": [
+    {
+     "sql": "SELECT ERROR_MESSAGE()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(4000)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ERROR_MESSAGE() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(4000)"
+  },
+  {
+   "name": "ERROR_NUMBER",
+   "attempts": [
+    {
+     "sql": "SELECT ERROR_NUMBER()",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ERROR_NUMBER() AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ERROR_PROCEDURE",
+   "attempts": [
+    {
+     "sql": "SELECT ERROR_PROCEDURE()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ERROR_PROCEDURE() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "ERROR_SEVERITY",
+   "attempts": [
+    {
+     "sql": "SELECT ERROR_SEVERITY()",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ERROR_SEVERITY() AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ERROR_STATE",
+   "attempts": [
+    {
+     "sql": "SELECT ERROR_STATE()",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ERROR_STATE() AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "EVENTDATA",
+   "attempts": [
+    {
+     "sql": "SELECT EVENTDATA()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'EVENTDATA' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "EXP",
+   "attempts": [
+    {
+     "sql": "SELECT EXP()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The exp function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT EXP(1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "FILEGROUPPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT FILEGROUPPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILEGROUPPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FILEGROUP_ID",
+   "attempts": [
+    {
+     "sql": "SELECT FILEGROUP_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILEGROUP_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FILEGROUP_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT FILEGROUP_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILEGROUP_NAME' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FILEPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT FILEPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILEPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FILEPROPERTYEX",
+   "attempts": [
+    {
+     "sql": "SELECT FILEPROPERTYEX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILEPROPERTYEX' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FILE_ID",
+   "attempts": [
+    {
+     "sql": "SELECT FILE_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILE_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FILE_IDEX",
+   "attempts": [
+    {
+     "sql": "SELECT FILE_IDEX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILE_IDEX' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FILE_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT FILE_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FILE_NAME' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FIRST_VALUE",
+   "attempts": [
+    {
+     "sql": "SELECT FIRST_VALUE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'FIRST_VALUE' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT FIRST_VALUE(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "FLOOR",
+   "attempts": [
+    {
+     "sql": "SELECT FLOOR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The floor function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT FLOOR(1.5) AS v",
+    "ok": true,
+    "result_types": [
+     "numeric(2,0)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "numeric(2,0)"
+  },
+  {
+   "name": "FORMAT",
+   "attempts": [
+    {
+     "sql": "SELECT FORMAT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The format function requires 2 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT FORMAT(123.45, 'N2') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(4000)"
+  },
+  {
+   "name": "FORMATMESSAGE",
+   "attempts": [
+    {
+     "sql": "SELECT FORMATMESSAGE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FORMATMESSAGE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FULLTEXTCATALOGPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT FULLTEXTCATALOGPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'FULLTEXTCATALOGPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "FULLTEXTSERVICEPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT FULLTEXTSERVICEPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The fulltextserviceproperty function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT FULLTEXTSERVICEPROPERTY('IsFulltextInstalled') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "GENERATE_SERIES",
+   "attempts": [
+    {
+     "sql": "SELECT GENERATE_SERIES()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'GENERATE_SERIES' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM GENERATE_SERIES()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 313,
+       "message": "An insufficient number of arguments were supplied for the procedure or function GENERATE_SERIES."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM GENERATE_SERIES(1, 3)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "GETANSINULL",
+   "attempts": [
+    {
+     "sql": "SELECT GETANSINULL()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'GETANSINULL' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "GETDATE",
+   "attempts": [
+    {
+     "sql": "SELECT GETDATE()",
+     "ok": true,
+     "result_types": [
+      "datetime"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT GETDATE() AS v",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime"
+  },
+  {
+   "name": "GETUTCDATE",
+   "attempts": [
+    {
+     "sql": "SELECT GETUTCDATE()",
+     "ok": true,
+     "result_types": [
+      "datetime"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT GETUTCDATE() AS v",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime"
+  },
+  {
+   "name": "GET_BIT",
+   "attempts": [
+    {
+     "sql": "SELECT GET_BIT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The get_bit function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT GET_BIT(0xFF, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "bit"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bit"
+  },
+  {
+   "name": "GET_FILESTREAM_TRANSACTION_CONTEXT",
+   "attempts": [
+    {
+     "sql": "SELECT GET_FILESTREAM_TRANSACTION_CONTEXT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'GET_FILESTREAM_TRANSACTION_CONTEXT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "GRAPH_ID_FROM_EDGE_ID",
+   "attempts": [
+    {
+     "sql": "SELECT GRAPH_ID_FROM_EDGE_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The graph_id_from_edge_id function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT GRAPH_ID_FROM_EDGE_ID(N'{\"type\":\"edge\",\"schema\":\"dbo\",\"table\":\"e\",\"id\":0}') AS v",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "GRAPH_ID_FROM_NODE_ID",
+   "attempts": [
+    {
+     "sql": "SELECT GRAPH_ID_FROM_NODE_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The graph_id_from_node_id function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT GRAPH_ID_FROM_NODE_ID(N'{\"type\":\"node\",\"schema\":\"dbo\",\"table\":\"n\",\"id\":0}') AS v",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "GREATEST",
+   "attempts": [
+    {
+     "sql": "SELECT GREATEST()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The greatest function requires 1 to 254 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT GREATEST(1, 2, 3) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "GROUPING",
+   "attempts": [
+    {
+     "sql": "SELECT GROUPING()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The GROUPING function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT x, GROUPING(x) AS v FROM (VALUES (1),(2)) AS t(x) GROUP BY ROLLUP(x)",
+    "ok": true,
+    "result_types": [
+     "int",
+     "tinyint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "tinyint"
+  },
+  {
+   "name": "GROUPING_ID",
+   "attempts": [
+    {
+     "sql": "SELECT GROUPING_ID()",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT x, y, GROUPING_ID(x, y) AS v FROM (VALUES (1, 2),(3, 4)) AS t(x, y) GROUP BY ROLLUP(x, y)",
+    "ok": true,
+    "result_types": [
+     "int",
+     "int",
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "HASHBYTES",
+   "attempts": [
+    {
+     "sql": "SELECT HASHBYTES()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The hashbytes function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT HASHBYTES('SHA2_256', 'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "varbinary(8000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varbinary(8000)"
+  },
+  {
+   "name": "HAS_DBACCESS",
+   "attempts": [
+    {
+     "sql": "SELECT HAS_DBACCESS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The has_dbaccess function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT HAS_DBACCESS('master') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "HAS_PERMS_BY_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT HAS_PERMS_BY_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The has_perms_by_name function requires 3 to 5 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT HAS_PERMS_BY_NAME('dbo', 'SCHEMA', 'SELECT') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "HOST_ID",
+   "attempts": [
+    {
+     "sql": "SELECT HOST_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'HOST_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "HOST_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT HOST_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'HOST_NAME' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "IDENTITY",
+   "attempts": [
+    {
+     "sql": "SELECT IDENTITY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM IDENTITY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'IDENTITY'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT IDENTITY",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near 'IDENTITY'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT IDENTITY(int, 1, 1) AS v INTO probe_identity FROM (VALUES (1)) AS t(x)",
+    "ok": true,
+    "result_types": []
+   },
+   "verdict": "exists"
+  },
+  {
+   "name": "IDENT_CURRENT",
+   "attempts": [
+    {
+     "sql": "SELECT IDENT_CURRENT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'IDENT_CURRENT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "IDENT_INCR",
+   "attempts": [
+    {
+     "sql": "SELECT IDENT_INCR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'IDENT_INCR' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "IDENT_SEED",
+   "attempts": [
+    {
+     "sql": "SELECT IDENT_SEED()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'IDENT_SEED' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "IIF",
+   "attempts": [
+    {
+     "sql": "SELECT IIF()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 4145,
+       "message": "An expression of non-boolean type specified in a context where a condition is expected, near '('."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT IIF(1 > 0, 'a', 'b') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(1)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(1)"
+  },
+  {
+   "name": "INDEXKEY_PROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT INDEXKEY_PROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The indexkey_property function requires 4 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT INDEXKEY_PROPERTY(1, 1, 1, 'ColumnId') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "INDEXPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT INDEXPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The indexproperty function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT INDEXPROPERTY(1, 'ix', 'IsClustered') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "INDEX_COL",
+   "attempts": [
+    {
+     "sql": "SELECT INDEX_COL()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The index_col function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT INDEX_COL('dbo.t', 1, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "ISDATE",
+   "attempts": [
+    {
+     "sql": "SELECT ISDATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The isdate function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ISDATE('2024-01-01') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ISJSON",
+   "attempts": [
+    {
+     "sql": "SELECT ISJSON()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The isjson function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ISJSON(N'{}') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ISNULL",
+   "attempts": [
+    {
+     "sql": "SELECT ISNULL()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The isnull function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ISNULL(NULL, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ISNUMERIC",
+   "attempts": [
+    {
+     "sql": "SELECT ISNUMERIC()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The isnumeric function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ISNUMERIC('123') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "IS_MEMBER",
+   "attempts": [
+    {
+     "sql": "SELECT IS_MEMBER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The is_member function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT IS_MEMBER('db_owner') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "IS_OBJECTSIGNED",
+   "attempts": [
+    {
+     "sql": "SELECT IS_OBJECTSIGNED()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'IS_OBJECTSIGNED' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "IS_ROLEMEMBER",
+   "attempts": [
+    {
+     "sql": "SELECT IS_ROLEMEMBER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The is_rolemember function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT IS_ROLEMEMBER('db_owner') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "IS_SRVROLEMEMBER",
+   "attempts": [
+    {
+     "sql": "SELECT IS_SRVROLEMEMBER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The is_srvrolemember function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT IS_SRVROLEMEMBER('sysadmin') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "JARO_WINKLER_DISTANCE",
+   "attempts": [
+    {
+     "sql": "SELECT JARO_WINKLER_DISTANCE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The jaro_winkler_distance function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JARO_WINKLER_DISTANCE(N'abc', N'abd') AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "JARO_WINKLER_SIMILARITY",
+   "attempts": [
+    {
+     "sql": "SELECT JARO_WINKLER_SIMILARITY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The jaro_winkler_similarity function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JARO_WINKLER_SIMILARITY(N'abc', N'abd') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "JSON_ARRAY",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_ARRAY()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(max)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_ARRAY(1, 2, 3) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(max)"
+  },
+  {
+   "name": "JSON_ARRAYAGG",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_ARRAYAGG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The JSON_ARRAYAGG function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_ARRAYAGG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(max)"
+  },
+  {
+   "name": "JSON_CONTAINS",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_CONTAINS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'JSON_CONTAINS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "JSON_MODIFY",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_MODIFY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The json_modify function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_MODIFY(N'{\"a\":1}', '$.a', 2) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(max)"
+  },
+  {
+   "name": "JSON_OBJECT",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_OBJECT()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(max)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_OBJECT('a':1, 'b':2) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(max)"
+  },
+  {
+   "name": "JSON_OBJECTAGG",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_OBJECTAGG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The JSON_OBJECTAGG function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_OBJECTAGG(k:v) AS v FROM (VALUES ('a',1),('b',2)) AS t(k,v)",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(max)"
+  },
+  {
+   "name": "JSON_PATH_EXISTS",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_PATH_EXISTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The json_path_exists function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_PATH_EXISTS(N'{\"a\":1}', '$.a') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "JSON_QUERY",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_QUERY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The json_query function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_QUERY(N'{\"a\":[1,2]}', '$.a') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(4000)"
+  },
+  {
+   "name": "JSON_VALUE",
+   "attempts": [
+    {
+     "sql": "SELECT JSON_VALUE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The json_value function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT JSON_VALUE(N'{\"a\":1}', '$.a') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(4000)"
+  },
+  {
+   "name": "KEY_GUID",
+   "attempts": [
+    {
+     "sql": "SELECT KEY_GUID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'KEY_GUID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "KEY_ID",
+   "attempts": [
+    {
+     "sql": "SELECT KEY_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'KEY_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "KEY_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT KEY_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'KEY_NAME' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "LAG",
+   "attempts": [
+    {
+     "sql": "SELECT LAG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10755,
+       "message": "The function 'LAG' takes between 1 and 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LAG(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "LAST_VALUE",
+   "attempts": [
+    {
+     "sql": "SELECT LAST_VALUE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'LAST_VALUE' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LAST_VALUE(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "LEAD",
+   "attempts": [
+    {
+     "sql": "SELECT LEAD()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10755,
+       "message": "The function 'LEAD' takes between 1 and 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LEAD(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "LEAST",
+   "attempts": [
+    {
+     "sql": "SELECT LEAST()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The least function requires 1 to 254 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LEAST(1, 2, 3) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "LEFT",
+   "attempts": [
+    {
+     "sql": "SELECT LEFT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM LEFT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'LEFT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT LEFT",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near 'LEFT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LEFT(N'abc', 2) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(2)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(2)"
+  },
+  {
+   "name": "LEFT_SHIFT",
+   "attempts": [
+    {
+     "sql": "SELECT LEFT_SHIFT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The left_shift function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LEFT_SHIFT(8, 2) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "LEN",
+   "attempts": [
+    {
+     "sql": "SELECT LEN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The len function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LEN(N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "LOG",
+   "attempts": [
+    {
+     "sql": "SELECT LOG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The log function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LOG(10) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "LOG10",
+   "attempts": [
+    {
+     "sql": "SELECT LOG10()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The log10 function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LOG10(100) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "LOGINPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT LOGINPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'LOGINPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "LOWER",
+   "attempts": [
+    {
+     "sql": "SELECT LOWER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The lower function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LOWER(N'ABC') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(3)"
+  },
+  {
+   "name": "LTRIM",
+   "attempts": [
+    {
+     "sql": "SELECT LTRIM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The ltrim function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT LTRIM(N'  abc') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(5)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(5)"
+  },
+  {
+   "name": "MAX",
+   "attempts": [
+    {
+     "sql": "SELECT MAX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The MAX function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT MAX(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "MEDIAN",
+   "attempts": [
+    {
+     "sql": "SELECT MEDIAN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The MEDIAN function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT MEDIAN(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "MIN",
+   "attempts": [
+    {
+     "sql": "SELECT MIN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The MIN function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT MIN(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "MIN_ACTIVE_ROWVERSION",
+   "attempts": [
+    {
+     "sql": "SELECT MIN_ACTIVE_ROWVERSION()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'MIN_ACTIVE_ROWVERSION' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "MONTH",
+   "attempts": [
+    {
+     "sql": "SELECT MONTH()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The month function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT MONTH('2020-01-15') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "NCHAR",
+   "attempts": [
+    {
+     "sql": "SELECT NCHAR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The nchar function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT NCHAR(65) AS v",
+    "ok": true,
+    "result_types": [
+     "nchar(1)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nchar(1)"
+  },
+  {
+   "name": "NEWID",
+   "attempts": [
+    {
+     "sql": "SELECT NEWID()",
+     "ok": true,
+     "result_types": [
+      "uniqueidentifier"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT NEWID() AS v",
+    "ok": true,
+    "result_types": [
+     "uniqueidentifier"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "uniqueidentifier"
+  },
+  {
+   "name": "NEWSEQUENTIALID",
+   "attempts": [
+    {
+     "sql": "SELECT NEWSEQUENTIALID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'NEWSEQUENTIALID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "NEXT VALUE FOR",
+   "attempts": [],
+   "sample": {
+    "sql": "SELECT NEXT VALUE FOR dbo.NonExistentSeq AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15871,
+      "message": "FUNCTION 'dbo' is not supported."
+     }
+    ]
+   },
+   "verdict": "unclassified"
+  },
+  {
+   "name": "NODE_ID_FROM_PARTS",
+   "attempts": [
+    {
+     "sql": "SELECT NODE_ID_FROM_PARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The node_id_from_parts function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT NODE_ID_FROM_PARTS(1, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(1000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(1000)"
+  },
+  {
+   "name": "NTILE",
+   "attempts": [
+    {
+     "sql": "SELECT NTILE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'NTILE' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT NTILE(2) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "OBJECTPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECTPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The objectproperty function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECTPROPERTY(1, 'IsTable') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "OBJECTPROPERTYEX",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECTPROPERTYEX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The objectpropertyex function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECTPROPERTYEX(1, 'IsTable') AS v",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "sql_variant"
+  },
+  {
+   "name": "OBJECT_DEFINITION",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECT_DEFINITION()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The object_definition function requires 1 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECT_DEFINITION(1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(max)"
+  },
+  {
+   "name": "OBJECT_ID",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECT_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The object_id function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECT_ID('dbo.SomeTable') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "OBJECT_ID_FROM_EDGE_ID",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECT_ID_FROM_EDGE_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The object_id_from_edge_id function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECT_ID_FROM_EDGE_ID(0x00) AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 8116,
+      "message": "Argument data type varbinary is invalid for argument 1 of object_id_from_edge_id function."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "exists"
+  },
+  {
+   "name": "OBJECT_ID_FROM_NODE_ID",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECT_ID_FROM_NODE_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The object_id_from_node_id function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECT_ID_FROM_NODE_ID(0x00) AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 8116,
+      "message": "Argument data type varbinary is invalid for argument 1 of object_id_from_node_id function."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "exists"
+  },
+  {
+   "name": "OBJECT_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECT_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The object_name function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECT_NAME(1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "OBJECT_SCHEMA_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT OBJECT_SCHEMA_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The object_schema_name function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT OBJECT_SCHEMA_NAME(1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "OPENDATASOURCE",
+   "attempts": [
+    {
+     "sql": "SELECT OPENDATASOURCE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENDATASOURCE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM OPENDATASOURCE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT OPENDATASOURCE",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENDATASOURCE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM OPENDATASOURCE('SQLNCLI', 'Data Source=x;Integrated Security=SSPI').db.dbo.tbl",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15868,
+      "message": "OPENDATASOURCE is not supported."
+     }
+    ]
+   },
+   "verdict": "not_supported"
+  },
+  {
+   "name": "OPENJSON",
+   "attempts": [
+    {
+     "sql": "SELECT OPENJSON()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'OPENJSON' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM OPENJSON()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT OPENJSON",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'OPENJSON'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM OPENJSON(N'[1,2]')",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)",
+     "nvarchar(5)",
+     "tinyint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "tinyint"
+  },
+  {
+   "name": "OPENQUERY",
+   "attempts": [
+    {
+     "sql": "SELECT OPENQUERY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENQUERY'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM OPENQUERY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT OPENQUERY",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENQUERY'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM OPENQUERY(LinkedSrv, 'SELECT 1')",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15868,
+      "message": "OPENQUERY is not supported."
+     }
+    ]
+   },
+   "verdict": "not_supported"
+  },
+  {
+   "name": "OPENROWSET",
+   "attempts": [
+    {
+     "sql": "SELECT OPENROWSET()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENROWSET'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM OPENROWSET()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT OPENROWSET",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENROWSET'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM OPENROWSET('SQLNCLI', 'Server=.;Trusted_Connection=yes;', 'SELECT 1')",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15281,
+      "message": "SQL Server blocked access to STATEMENT 'OpenRowset/OpenDatasource' of component 'Ad Hoc Distributed Queries' because this component is turned off as part of the security configuration for this server. A system administrator can enable the use of 'Ad Hoc Distributed Queries' by using sp_configure. For more information about enabling 'Ad Hoc Distributed Queries', search for 'Ad Hoc Distributed Queries' in SQL Server Books Online."
+     }
+    ]
+   },
+   "verdict": "unclassified"
+  },
+  {
+   "name": "OPENROWSET BULK",
+   "attempts": [],
+   "sample": {
+    "sql": "SELECT * FROM OPENROWSET(BULK 'https://account.dfs.core.windows.net/container/file.parquet', FORMAT = 'PARQUET') AS r",
+    "ok": false,
+    "errors": [
+     {
+      "number": 13822,
+      "message": "File 'https://account.dfs.core.windows.net/container/file.parquet' cannot be opened because it does not exist or it is used by another process."
+     }
+    ]
+   },
+   "verdict": "exists"
+  },
+  {
+   "name": "OPENXML",
+   "attempts": [
+    {
+     "sql": "SELECT OPENXML()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENXML'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM OPENXML()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT OPENXML",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'OPENXML'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM OPENXML(1, N'/root', 1)",
+    "ok": false,
+    "errors": [
+     {
+      "number": 102,
+      "message": "Incorrect syntax near '1'."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "unclassified"
+  },
+  {
+   "name": "ORIGINAL_DB_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT ORIGINAL_DB_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ORIGINAL_DB_NAME' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "ORIGINAL_LOGIN",
+   "attempts": [
+    {
+     "sql": "SELECT ORIGINAL_LOGIN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'ORIGINAL_LOGIN' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "PARSE",
+   "attempts": [
+    {
+     "sql": "SELECT PARSE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 1035,
+       "message": "Incorrect syntax near 'PARSE', expected 'AS'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PARSE(N'123' AS int) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "PARSENAME",
+   "attempts": [
+    {
+     "sql": "SELECT PARSENAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The parsename function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PARSENAME(N'a.b.c', 1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "PATINDEX",
+   "attempts": [
+    {
+     "sql": "SELECT PATINDEX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The patindex function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PATINDEX(N'%b%', N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "PERCENTILE_CONT",
+   "attempts": [
+    {
+     "sql": "SELECT PERCENTILE_CONT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The PERCENTILE_CONT function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY x) OVER () AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "PERCENTILE_DISC",
+   "attempts": [
+    {
+     "sql": "SELECT PERCENTILE_DISC()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The PERCENTILE_DISC function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY x) OVER () AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "PERCENT_RANK",
+   "attempts": [
+    {
+     "sql": "SELECT PERCENT_RANK()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'PERCENT_RANK' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PERCENT_RANK() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "PERMISSIONS",
+   "attempts": [
+    {
+     "sql": "SELECT PERMISSIONS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'PERMISSIONS' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "PI",
+   "attempts": [
+    {
+     "sql": "SELECT PI()",
+     "ok": true,
+     "result_types": [
+      "float"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PI() AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "POWER",
+   "attempts": [
+    {
+     "sql": "SELECT POWER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The power function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT POWER(2, 3) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "PRODUCT",
+   "attempts": [
+    {
+     "sql": "SELECT PRODUCT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The PRODUCT function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PRODUCT(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "PUBLISHINGSERVERNAME",
+   "attempts": [
+    {
+     "sql": "SELECT PUBLISHINGSERVERNAME()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT PUBLISHINGSERVERNAME() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "PWDCOMPARE",
+   "attempts": [
+    {
+     "sql": "SELECT PWDCOMPARE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'PWDCOMPARE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "PWDENCRYPT",
+   "attempts": [
+    {
+     "sql": "SELECT PWDENCRYPT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'PWDENCRYPT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "QUANTILE",
+   "attempts": [
+    {
+     "sql": "SELECT QUANTILE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The QUANTILE function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT QUANTILE(x, 0.5) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": false,
+    "errors": [
+     {
+      "number": 8726,
+      "message": "Input parameter of quantile function must be a constant."
+     }
+    ]
+   },
+   "verdict": "exists"
+  },
+  {
+   "name": "QUOTENAME",
+   "attempts": [
+    {
+     "sql": "SELECT QUOTENAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The quotename function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT QUOTENAME(N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(258)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(258)"
+  },
+  {
+   "name": "RADIANS",
+   "attempts": [
+    {
+     "sql": "SELECT RADIANS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The radians function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT RADIANS(180.0) AS v",
+    "ok": true,
+    "result_types": [
+     "numeric(38,18)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "numeric(38,18)"
+  },
+  {
+   "name": "RAND",
+   "attempts": [
+    {
+     "sql": "SELECT RAND()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'RAND' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "RANK",
+   "attempts": [
+    {
+     "sql": "SELECT RANK()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'RANK' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT RANK() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "REGEXP_COUNT",
+   "attempts": [
+    {
+     "sql": "SELECT REGEXP_COUNT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The regexp_count function requires 2 to 4 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT REGEXP_COUNT('abc', 'b') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "REGEXP_INSTR",
+   "attempts": [
+    {
+     "sql": "SELECT REGEXP_INSTR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The regexp_instr function requires 2 to 7 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT REGEXP_INSTR('abc', 'b') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "REGEXP_LIKE",
+   "attempts": [
+    {
+     "sql": "SELECT REGEXP_LIKE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near 'REGEXP_LIKE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM REGEXP_LIKE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near 'REGEXP_LIKE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT REGEXP_LIKE",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'REGEXP_LIKE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT 1 AS v WHERE REGEXP_LIKE('abc', 'a.c')",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "REGEXP_MATCHES",
+   "attempts": [
+    {
+     "sql": "SELECT REGEXP_MATCHES()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'REGEXP_MATCHES' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM REGEXP_MATCHES()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 208,
+       "message": "Invalid object name 'REGEXP_MATCHES'."
+      },
+      {
+       "number": 11529,
+       "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT REGEXP_MATCHES",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'REGEXP_MATCHES'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM REGEXP_MATCHES('abc', 'b')",
+    "ok": false,
+    "errors": [
+     {
+      "number": 208,
+      "message": "Invalid object name 'REGEXP_MATCHES'."
+     },
+     {
+      "number": 11529,
+      "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+     }
+    ]
+   },
+   "verdict": "not_recognized"
+  },
+  {
+   "name": "REGEXP_REPLACE",
+   "attempts": [
+    {
+     "sql": "SELECT REGEXP_REPLACE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The regexp_replace function requires 2 to 6 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT REGEXP_REPLACE('abc', 'b', 'x') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(8000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(8000)"
+  },
+  {
+   "name": "REGEXP_SPLIT_TO_TABLE",
+   "attempts": [
+    {
+     "sql": "SELECT REGEXP_SPLIT_TO_TABLE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'REGEXP_SPLIT_TO_TABLE' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 208,
+       "message": "Invalid object name 'REGEXP_SPLIT_TO_TABLE'."
+      },
+      {
+       "number": 11529,
+       "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT REGEXP_SPLIT_TO_TABLE",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'REGEXP_SPLIT_TO_TABLE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a,b', ',')",
+    "ok": false,
+    "errors": [
+     {
+      "number": 208,
+      "message": "Invalid object name 'REGEXP_SPLIT_TO_TABLE'."
+     },
+     {
+      "number": 11529,
+      "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+     }
+    ]
+   },
+   "verdict": "not_recognized"
+  },
+  {
+   "name": "REGEXP_SUBSTR",
+   "attempts": [
+    {
+     "sql": "SELECT REGEXP_SUBSTR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The regexp_substr function requires 2 to 6 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT REGEXP_SUBSTR('abc', 'b') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(3)"
+  },
+  {
+   "name": "REPLACE",
+   "attempts": [
+    {
+     "sql": "SELECT REPLACE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The replace function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT REPLACE(N'abc', N'b', N'x') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(4000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(4000)"
+  },
+  {
+   "name": "REPLICATE",
+   "attempts": [
+    {
+     "sql": "SELECT REPLICATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The replicate function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT REPLICATE(N'a', 3) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(3)"
+  },
+  {
+   "name": "REVERSE",
+   "attempts": [
+    {
+     "sql": "SELECT REVERSE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The reverse function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT REVERSE(N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(3)"
+  },
+  {
+   "name": "RIGHT",
+   "attempts": [
+    {
+     "sql": "SELECT RIGHT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM RIGHT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'RIGHT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT RIGHT",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near 'RIGHT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT RIGHT(N'abc', 2) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(2)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(2)"
+  },
+  {
+   "name": "RIGHT_SHIFT",
+   "attempts": [
+    {
+     "sql": "SELECT RIGHT_SHIFT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The right_shift function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT RIGHT_SHIFT(8, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "ROUND",
+   "attempts": [
+    {
+     "sql": "SELECT ROUND()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The round function requires 2 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ROUND(1.234, 2) AS v",
+    "ok": true,
+    "result_types": [
+     "numeric(4,3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "numeric(4,3)"
+  },
+  {
+   "name": "ROWCOUNT_BIG",
+   "attempts": [
+    {
+     "sql": "SELECT ROWCOUNT_BIG()",
+     "ok": true,
+     "result_types": [
+      "bigint"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ROWCOUNT_BIG() AS v",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "ROW_NUMBER",
+   "attempts": [
+    {
+     "sql": "SELECT ROW_NUMBER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 10753,
+       "message": "The function 'ROW_NUMBER' must have an OVER clause."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT ROW_NUMBER() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "bigint"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "bigint"
+  },
+  {
+   "name": "RTRIM",
+   "attempts": [
+    {
+     "sql": "SELECT RTRIM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The rtrim function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT RTRIM(N'abc  ') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(5)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(5)"
+  },
+  {
+   "name": "SCHEMA_ID",
+   "attempts": [
+    {
+     "sql": "SELECT SCHEMA_ID()",
+     "ok": true,
+     "result_types": [
+      "int"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SCHEMA_ID(N'dbo') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "SCHEMA_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT SCHEMA_NAME()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SCHEMA_NAME(1) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "SCOPE_IDENTITY",
+   "attempts": [
+    {
+     "sql": "SELECT SCOPE_IDENTITY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'SCOPE_IDENTITY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "SERVERPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT SERVERPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The serverproperty function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SERVERPROPERTY(N'ProductVersion') AS v",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "sql_variant"
+  },
+  {
+   "name": "SESSIONPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT SESSIONPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'SESSIONPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "SESSION_CONTEXT",
+   "attempts": [
+    {
+     "sql": "SELECT SESSION_CONTEXT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The session_context function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SESSION_CONTEXT(N'key') AS v",
+    "ok": true,
+    "result_types": [
+     "sql_variant"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "sql_variant"
+  },
+  {
+   "name": "SESSION_ID",
+   "attempts": [
+    {
+     "sql": "SELECT SESSION_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'SESSION_ID' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM SESSION_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 208,
+       "message": "Invalid object name 'SESSION_ID'."
+      },
+      {
+       "number": 11529,
+       "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT SESSION_ID",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'SESSION_ID'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SESSION_ID() AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 195,
+      "message": "'SESSION_ID' is not a recognized built-in function name."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "not_recognized"
+  },
+  {
+   "name": "SESSION_USER",
+   "attempts": [
+    {
+     "sql": "SELECT SESSION_USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM SESSION_USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'SESSION_USER'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT SESSION_USER",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SESSION_USER AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "SET_BIT",
+   "attempts": [
+    {
+     "sql": "SELECT SET_BIT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The set_bit function requires 2 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SET_BIT(5, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "SIGN",
+   "attempts": [
+    {
+     "sql": "SELECT SIGN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The sign function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SIGN(-5) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "SIGNBYASYMKEY",
+   "attempts": [
+    {
+     "sql": "SELECT SIGNBYASYMKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'SIGNBYASYMKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "SIGNBYCERT",
+   "attempts": [
+    {
+     "sql": "SELECT SIGNBYCERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'SIGNBYCERT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "SIN",
+   "attempts": [
+    {
+     "sql": "SELECT SIN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The sin function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SIN(1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "SMALLDATETIMEFROMPARTS",
+   "attempts": [
+    {
+     "sql": "SELECT SMALLDATETIMEFROMPARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The smalldatetimefromparts function requires 5 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SMALLDATETIMEFROMPARTS(2020, 1, 2, 3, 4) AS v",
+    "ok": true,
+    "result_types": [
+     "smalldatetime"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "smalldatetime"
+  },
+  {
+   "name": "SOUNDEX",
+   "attempts": [
+    {
+     "sql": "SELECT SOUNDEX()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The soundex function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SOUNDEX('Smith') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(5)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(5)"
+  },
+  {
+   "name": "SPACE",
+   "attempts": [
+    {
+     "sql": "SELECT SPACE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The space function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SPACE(3) AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(3)"
+  },
+  {
+   "name": "SQL_VARIANT_PROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT SQL_VARIANT_PROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'SQL_VARIANT_PROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "SQRT",
+   "attempts": [
+    {
+     "sql": "SELECT SQRT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The sqrt function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SQRT(4.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "SQUARE",
+   "attempts": [
+    {
+     "sql": "SELECT SQUARE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The square function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SQUARE(3.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "STATS_DATE",
+   "attempts": [
+    {
+     "sql": "SELECT STATS_DATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The stats_date function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT STATS_DATE(1, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "datetime"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime"
+  },
+  {
+   "name": "STDEV",
+   "attempts": [
+    {
+     "sql": "SELECT STDEV()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The STDEV function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT STDEV(x) AS v FROM (VALUES (1.0),(2.0)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "STDEVP",
+   "attempts": [
+    {
+     "sql": "SELECT STDEVP()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The STDEVP function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT STDEVP(x) AS v FROM (VALUES (1.0),(2.0)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "STR",
+   "attempts": [
+    {
+     "sql": "SELECT STR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The str function requires 1 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT STR(123.45, 6, 1) AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(6)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(6)"
+  },
+  {
+   "name": "STRING_AGG",
+   "attempts": [
+    {
+     "sql": "SELECT STRING_AGG()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The STRING_AGG function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT STRING_AGG(x, ',') AS v FROM (VALUES ('a'),('b')) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "varchar(8000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(8000)"
+  },
+  {
+   "name": "STRING_ESCAPE",
+   "attempts": [
+    {
+     "sql": "SELECT STRING_ESCAPE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The string_escape function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT STRING_ESCAPE('a\"b', 'json') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(max)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(max)"
+  },
+  {
+   "name": "STRING_SPLIT",
+   "attempts": [
+    {
+     "sql": "SELECT STRING_SPLIT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'STRING_SPLIT' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM STRING_SPLIT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 313,
+       "message": "An insufficient number of arguments were supplied for the procedure or function STRING_SPLIT."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM STRING_SPLIT('a,b', ',')",
+    "ok": true,
+    "result_types": [
+     "varchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(3)"
+  },
+  {
+   "name": "STUFF",
+   "attempts": [
+    {
+     "sql": "SELECT STUFF()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The stuff function requires 4 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT STUFF('abcdef', 2, 3, 'xyz') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(9)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(9)"
+  },
+  {
+   "name": "SUBSTRING",
+   "attempts": [
+    {
+     "sql": "SELECT SUBSTRING()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The substring function requires 2 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SUBSTRING('abcdef', 2, 3) AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(6)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(6)"
+  },
+  {
+   "name": "SUM",
+   "attempts": [
+    {
+     "sql": "SELECT SUM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The SUM function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SUM(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "SUSER_ID",
+   "attempts": [
+    {
+     "sql": "SELECT SUSER_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'SUSER_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "SUSER_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT SUSER_NAME()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SUSER_NAME() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "SUSER_SID",
+   "attempts": [
+    {
+     "sql": "SELECT SUSER_SID()",
+     "ok": true,
+     "result_types": [
+      "varbinary(85)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SUSER_SID() AS v",
+    "ok": true,
+    "result_types": [
+     "varbinary(85)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varbinary(85)"
+  },
+  {
+   "name": "SUSER_SNAME",
+   "attempts": [
+    {
+     "sql": "SELECT SUSER_SNAME()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SUSER_SNAME() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "SWITCHOFFSET",
+   "attempts": [
+    {
+     "sql": "SELECT SWITCHOFFSET()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The switchoffset function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SWITCHOFFSET(SYSDATETIMEOFFSET(), '-05:00') AS v",
+    "ok": true,
+    "result_types": [
+     "datetimeoffset(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetimeoffset(7)"
+  },
+  {
+   "name": "SYMKEYPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT SYMKEYPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'SYMKEYPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "SYSDATETIME",
+   "attempts": [
+    {
+     "sql": "SELECT SYSDATETIME()",
+     "ok": true,
+     "result_types": [
+      "datetime2(7)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SYSDATETIME() AS v",
+    "ok": true,
+    "result_types": [
+     "datetime2(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime2(7)"
+  },
+  {
+   "name": "SYSDATETIMEOFFSET",
+   "attempts": [
+    {
+     "sql": "SELECT SYSDATETIMEOFFSET()",
+     "ok": true,
+     "result_types": [
+      "datetimeoffset(7)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SYSDATETIMEOFFSET() AS v",
+    "ok": true,
+    "result_types": [
+     "datetimeoffset(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetimeoffset(7)"
+  },
+  {
+   "name": "SYSTEM_USER",
+   "attempts": [
+    {
+     "sql": "SELECT SYSTEM_USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM SYSTEM_USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'SYSTEM_USER'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT SYSTEM_USER",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SYSTEM_USER AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "SYSUTCDATETIME",
+   "attempts": [
+    {
+     "sql": "SELECT SYSUTCDATETIME()",
+     "ok": true,
+     "result_types": [
+      "datetime2(7)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT SYSUTCDATETIME() AS v",
+    "ok": true,
+    "result_types": [
+     "datetime2(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetime2(7)"
+  },
+  {
+   "name": "TAN",
+   "attempts": [
+    {
+     "sql": "SELECT TAN()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The tan function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TAN(1.0) AS v",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "TERTIARY_WEIGHTS",
+   "attempts": [
+    {
+     "sql": "SELECT TERTIARY_WEIGHTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The tertiary_weights function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TERTIARY_WEIGHTS('abc' COLLATE SQL_Latin1_General_CP1_CI_AS) AS v",
+    "ok": true,
+    "result_types": [
+     "varbinary(6)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varbinary(6)"
+  },
+  {
+   "name": "TEXTPTR",
+   "attempts": [
+    {
+     "sql": "SELECT TEXTPTR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'TEXTPTR' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "TEXTVALID",
+   "attempts": [
+    {
+     "sql": "SELECT TEXTVALID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'TEXTVALID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "TIMEFROMPARTS",
+   "attempts": [
+    {
+     "sql": "SELECT TIMEFROMPARTS()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The timefromparts function requires 5 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TIMEFROMPARTS(10, 20, 30, 0, 0) AS v",
+    "ok": true,
+    "result_types": [
+     "time(0)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "time(0)"
+  },
+  {
+   "name": "TODATETIMEOFFSET",
+   "attempts": [
+    {
+     "sql": "SELECT TODATETIMEOFFSET()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The todatetimeoffset function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TODATETIMEOFFSET(SYSDATETIME(), '-05:00') AS v",
+    "ok": true,
+    "result_types": [
+     "datetimeoffset(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "datetimeoffset(7)"
+  },
+  {
+   "name": "TRANSLATE",
+   "attempts": [
+    {
+     "sql": "SELECT TRANSLATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The translate function requires 3 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TRANSLATE('abc', 'ab', 'xy') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(8000)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(8000)"
+  },
+  {
+   "name": "TRIGGER_NESTLEVEL",
+   "attempts": [
+    {
+     "sql": "SELECT TRIGGER_NESTLEVEL()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'TRIGGER_NESTLEVEL' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "TRIM",
+   "attempts": [
+    {
+     "sql": "SELECT TRIM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The Trim function requires 1 to 3 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TRIM('  abc  ') AS v",
+    "ok": true,
+    "result_types": [
+     "varchar(7)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "varchar(7)"
+  },
+  {
+   "name": "TRY_CAST",
+   "attempts": [
+    {
+     "sql": "SELECT TRY_CAST()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 1035,
+       "message": "Incorrect syntax near 'TRY_CAST', expected 'AS'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TRY_CAST('1' AS int) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "TRY_CONVERT",
+   "attempts": [
+    {
+     "sql": "SELECT TRY_CONVERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM TRY_CONVERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'TRY_CONVERT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT TRY_CONVERT",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near 'TRY_CONVERT'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TRY_CONVERT(int, '1') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "TRY_PARSE",
+   "attempts": [
+    {
+     "sql": "SELECT TRY_PARSE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 1035,
+       "message": "Incorrect syntax near 'TRY_PARSE', expected 'AS'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TRY_PARSE('1' AS int) AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "TYPEPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT TYPEPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The typeproperty function requires 2 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TYPEPROPERTY('int', 'Precision') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "TYPE_ID",
+   "attempts": [
+    {
+     "sql": "SELECT TYPE_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The type_id function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TYPE_ID('int') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "TYPE_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT TYPE_NAME()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The type_name function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT TYPE_NAME(56) AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "UNICODE",
+   "attempts": [
+    {
+     "sql": "SELECT UNICODE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The unicode function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT UNICODE(N'a') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  },
+  {
+   "name": "UNISTR",
+   "attempts": [
+    {
+     "sql": "SELECT UNISTR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 189,
+       "message": "The unistr function requires 1 to 2 arguments."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT UNISTR(N'Hello \\0041') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(11)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(11)"
+  },
+  {
+   "name": "UPDATE",
+   "attempts": [
+    {
+     "sql": "SELECT UPDATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'UPDATE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM UPDATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'UPDATE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT UPDATE",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'UPDATE'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT 1 AS v WHERE UPDATE(x)",
+    "ok": false,
+    "errors": [
+     {
+      "number": 140,
+      "message": "Can only use IF UPDATE within a CREATE TRIGGER statement."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "exists"
+  },
+  {
+   "name": "UPPER",
+   "attempts": [
+    {
+     "sql": "SELECT UPPER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The upper function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT UPPER(N'abc') AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(3)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(3)"
+  },
+  {
+   "name": "USER",
+   "attempts": [
+    {
+     "sql": "SELECT USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 102,
+       "message": "Incorrect syntax near ')'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM USER()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 156,
+       "message": "Incorrect syntax near the keyword 'USER'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT USER",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT USER AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "USER_ID",
+   "attempts": [
+    {
+     "sql": "SELECT USER_ID()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'USER_ID' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "USER_NAME",
+   "attempts": [
+    {
+     "sql": "SELECT USER_NAME()",
+     "ok": true,
+     "result_types": [
+      "nvarchar(128)"
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT USER_NAME() AS v",
+    "ok": true,
+    "result_types": [
+     "nvarchar(128)"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "nvarchar(128)"
+  },
+  {
+   "name": "VAR",
+   "attempts": [
+    {
+     "sql": "SELECT VAR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The VAR function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT VAR(x) AS v FROM (VALUES (1.0),(2.0),(4.0)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "VARP",
+   "attempts": [
+    {
+     "sql": "SELECT VARP()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The VARP function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT VARP(x) AS v FROM (VALUES (1.0),(2.0),(4.0)) AS t(x)",
+    "ok": true,
+    "result_types": [
+     "float"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "float"
+  },
+  {
+   "name": "VECTORPROPERTY",
+   "attempts": [
+    {
+     "sql": "SELECT VECTORPROPERTY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'VECTORPROPERTY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "VECTOR_DISTANCE",
+   "attempts": [
+    {
+     "sql": "SELECT VECTOR_DISTANCE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'VECTOR_DISTANCE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "VECTOR_NORM",
+   "attempts": [
+    {
+     "sql": "SELECT VECTOR_NORM()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'VECTOR_NORM' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "VECTOR_NORMALIZE",
+   "attempts": [
+    {
+     "sql": "SELECT VECTOR_NORMALIZE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'VECTOR_NORMALIZE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "VECTOR_SEARCH",
+   "attempts": [
+    {
+     "sql": "SELECT VECTOR_SEARCH()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'VECTOR_SEARCH' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM VECTOR_SEARCH()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 208,
+       "message": "Invalid object name 'VECTOR_SEARCH'."
+      },
+      {
+       "number": 11529,
+       "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT VECTOR_SEARCH",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'VECTOR_SEARCH'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT * FROM VECTOR_SEARCH(TABLE = t, COLUMN = embedding, SIMILAR_TO = '[1,2,3]', METRIC = 'cosine', TOP_N = 1) AS s",
+    "ok": false,
+    "errors": [
+     {
+      "number": 15868,
+      "message": "VECTOR_SEARCH is not supported."
+     }
+    ]
+   },
+   "verdict": "not_supported"
+  },
+  {
+   "name": "VERIFYSIGNEDBYASYMKEY",
+   "attempts": [
+    {
+     "sql": "SELECT VERIFYSIGNEDBYASYMKEY()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'VERIFYSIGNEDBYASYMKEY' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "VERIFYSIGNEDBYCERT",
+   "attempts": [
+    {
+     "sql": "SELECT VERIFYSIGNEDBYCERT()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'VERIFYSIGNEDBYCERT' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "VERSION",
+   "attempts": [
+    {
+     "sql": "SELECT VERSION()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 195,
+       "message": "'VERSION' is not a recognized built-in function name."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT * FROM VERSION()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 208,
+       "message": "Invalid object name 'VERSION'."
+      },
+      {
+       "number": 11529,
+       "message": "The metadata could not be determined because every code path results in an error; see previous errors for some of these."
+      }
+     ]
+    },
+    {
+     "sql": "SELECT VERSION",
+     "ok": false,
+     "errors": [
+      {
+       "number": 207,
+       "message": "Invalid column name 'VERSION'."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT VERSION() AS v",
+    "ok": false,
+    "errors": [
+     {
+      "number": 195,
+      "message": "'VERSION' is not a recognized built-in function name."
+     },
+     {
+      "number": 11501,
+      "message": "The batch could not be analyzed because of compile errors."
+     }
+    ]
+   },
+   "verdict": "not_recognized"
+  },
+  {
+   "name": "XACT_STATE",
+   "attempts": [
+    {
+     "sql": "SELECT XACT_STATE()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 15871,
+       "message": "FUNCTION 'XACT_STATE' is not supported."
+      }
+     ]
+    }
+   ],
+   "verdict": "not_supported"
+  },
+  {
+   "name": "YEAR",
+   "attempts": [
+    {
+     "sql": "SELECT YEAR()",
+     "ok": false,
+     "errors": [
+      {
+       "number": 174,
+       "message": "The year function requires 1 argument(s)."
+      },
+      {
+       "number": 11501,
+       "message": "The batch could not be analyzed because of compile errors."
+      }
+     ]
+    }
+   ],
+   "sample": {
+    "sql": "SELECT YEAR('2024-01-15') AS v",
+    "ok": true,
+    "result_types": [
+     "int"
+    ]
+   },
+   "verdict": "exists",
+   "return_type": "int"
+  }
+ ]
+}

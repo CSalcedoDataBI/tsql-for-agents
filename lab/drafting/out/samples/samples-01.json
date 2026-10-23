@@ -1,0 +1,204 @@
+{
+  "samples": [
+    {
+      "name": "$PARTITION",
+      "sql": "$PARTITION.pf(1)",
+      "confidence": "low"
+    },
+    {
+      "name": "@@DATEFIRST",
+      "sql": "@@DATEFIRST",
+      "confidence": "high"
+    },
+    {
+      "name": "@@ERROR",
+      "sql": "@@ERROR",
+      "confidence": "high"
+    },
+    {
+      "name": "@@LANGUAGE",
+      "sql": "@@LANGUAGE",
+      "confidence": "high"
+    },
+    {
+      "name": "@@LOCK_TIMEOUT",
+      "sql": "@@LOCK_TIMEOUT",
+      "confidence": "high"
+    },
+    {
+      "name": "@@MAX_PRECISION",
+      "sql": "@@MAX_PRECISION",
+      "confidence": "high"
+    },
+    {
+      "name": "@@OPTIONS",
+      "sql": "@@OPTIONS",
+      "confidence": "high"
+    },
+    {
+      "name": "@@ROWCOUNT",
+      "sql": "@@ROWCOUNT",
+      "confidence": "high"
+    },
+    {
+      "name": "@@SERVERNAME",
+      "sql": "@@SERVERNAME",
+      "confidence": "high"
+    },
+    {
+      "name": "@@SERVICENAME",
+      "sql": "@@SERVICENAME",
+      "confidence": "high"
+    },
+    {
+      "name": "@@SPID",
+      "sql": "@@SPID",
+      "confidence": "high"
+    },
+    {
+      "name": "@@TEXTSIZE",
+      "sql": "@@TEXTSIZE",
+      "confidence": "high"
+    },
+    {
+      "name": "@@TRANCOUNT",
+      "sql": "@@TRANCOUNT",
+      "confidence": "high"
+    },
+    {
+      "name": "@@VERSION",
+      "sql": "@@VERSION",
+      "confidence": "high"
+    },
+    {
+      "name": "ABS",
+      "sql": "ABS(-1)",
+      "confidence": "high"
+    },
+    {
+      "name": "ACOS",
+      "sql": "ACOS(0.5)",
+      "confidence": "high"
+    },
+    {
+      "name": "AI_ANALYZE_SENTIMENT",
+      "sql": "AI_ANALYZE_SENTIMENT(N'I love this product')",
+      "confidence": "low"
+    },
+    {
+      "name": "AI_CLASSIFY",
+      "sql": "AI_CLASSIFY(N'The battery died after a day', N'hardware', N'software')",
+      "confidence": "low"
+    },
+    {
+      "name": "AI_EXTRACT",
+      "sql": "AI_EXTRACT(N'John lives in Seattle', N'name', N'city')",
+      "confidence": "low"
+    },
+    {
+      "name": "AI_FIX_GRAMMAR",
+      "sql": "AI_FIX_GRAMMAR(N'he go to school yesterday')",
+      "confidence": "low"
+    },
+    {
+      "name": "AI_GENERATE_CHUNKS",
+      "sql": "SELECT * FROM AI_GENERATE_CHUNKS(SOURCE = N'some long text to split', CHUNK_TYPE = FIXED, CHUNK_SIZE = 10)",
+      "confidence": "low"
+    },
+    {
+      "name": "AI_GENERATE_RESPONSE",
+      "sql": "AI_GENERATE_RESPONSE(N'Say hello')",
+      "confidence": "low"
+    },
+    {
+      "name": "AI_SUMMARIZE",
+      "sql": "AI_SUMMARIZE(N'This is a long paragraph of text that should be summarized.')",
+      "confidence": "low"
+    },
+    {
+      "name": "AI_TRANSLATE",
+      "sql": "AI_TRANSLATE(N'Hello world', N'fr')",
+      "confidence": "low"
+    },
+    {
+      "name": "ANY_VALUE",
+      "sql": "SELECT ANY_VALUE(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "APPROX_COUNT_DISTINCT",
+      "sql": "SELECT APPROX_COUNT_DISTINCT(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "APPROX_MEDIAN",
+      "sql": "SELECT APPROX_MEDIAN(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "low"
+    },
+    {
+      "name": "APPROX_PERCENTILE_CONT",
+      "sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "APPROX_PERCENTILE_DISC",
+      "sql": "SELECT APPROX_PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "APPROX_QUANTILE",
+      "sql": "SELECT APPROX_QUANTILE(x, 0.5) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "low"
+    },
+    {
+      "name": "ASCII",
+      "sql": "ASCII('A')",
+      "confidence": "high"
+    },
+    {
+      "name": "ASIN",
+      "sql": "ASIN(0.5)",
+      "confidence": "high"
+    },
+    {
+      "name": "ATAN",
+      "sql": "ATAN(1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "ATN2",
+      "sql": "ATN2(1.0, 1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "AVG",
+      "sql": "SELECT AVG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "BASE64_DECODE",
+      "sql": "BASE64_DECODE('QUJD')",
+      "confidence": "high"
+    },
+    {
+      "name": "BASE64_ENCODE",
+      "sql": "BASE64_ENCODE(0x414243)",
+      "confidence": "high"
+    },
+    {
+      "name": "BINARY_CHECKSUM",
+      "sql": "BINARY_CHECKSUM(1, N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "BIT_COUNT",
+      "sql": "BIT_COUNT(17)",
+      "confidence": "high"
+    },
+    {
+      "name": "CAST",
+      "sql": "CAST(1 AS int)",
+      "confidence": "high"
+    }
+  ]
+}

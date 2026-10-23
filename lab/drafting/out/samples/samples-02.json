@@ -1,0 +1,204 @@
+{
+  "samples": [
+    {
+      "name": "CEILING",
+      "sql": "CEILING(1.5)",
+      "confidence": "high"
+    },
+    {
+      "name": "CHAR",
+      "sql": "CHAR(65)",
+      "confidence": "high"
+    },
+    {
+      "name": "CHARINDEX",
+      "sql": "CHARINDEX('b', 'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "CHECKSUM",
+      "sql": "CHECKSUM(1, 'a')",
+      "confidence": "high"
+    },
+    {
+      "name": "CHECKSUM_AGG",
+      "sql": "SELECT CHECKSUM_AGG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "CHOOSE",
+      "sql": "CHOOSE(2, 'a', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "COLLATIONPROPERTY",
+      "sql": "COLLATIONPROPERTY('Latin1_General_100_BIN2_UTF8', 'CodePage')",
+      "confidence": "high"
+    },
+    {
+      "name": "COLUMNPROPERTY",
+      "sql": "COLUMNPROPERTY(1, N'name', 'AllowsNull')",
+      "confidence": "low"
+    },
+    {
+      "name": "COL_NAME",
+      "sql": "COL_NAME(1, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "COMPRESS",
+      "sql": "COMPRESS(N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "CONCAT",
+      "sql": "CONCAT('a', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "CONCAT_WS",
+      "sql": "CONCAT_WS(',', 'a', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "CONNECTIONPROPERTY",
+      "sql": "CONNECTIONPROPERTY('net_transport')",
+      "confidence": "low"
+    },
+    {
+      "name": "CONTEXT_INFO",
+      "sql": "CONTEXT_INFO()",
+      "confidence": "low"
+    },
+    {
+      "name": "CONVERT",
+      "sql": "CONVERT(int, '1')",
+      "confidence": "high"
+    },
+    {
+      "name": "COS",
+      "sql": "COS(1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "COT",
+      "sql": "COT(1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "COUNT",
+      "sql": "SELECT COUNT(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "COUNT_BIG",
+      "sql": "SELECT COUNT_BIG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "CUME_DIST",
+      "sql": "SELECT CUME_DIST() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "CURRENT_TIMESTAMP",
+      "sql": "CURRENT_TIMESTAMP",
+      "confidence": "high"
+    },
+    {
+      "name": "CURRENT_TIMEZONE",
+      "sql": "CURRENT_TIMEZONE()",
+      "confidence": "low"
+    },
+    {
+      "name": "CURRENT_USER",
+      "sql": "CURRENT_USER",
+      "confidence": "high"
+    },
+    {
+      "name": "DATABASEPROPERTYEX",
+      "sql": "DATABASEPROPERTYEX(N'master', 'Collation')",
+      "confidence": "low"
+    },
+    {
+      "name": "DATALENGTH",
+      "sql": "DATALENGTH(N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "DATEADD",
+      "sql": "DATEADD(day, 1, '2024-01-01')",
+      "confidence": "high"
+    },
+    {
+      "name": "DATEDIFF",
+      "sql": "DATEDIFF(day, '2024-01-01', '2024-01-02')",
+      "confidence": "high"
+    },
+    {
+      "name": "DATEDIFF_BIG",
+      "sql": "DATEDIFF_BIG(day, '2024-01-01', '2024-01-02')",
+      "confidence": "high"
+    },
+    {
+      "name": "DATEFROMPARTS",
+      "sql": "DATEFROMPARTS(2024, 1, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "DATENAME",
+      "sql": "DATENAME(month, '2024-01-01')",
+      "confidence": "high"
+    },
+    {
+      "name": "DATEPART",
+      "sql": "DATEPART(year, '2024-01-01')",
+      "confidence": "high"
+    },
+    {
+      "name": "DATETIME2FROMPARTS",
+      "sql": "DATETIME2FROMPARTS(2024, 1, 1, 0, 0, 0, 0, 6)",
+      "confidence": "high"
+    },
+    {
+      "name": "DATETIMEFROMPARTS",
+      "sql": "DATETIMEFROMPARTS(2024, 1, 1, 0, 0, 0, 0)",
+      "confidence": "high"
+    },
+    {
+      "name": "DATETIMEOFFSETFROMPARTS",
+      "sql": "DATETIMEOFFSETFROMPARTS(2024, 1, 1, 0, 0, 0, 0, 0, 0, 7)",
+      "confidence": "low"
+    },
+    {
+      "name": "DATETRUNC",
+      "sql": "DATETRUNC(month, '2024-01-15')",
+      "confidence": "high"
+    },
+    {
+      "name": "DATE_BUCKET",
+      "sql": "DATE_BUCKET(week, 1, '2024-01-15')",
+      "confidence": "low"
+    },
+    {
+      "name": "DAY",
+      "sql": "DAY('2024-01-15')",
+      "confidence": "high"
+    },
+    {
+      "name": "DB_ID",
+      "sql": "DB_ID()",
+      "confidence": "high"
+    },
+    {
+      "name": "DB_NAME",
+      "sql": "DB_NAME()",
+      "confidence": "high"
+    },
+    {
+      "name": "DECOMPRESS",
+      "sql": "DECOMPRESS(0x00)",
+      "confidence": "high"
+    }
+  ]
+}

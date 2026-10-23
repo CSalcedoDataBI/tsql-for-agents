@@ -1,0 +1,204 @@
+{
+  "samples": [
+    {
+      "name": "DEGREES",
+      "sql": "DEGREES(1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "DENSE_RANK",
+      "sql": "SELECT DENSE_RANK() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "DIFFERENCE",
+      "sql": "DIFFERENCE('Green', 'Greene')",
+      "confidence": "high"
+    },
+    {
+      "name": "EDGE_ID_FROM_PARTS",
+      "sql": "EDGE_ID_FROM_PARTS(1, 1)",
+      "confidence": "low"
+    },
+    {
+      "name": "EDIT_DISTANCE",
+      "sql": "EDIT_DISTANCE('abc', 'abd')",
+      "confidence": "low"
+    },
+    {
+      "name": "EDIT_DISTANCE_SIMILARITY",
+      "sql": "EDIT_DISTANCE_SIMILARITY('abc', 'abd')",
+      "confidence": "low"
+    },
+    {
+      "name": "EOMONTH",
+      "sql": "EOMONTH('2024-01-15')",
+      "confidence": "high"
+    },
+    {
+      "name": "ERROR_MESSAGE",
+      "sql": "ERROR_MESSAGE()",
+      "confidence": "high"
+    },
+    {
+      "name": "ERROR_NUMBER",
+      "sql": "ERROR_NUMBER()",
+      "confidence": "high"
+    },
+    {
+      "name": "ERROR_PROCEDURE",
+      "sql": "ERROR_PROCEDURE()",
+      "confidence": "high"
+    },
+    {
+      "name": "ERROR_SEVERITY",
+      "sql": "ERROR_SEVERITY()",
+      "confidence": "high"
+    },
+    {
+      "name": "ERROR_STATE",
+      "sql": "ERROR_STATE()",
+      "confidence": "high"
+    },
+    {
+      "name": "EXP",
+      "sql": "EXP(1.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "FIRST_VALUE",
+      "sql": "SELECT FIRST_VALUE(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "FLOOR",
+      "sql": "FLOOR(1.5)",
+      "confidence": "high"
+    },
+    {
+      "name": "FORMAT",
+      "sql": "FORMAT(123.45, 'N2')",
+      "confidence": "high"
+    },
+    {
+      "name": "FULLTEXTSERVICEPROPERTY",
+      "sql": "FULLTEXTSERVICEPROPERTY('IsFulltextInstalled')",
+      "confidence": "high"
+    },
+    {
+      "name": "GENERATE_SERIES",
+      "sql": "SELECT * FROM GENERATE_SERIES(1, 3)",
+      "confidence": "high"
+    },
+    {
+      "name": "GETDATE",
+      "sql": "GETDATE()",
+      "confidence": "high"
+    },
+    {
+      "name": "GETUTCDATE",
+      "sql": "GETUTCDATE()",
+      "confidence": "high"
+    },
+    {
+      "name": "GET_BIT",
+      "sql": "GET_BIT(0xFF, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "GRAPH_ID_FROM_EDGE_ID",
+      "sql": "GRAPH_ID_FROM_EDGE_ID(N'{\"type\":\"edge\",\"schema\":\"dbo\",\"table\":\"e\",\"id\":0}')",
+      "confidence": "low"
+    },
+    {
+      "name": "GRAPH_ID_FROM_NODE_ID",
+      "sql": "GRAPH_ID_FROM_NODE_ID(N'{\"type\":\"node\",\"schema\":\"dbo\",\"table\":\"n\",\"id\":0}')",
+      "confidence": "low"
+    },
+    {
+      "name": "GREATEST",
+      "sql": "GREATEST(1, 2, 3)",
+      "confidence": "high"
+    },
+    {
+      "name": "GROUPING",
+      "sql": "SELECT x, GROUPING(x) AS v FROM (VALUES (1),(2)) AS t(x) GROUP BY ROLLUP(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "GROUPING_ID",
+      "sql": "SELECT x, y, GROUPING_ID(x, y) AS v FROM (VALUES (1, 2),(3, 4)) AS t(x, y) GROUP BY ROLLUP(x, y)",
+      "confidence": "high"
+    },
+    {
+      "name": "HASHBYTES",
+      "sql": "HASHBYTES('SHA2_256', 'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "HAS_DBACCESS",
+      "sql": "HAS_DBACCESS('master')",
+      "confidence": "high"
+    },
+    {
+      "name": "HAS_PERMS_BY_NAME",
+      "sql": "HAS_PERMS_BY_NAME('dbo', 'SCHEMA', 'SELECT')",
+      "confidence": "high"
+    },
+    {
+      "name": "IDENTITY",
+      "sql": "SELECT IDENTITY(int, 1, 1) AS v INTO probe_identity FROM (VALUES (1)) AS t(x)",
+      "confidence": "low"
+    },
+    {
+      "name": "IIF",
+      "sql": "IIF(1 > 0, 'a', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "INDEXKEY_PROPERTY",
+      "sql": "INDEXKEY_PROPERTY(1, 1, 1, 'ColumnId')",
+      "confidence": "high"
+    },
+    {
+      "name": "INDEXPROPERTY",
+      "sql": "INDEXPROPERTY(1, 'ix', 'IsClustered')",
+      "confidence": "high"
+    },
+    {
+      "name": "INDEX_COL",
+      "sql": "INDEX_COL('dbo.t', 1, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "ISDATE",
+      "sql": "ISDATE('2024-01-01')",
+      "confidence": "high"
+    },
+    {
+      "name": "ISJSON",
+      "sql": "ISJSON(N'{}')",
+      "confidence": "high"
+    },
+    {
+      "name": "ISNULL",
+      "sql": "ISNULL(NULL, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "ISNUMERIC",
+      "sql": "ISNUMERIC('123')",
+      "confidence": "high"
+    },
+    {
+      "name": "IS_MEMBER",
+      "sql": "IS_MEMBER('db_owner')",
+      "confidence": "high"
+    },
+    {
+      "name": "IS_ROLEMEMBER",
+      "sql": "IS_ROLEMEMBER('db_owner')",
+      "confidence": "high"
+    }
+  ]
+}

@@ -1,0 +1,237 @@
+{
+ "status": "probed",
+ "drafted_by": "claude-review",
+ "topic": "strings-utf8",
+ "title": "String functions on UTF-8 varchar in Fabric",
+ "summary": "Fabric Warehouse and the SQL analytics endpoint store text as varchar with a UTF-8 collation, and the default collation is Latin1_General_100_BIN2_UTF8. This causes several traps for code written for SQL Server. varchar(n) counts bytes, not characters. LEN and DATALENGTH disagree on any non-ASCII text. String comparisons, CHARINDEX and REPLACE are case-sensitive and binary by default. STRING_AGG stops at 8000 bytes unless its input is varchar(max). The REGEXP_* scalar functions and the REGEXP_LIKE predicate exist, but REGEXP_MATCHES and REGEXP_SPLIT_TO_TABLE do not.",
+ "claims": [
+  {
+   "id": "strings-utf8-len-vs-datalength",
+   "statement": "On UTF-8 varchar, LEN counts characters and DATALENGTH counts bytes, so the two differ for any non-ASCII text. For example, 'é' is 1 character and 2 bytes. Do not use LEN to size buffers or check byte limits. LEN also ignores trailing spaces; DATALENGTH does not.",
+   "functions": [
+    "LEN",
+    "DATALENGTH"
+   ],
+   "probe_sql": "SELECT LEN('héllo') AS chars, DATALENGTH('héllo') AS bytes;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Classic SQL Server code often assumes 1 varchar character = 1 byte (non-UTF-8 code page). That assumption is false here.",
+   "alternative": "Use DATALENGTH for byte limits and LEN for character counts.",
+   "confidence": "high"
+  },
+  {
+   "id": "strings-utf8-varchar-n-is-bytes",
+   "statement": "The n in varchar(n) is a byte count. Casting non-ASCII text to varchar(n) sized by character count silently truncates it.",
+   "functions": [
+    "CAST",
+    "DATALENGTH"
+   ],
+   "probe_sql": "SELECT CAST('abc' AS varchar(3)) AS v;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(3)"
+   },
+   "sql_server": null,
+   "alternative": "Size varchar columns and casts in bytes. A safe bound is up to 4 bytes per character, or use varchar(max).",
+   "confidence": "high"
+  },
+  {
+   "id": "strings-utf8-nvarchar-literals",
+   "statement": "N'...' literals and nvarchar expressions still compile in queries. However, Warehouse tables cannot have nvarchar columns, so text ends up as UTF-8 varchar when stored. Do not design around nvarchar columns.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT N'é' AS v;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(1)"
+   },
+   "sql_server": "SQL Server allows nvarchar columns and they are the usual way to store Unicode.",
+   "alternative": "Use varchar with the UTF-8 collation for Unicode text.",
+   "confidence": "high"
+  },
+  {
+   "id": "strings-utf8-case-sensitive-default",
+   "statement": "The default collation is Latin1_General_100_BIN2_UTF8. This makes =, LIKE, CHARINDEX and REPLACE case-sensitive and binary. CHARINDEX('B','abc') returns 0 and REPLACE('abc','A','x') changes nothing, with no error.",
+   "functions": [
+    "CHARINDEX",
+    "REPLACE",
+    "UPPER"
+   ],
+   "probe_sql": "SELECT CHARINDEX('B', REPLACE('abc','A','x')) AS pos;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Typical SQL Server databases use a case-insensitive default collation (for example SQL_Latin1_General_CP1_CI_AS).",
+   "alternative": "Normalize case with UPPER or LOWER on both sides, or add COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 to the expression.",
+   "confidence": "high"
+  },
+  {
+   "id": "strings-utf8-collate-ci",
+   "statement": "A case-insensitive comparison can be forced per expression with the COLLATE clause and a UTF-8 case-insensitive collation.",
+   "functions": [
+    "CHARINDEX"
+   ],
+   "probe_sql": "SELECT CHARINDEX('B', 'abc' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8) AS pos;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": null,
+   "alternative": "UPPER or LOWER on both operands.",
+   "confidence": "low"
+  },
+  {
+   "id": "strings-utf8-substring-chars",
+   "statement": "With a UTF-8 collation, LEFT, RIGHT and SUBSTRING take character positions and lengths, not byte offsets. Do not compute their arguments from DATALENGTH.",
+   "functions": [
+    "LEFT",
+    "RIGHT",
+    "SUBSTRING",
+    "DATALENGTH",
+    "LEN"
+   ],
+   "probe_sql": "SELECT SUBSTRING('héllo', 2, 3) AS s, LEFT('héllo', 2) AS l, RIGHT('héllo', 2) AS r;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": "Use LEN for character arithmetic.",
+   "confidence": "high"
+  },
+  {
+   "id": "strings-utf8-string-agg-8000",
+   "statement": "STRING_AGG over a non-max varchar input returns varchar(8000). It fails at run time once the result passes 8000 bytes, and UTF-8 multi-byte characters reach that limit sooner.",
+   "functions": [
+    "STRING_AGG",
+    "CAST"
+   ],
+   "probe_sql": "SELECT STRING_AGG(v, ',') WITHIN GROUP (ORDER BY v) AS s FROM (VALUES ('a'),('b')) AS t(v);",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(8000)"
+   },
+   "sql_server": "Same 8000-byte limit for non-max input in SQL Server.",
+   "alternative": "STRING_AGG(CAST(v AS varchar(max)), ',') returns varchar(max).",
+   "confidence": "high"
+  },
+  {
+   "id": "strings-utf8-string-split-ordinal",
+   "statement": "STRING_SPLIT takes a single-character separator and returns rows in no guaranteed order. Pass the third argument 1 to get an ordinal column, and order by it.",
+   "functions": [
+    "STRING_SPLIT"
+   ],
+   "probe_sql": "SELECT value, ordinal FROM STRING_SPLIT('a,b,c', ',', 1);",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "The enable_ordinal argument exists in SQL Server 2022 and later.",
+   "alternative": "For multi-character delimiters, first use REGEXP_REPLACE to change the delimiter to one character, then use STRING_SPLIT.",
+   "confidence": "low"
+  },
+  {
+   "id": "strings-utf8-concat-ws-nulls",
+   "statement": "CONCAT_WS skips NULL arguments together with their separator, but keeps empty strings. A NULL and '' therefore give different output.",
+   "functions": [
+    "CONCAT_WS",
+    "CONCAT"
+   ],
+   "probe_sql": "SELECT CONCAT_WS(',', 'a', NULL, '', 'b') AS s;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Same behaviour in SQL Server.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "strings-utf8-trim-chars",
+   "statement": "TRIM removes only spaces by default. To strip other characters use the 'chars' FROM form. LEADING and TRAILING may also be accepted.",
+   "functions": [
+    "TRIM",
+    "LTRIM",
+    "RTRIM"
+   ],
+   "probe_sql": "SELECT TRIM('x' FROM 'xxabcxx') AS a, TRIM(LEADING 'x' FROM 'xxabc') AS b;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": "LTRIM(s, 'x') or RTRIM(s, 'x').",
+   "confidence": "low"
+  },
+  {
+   "id": "strings-utf8-regexp-like-predicate",
+   "statement": "REGEXP_LIKE is a predicate, not a value. Use it in WHERE, or inside IIF or CASE to get a value in the select list.",
+   "functions": [
+    "REGEXP_LIKE",
+    "IIF"
+   ],
+   "probe_sql": "SELECT IIF(REGEXP_LIKE('abc', '^a'), 1, 0) AS m;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": null,
+   "alternative": "REGEXP_COUNT(s, pattern) > 0.",
+   "confidence": "low"
+  },
+  {
+   "id": "strings-utf8-regexp-case-flag",
+   "statement": "REGEXP_* matching is case-sensitive unless the 'i' flag is passed.",
+   "functions": [
+    "REGEXP_REPLACE",
+    "REGEXP_COUNT",
+    "REGEXP_SUBSTR",
+    "REGEXP_INSTR"
+   ],
+   "probe_sql": "SELECT REGEXP_REPLACE('Abc', 'a', 'x', 1, 0, 'i') AS r, REGEXP_COUNT('AbA', 'a', 1, 'i') AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "strings-utf8-regexp-tvf-missing",
+   "statement": "REGEXP_MATCHES and REGEXP_SPLIT_TO_TABLE are not recognized in Fabric. Code using them fails.",
+   "functions": [
+    "REGEXP_MATCHES",
+    "REGEXP_SPLIT_TO_TABLE",
+    "REGEXP_SUBSTR",
+    "STRING_SPLIT"
+   ],
+   "probe_sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a1b2c', '[0-9]');",
+   "expect": {
+    "outcome": "error",
+    "error_number": 208,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 documents both table-valued functions.",
+   "alternative": "Use REGEXP_SUBSTR with an occurrence argument over GENERATE_SERIES, or REGEXP_REPLACE to one delimiter followed by STRING_SPLIT.",
+   "confidence": "low"
+  }
+ ],
+ "refuted": []
+}

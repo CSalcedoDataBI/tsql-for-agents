@@ -1,0 +1,248 @@
+{
+ "status": "probed",
+ "drafted_by": "claude-review",
+ "topic": "math-hashing",
+ "title": "Math, randomness and hashing in Fabric Warehouse and SQL analytics endpoint",
+ "summary": "RAND and CRYPT_GEN_RANDOM are not supported. Build random values from NEWID instead. NEWID, CHECKSUM, BINARY_CHECKSUM, HASHBYTES, GREATEST/LEAST and the bit functions are available. The SQL Server typing rules still apply and still bite silently: integer division truncates, POWER returns the type of its first argument, and ROUND/FLOOR/CEILING keep decimal types. Default varchar is UTF-8, which changes the bytes that HASHBYTES sees.",
+ "claims": [
+  {
+   "id": "rand-not-supported",
+   "statement": "RAND is not supported in Fabric. Any query that calls RAND(), with or without a seed, fails at compile time.",
+   "functions": [
+    "RAND"
+   ],
+   "probe_sql": "SELECT RAND() AS r;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "RAND() works. Without a seed it is evaluated once per query, not once per row.",
+   "alternative": "Use NEWID-based randomness, which is evaluated per row: ABS(CAST(CHECKSUM(NEWID()) AS bigint)) / 2147483648.0 gives a value in [0,1).",
+   "confidence": "high"
+  },
+  {
+   "id": "random-from-newid",
+   "statement": "The usual RAND replacement is CHECKSUM(NEWID()). Cast it to bigint before ABS. CHECKSUM can return -2147483648, and ABS of that int overflows at run time.",
+   "functions": [
+    "ABS",
+    "CHECKSUM",
+    "NEWID",
+    "CAST"
+   ],
+   "probe_sql": "SELECT ABS(CAST(CHECKSUM(NEWID()) AS bigint)) % 100 AS bucket;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "bigint"
+   },
+   "sql_server": "Same overflow risk with ABS(CHECKSUM(NEWID())) on int.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "crypt-gen-random-not-supported",
+   "statement": "CRYPT_GEN_RANDOM is not supported, so you cannot generate cryptographic random bytes in T-SQL here.",
+   "functions": [
+    "CRYPT_GEN_RANDOM"
+   ],
+   "probe_sql": "SELECT CRYPT_GEN_RANDOM(16) AS b;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "CRYPT_GEN_RANDOM(n) returns n random bytes from the crypto API.",
+   "alternative": "For non-security uses, CAST(NEWID() AS varbinary(16)) gives 16 random-looking bytes. Generate real secrets outside the warehouse.",
+   "confidence": "high"
+  },
+  {
+   "id": "newid-exists",
+   "statement": "NEWID exists and returns uniqueidentifier. It is evaluated per row, so it works for random ordering and sampling (ORDER BY NEWID()).",
+   "functions": [
+    "NEWID"
+   ],
+   "probe_sql": "SELECT NEWID() AS id;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "uniqueidentifier"
+   },
+   "sql_server": "Same behaviour.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "hashbytes-encoding",
+   "statement": "HASHBYTES exists. The hash depends on the bytes of the input: varchar and nvarchar of the same text give different hashes. Default Fabric varchar collation is UTF-8, so varchar bytes for non-ASCII text differ from a SQL Server code-page varchar. Cast both sides to the same type before comparing hashes across systems. Prefer SHA2_256 or SHA2_512.",
+   "functions": [
+    "HASHBYTES"
+   ],
+   "probe_sql": "SELECT HASHBYTES('SHA2_256', 'abc') AS h;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varbinary(8000)"
+   },
+   "sql_server": "varchar uses the collation code page (often Windows-1252), so non-ASCII varchar text hashes differently than in Fabric.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "checksum-int-collisions",
+   "statement": "CHECKSUM and BINARY_CHECKSUM exist and return int. They collide often, so do not use them as unique keys or for reliable change detection. For string inputs, CHECKSUM follows collation rules and BINARY_CHECKSUM uses raw bytes.",
+   "functions": [
+    "CHECKSUM",
+    "BINARY_CHECKSUM",
+    "HASHBYTES"
+   ],
+   "probe_sql": "SELECT CHECKSUM('a', 1) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same int result and same collision risk.",
+   "alternative": "Use HASHBYTES('SHA2_256', ...) for change detection.",
+   "confidence": "high"
+  },
+  {
+   "id": "integer-division",
+   "statement": "int / int is integer division and silently truncates: 7 / 2 returns 3, not 3.5.",
+   "functions": [],
+   "probe_sql": "SELECT 7 / 2 AS q;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same behaviour.",
+   "alternative": "Make one operand decimal: 7 / 2.0, or CAST(7 AS decimal(10,2)) / 2.",
+   "confidence": "high"
+  },
+  {
+   "id": "power-first-arg-type",
+   "statement": "POWER returns the type of its first argument. POWER(2, 0.5) returns int 1, and POWER(2, -1) returns 0, both silently wrong.",
+   "functions": [
+    "POWER"
+   ],
+   "probe_sql": "SELECT POWER(2, 0.5) AS p;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same behaviour.",
+   "alternative": "Pass a float or decimal first argument: POWER(CAST(2 AS float), 0.5).",
+   "confidence": "high"
+  },
+  {
+   "id": "sqrt-log-float",
+   "statement": "SQRT, LOG, LOG10 and EXP return float even for int input, so expect binary floating-point rounding. LOG takes an optional base as the second argument: LOG(8, 2).",
+   "functions": [
+    "SQRT",
+    "LOG",
+    "LOG10",
+    "EXP"
+   ],
+   "probe_sql": "SELECT SQRT(16) AS s;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "float"
+   },
+   "sql_server": "Same behaviour.",
+   "alternative": "Cast to decimal after the call if you need exact scale.",
+   "confidence": "high"
+  },
+  {
+   "id": "round-keeps-decimal-type",
+   "statement": "ROUND keeps the input decimal type. ROUND(748.58, -1) stays numeric(5,2). Rounding that needs an extra digit, such as ROUND(748.58, -4), overflows at run time instead of returning 10000.",
+   "functions": [
+    "ROUND",
+    "CAST"
+   ],
+   "probe_sql": "SELECT ROUND(748.58, -1) AS r;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "numeric(5,2)"
+   },
+   "sql_server": "Same documented behaviour: ROUND(748.58, -4) raises an arithmetic overflow.",
+   "alternative": "Widen first: ROUND(CAST(x AS decimal(10,2)), -4).",
+   "confidence": "low"
+  },
+  {
+   "id": "floor-ceiling-decimal",
+   "statement": "FLOOR and CEILING on decimal return a decimal with scale 0, not int. On float they return float. Cast explicitly if you need an integer type.",
+   "functions": [
+    "FLOOR",
+    "CEILING",
+    "CAST"
+   ],
+   "probe_sql": "SELECT CEILING(123.45) AS c;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "numeric(5,0)"
+   },
+   "sql_server": "Same behaviour.",
+   "alternative": "CAST(CEILING(x) AS int).",
+   "confidence": "low"
+  },
+  {
+   "id": "greatest-least-null",
+   "statement": "GREATEST and LEAST exist. They ignore NULL arguments and return NULL only when every argument is NULL. Mixed argument types are promoted by data type precedence.",
+   "functions": [
+    "GREATEST",
+    "LEAST"
+   ],
+   "probe_sql": "SELECT GREATEST(1, NULL, 3) AS g;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Available from SQL Server 2022 with the same NULL handling. Older code uses CASE or a VALUES subquery with MAX.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "bit-count-bigint",
+   "statement": "The bit functions BIT_COUNT, GET_BIT and SET_BIT exist. BIT_COUNT returns bigint, not int.",
+   "functions": [
+    "BIT_COUNT",
+    "GET_BIT",
+    "SET_BIT",
+    "CAST"
+   ],
+   "probe_sql": "SELECT BIT_COUNT(CAST(255 AS int)) AS n;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "bigint"
+   },
+   "sql_server": "Same functions from SQL Server 2022.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "shift-functions",
+   "statement": "LEFT_SHIFT and RIGHT_SHIFT exist and return the type of their first argument. Bits shifted past the type width are lost silently, with no overflow error.",
+   "functions": [
+    "LEFT_SHIFT",
+    "RIGHT_SHIFT"
+   ],
+   "probe_sql": "SELECT LEFT_SHIFT(1, 4) AS s;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same functions from SQL Server 2022.",
+   "alternative": "Use a bigint first argument when you need more than 32 bits.",
+   "confidence": "high"
+  }
+ ],
+ "refuted": []
+}
