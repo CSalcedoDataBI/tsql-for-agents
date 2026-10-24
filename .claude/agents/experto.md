@@ -1,6 +1,6 @@
 ---
 name: experto
-description: "Use when a pull request of tsql-for-agents is ready for review or merge, when /board work reaches its merge step, or when someone asks whether a change of this tool can be merged. Reviews the whole diff with clean context against FICHA.md and the planned issue, and decides: merge, propose or send back to fix (NORTE R6)."
+description: "Use when a pull request of tsql-for-agents is ready for review or merge, when /board work reaches its merge step, or when someone asks whether a change of this tool can be merged. Reviews the whole diff with clean context against FICHA.md and the planned issue, and decides: merge, propose or send back to fix."
 ---
 
 # Experto de tsql-for-agents
