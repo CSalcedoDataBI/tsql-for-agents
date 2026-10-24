@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "topic": "unsupported-vs-sql-server",
  "title": "Built-in functions SQL Server has and Fabric rejects",
@@ -284,5 +284,35 @@
    "confidence": "high"
   }
  ],
- "refuted": []
+ "refuted": [
+  "rand-not-supported",
+  "crypt-gen-random-not-supported",
+  "newsequentialid-not-supported",
+  "scope-identity-not-supported",
+  "identity-at-variable-not-supported",
+  "ident-seed-incr-not-supported",
+  "error-line-not-supported",
+  "xact-state-not-supported",
+  "formatmessage-not-supported",
+  "host-app-name-not-supported",
+  "login-user-id-not-supported",
+  "encryption-not-supported",
+  "file-metadata-not-supported"
+ ],
+ "not_fully_proven": [
+  "rand-not-supported",
+  "crypt-gen-random-not-supported",
+  "newsequentialid-not-supported",
+  "scope-identity-not-supported",
+  "ident-seed-incr-not-supported",
+  "error-line-not-supported",
+  "xact-state-not-supported",
+  "formatmessage-not-supported",
+  "host-app-name-not-supported",
+  "session-id-not-recognized",
+  "login-user-id-not-supported",
+  "encryption-not-supported",
+  "file-metadata-not-supported"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

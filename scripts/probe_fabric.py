@@ -40,7 +40,8 @@ the same route the Fabric skills use. This script never runs in CI.
     python scripts/probe_fabric.py [--only functions|objects|claims] [--names LEN,GETDATE] [--batch 25]
 
 `--only claims` compiles the probe of every claim in lab/drafting/out/notes/ and writes
-catalog/probe/claims.json with confirmed / refuted / partly for each.
+catalog/probe/claims.json with matches / refuted / partly for each. `matches` only says the compile
+answer was the expected one; lab/drafting/out/audit/ says whether that answer proves the sentence.
 
 Needs pyodbc and Microsoft ODBC Driver 17 or 18 for SQL Server.
 """
@@ -63,6 +64,7 @@ SAMPLES = ROOT / "catalog" / "samples.json"
 PROBE = ROOT / "catalog" / "probe"
 TARGET = ROOT / ".local" / "fabric.json"
 NOTES = ROOT / "lab" / "drafting" / "out" / "notes"
+AUDIT = ROOT / "lab" / "drafting" / "out" / "audit"
 
 # Engine error numbers -> what they say about the called name.
 # NOT_RECOGNIZED and NOT_SUPPORTED only count when the message names the probed function: in
@@ -286,6 +288,16 @@ def probe_objects(cursor, target: dict) -> None:
     print(f"{len(document['objects'])} system objects, {len(params)} parameters")
 
 
+def note_status(probed: bool, refuted: list, not_proven: list, item_kind: str | None) -> str:
+    """`probed` needs every claim to match, the audit to grade every claim `full`, and a Warehouse:
+    the notes speak for the Warehouse, so an endpoint-only run is at most `partly_probed`."""
+    if not probed or refuted:
+        return "unprobed"
+    if not_proven or item_kind != "warehouse":
+        return "partly_probed"
+    return "probed"
+
+
 def probe_claims(cursor, target: dict, pause: float) -> None:
     """Compile every claim's probe_sql from the drafted notes and compare with what it expects."""
     results = []
@@ -295,28 +307,40 @@ def probe_claims(cursor, target: dict, pause: float) -> None:
             observed = describe(cursor, claim["probe_sql"], target)
             expect = claim["expect"]
             numbers = {e["number"] for e in observed.get("errors", [])} - {11501, 11529}
+            # `matches` means the compile answer is the one the claim expected, nothing more: whether
+            # that answer proves the sentence is the audit's question (lab/drafting/out/audit/).
             if expect["outcome"] == "compiles":
-                status = "confirmed" if observed["ok"] else "refuted"
+                status = "matches" if observed["ok"] else "refuted"
                 wanted = (expect.get("result_type") or "").replace(" ", "").lower()
                 got = (observed.get("result_types") or [""])[0] or ""
                 if observed["ok"] and wanted and got.replace(" ", "").lower() != wanted:
                     status = "refuted"
+            elif observed["ok"]:
+                status = "refuted"
             else:
-                status = "refuted" if observed["ok"] else (
-                    "confirmed" if expect.get("error_number") in numbers or not expect.get("error_number") else "partly"
-                )
+                # An error with no expected number matches any error, a syntax slip included.
+                status = "matches" if expect.get("error_number") in numbers else "partly"
             results.append({"topic": draft["topic"], "claim": claim["id"], "status": status, "observed": observed})
         time.sleep(pause)
     counts: dict[str, int] = {}
     for r in results:
         counts[r["status"]] = counts.get(r["status"], 0) + 1
-    # A note becomes `probed` only when the engine confirmed every one of its claims.
+    item_kind = target.get("item_kind")
     for note in sorted(NOTES.glob("*.json")):
         draft = json.loads(note.read_text(encoding="utf-8"))
         mine = [r for r in results if r["topic"] == draft["topic"]]
-        refuted = [r["claim"] for r in mine if r["status"] != "confirmed"]
-        draft["status"] = "probed" if mine and not refuted else "unprobed"
+        refuted = [r["claim"] for r in mine if r["status"] != "matches"]
+        audit_file = AUDIT / note.name
+        proof = (
+            {a["id"]: a["proof"] for a in json.loads(audit_file.read_text(encoding="utf-8"))["claims"]}
+            if audit_file.exists()
+            else {}
+        )
+        not_proven = [r["claim"] for r in mine if proof.get(r["claim"]) != "full"]
+        draft["status"] = note_status(bool(mine), refuted, not_proven, item_kind)
+        draft["probed_on"] = item_kind
         draft["refuted"] = refuted
+        draft["not_fully_proven"] = not_proven
         write(note, draft)
     write(
         PROBE / "claims.json",

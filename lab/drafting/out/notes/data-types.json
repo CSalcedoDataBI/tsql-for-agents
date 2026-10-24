@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "data-types",
@@ -232,5 +232,26 @@
    "confidence": "high"
   }
  ],
- "refuted": []
+ "refuted": [
+  "dt-nvarchar-table",
+  "dt-datetime2-7-table",
+  "dt-sql-variant"
+ ],
+ "not_fully_proven": [
+  "dt-nvarchar-expr",
+  "dt-nvarchar-table",
+  "dt-getdate-datetime",
+  "dt-datetime2-7-expr",
+  "dt-datetime2-6-cast",
+  "dt-datetime2-7-table",
+  "dt-datetimeoffset",
+  "dt-money",
+  "dt-tinyint",
+  "dt-varchar-max",
+  "dt-uniqueidentifier",
+  "dt-sql-variant",
+  "dt-xml",
+  "dt-geography"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

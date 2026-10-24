@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "endpoint-vs-warehouse",
@@ -209,5 +209,21 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [
+  "evw-09",
+  "evw-11",
+  "evw-12",
+  "evw-13"
+ ],
+ "not_fully_proven": [
+  "evw-01",
+  "evw-02",
+  "evw-03",
+  "evw-04",
+  "evw-05",
+  "evw-10",
+  "evw-11",
+  "evw-14"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

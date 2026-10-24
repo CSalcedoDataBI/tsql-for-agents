@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "ms-01",
+      "proof": "partial",
+      "reason": "Error 15871 naming USER_ID proves it is unsupported and fails at compile time, but the suggested alternatives were not probed.",
+      "unproven": "That USER_NAME()/CURRENT_USER give the current user and that principal ids can be looked up in sys.database_principals."
+    },
+    {
+      "id": "ms-02",
+      "proof": "partial",
+      "reason": "Error 15871 names DATABASE_PRINCIPAL_ID, but the workaround was not probed.",
+      "unproven": "That looking up principal_id by name in sys.database_principals works."
+    },
+    {
+      "id": "ms-03",
+      "proof": "partial",
+      "reason": "Error 15871 names SUSER_ID, but the probe never touched the other functions.",
+      "unproven": "That SUSER_SNAME, SUSER_NAME and SUSER_SID exist, and the advice to identify the caller by name or SID."
+    },
+    {
+      "id": "ms-04",
+      "proof": "partial",
+      "reason": "Error 15871 names ORIGINAL_LOGIN, but no DEFAULT constraint, alternative or returned value was tested.",
+      "unproven": "That audit column defaults using it fail to compile, that SUSER_SNAME/SYSTEM_USER work, and that they return an Entra UPN rather than DOMAIN\\user."
+    },
+    {
+      "id": "ms-05",
+      "proof": "partial",
+      "reason": "The compile result and nvarchar(128) type are observed, but values cannot be seen at compile time.",
+      "unproven": "That the value is a UPN for Entra users or an app name/id for service principals, and has no backslash domain prefix."
+    },
+    {
+      "id": "ms-06",
+      "proof": "partial",
+      "reason": "All three compile and return nvarchar(128), but the returned values are run-time behaviour.",
+      "unproven": "That the value is the Entra identity name rather than dbo, including for workspace admins."
+    },
+    {
+      "id": "ms-07",
+      "proof": "partial",
+      "reason": "Error 15871 names COL_LENGTH, but the alternatives were not probed.",
+      "unproven": "That sys.columns.max_length or COLUMNPROPERTY 'Precision' work as replacements."
+    },
+    {
+      "id": "ms-08",
+      "proof": "partial",
+      "reason": "Only APP_NAME is named in error 15871; compilation stopped before HOST_NAME could be evaluated.",
+      "unproven": "That HOST_NAME is unsupported, and that sys.dm_exec_sessions program_name/host_name for @@SPID works."
+    },
+    {
+      "id": "ms-09",
+      "proof": "partial",
+      "reason": "Error 15871 names SESSIONPROPERTY, but @@OPTIONS was not probed.",
+      "unproven": "That @@OPTIONS exists and can be decoded to inspect SET options."
+    },
+    {
+      "id": "ms-10",
+      "proof": "partial",
+      "reason": "The sql_variant type is observed, but the remaining advice concerns values and usage.",
+      "unproven": "The need to CAST before concatenating or comparing, and that values differ from on-premises machine name or edition."
+    },
+    {
+      "id": "ms-11",
+      "proof": "partial",
+      "reason": "The sql_variant type is observed, but the collation value and comparison behaviour are not visible at compile time.",
+      "unproven": "That the collation is a case-sensitive BIN2 UTF-8 one, and that wrong-case metadata lookups silently return nothing."
+    },
+    {
+      "id": "ms-12",
+      "proof": "partial",
+      "reason": "All three functions compile and OBJECT_ID is typed int, but working correctly against catalog views is a run-time value question.",
+      "unproven": "That the functions actually resolve catalog objects to correct non-NULL values."
+    },
+    {
+      "id": "ms-13",
+      "proof": "partial",
+      "reason": "The compile result and int type are observed, but role semantics and admin results are run-time.",
+      "unproven": "That workspace roles are not database roles, that a workspace admin gets 0 for db_owner, and that HAS_PERMS_BY_NAME is the better check."
+    },
+    {
+      "id": "ms-14",
+      "proof": "partial",
+      "reason": "The compile result and nvarchar(300) type are observed, but the text content is a value.",
+      "unproven": "That the text describes the Fabric engine rather than a numbered SQL Server release."
+    }
+  ]
+}

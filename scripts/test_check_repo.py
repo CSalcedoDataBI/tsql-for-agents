@@ -21,6 +21,10 @@ class InventedNames(unittest.TestCase):
     def test_string_literals_and_type_methods_are_not_calls(self):
         self.assertEqual(invented("SELECT CAST('POINT(1 1)' AS geography), geography::Point(1, 1, 4326)", NAMES | {"CAST"}), set())
 
+    def test_known_limit_lowercase_calls_are_not_checked(self):
+        # Documented limit of invented(): lower case reads as an alias. Change this test if it is lifted.
+        self.assertEqual(invented("SELECT date_add(day, 1, x)", NAMES), set())
+
     def test_server_name_is_detected(self):
         self.assertTrue(SERVER.search("abcdefghijklmnop-qrstuvwxyz012345.datawarehouse.fabric.microsoft.com"))
 

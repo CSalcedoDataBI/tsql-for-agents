@@ -1,0 +1,76 @@
+{
+  "claims": [
+    {
+      "id": "collation-default-bin2-utf8",
+      "proof": "partial",
+      "reason": "The compile shows that the DATABASEPROPERTYEX read cast to varchar(128) works, but it cannot show which collation value comes back.",
+      "unproven": "That the default collation is actually Latin1_General_100_BIN2_UTF8 and is not case-insensitive."
+    },
+    {
+      "id": "collation-equality-case-sensitive",
+      "proof": "none",
+      "reason": "The probe only shows that a CASE expression compiles to int; the result of the comparison is never observed.",
+      "unproven": "That 'a' = 'A' evaluates to false and that WHERE filters return fewer rows."
+    },
+    {
+      "id": "collation-like-charindex-replace",
+      "proof": "none",
+      "reason": "Only the int result types are observed; the case-sensitive results of LIKE, CHARINDEX, PATINDEX and REPLACE are run-time values.",
+      "unproven": "Case-sensitivity of LIKE, CHARINDEX, PATINDEX and REPLACE, including the specific results 0, false and unchanged."
+    },
+    {
+      "id": "collation-order-by-code-point",
+      "proof": "none",
+      "reason": "Sort order is a run-time behaviour, and compiling only yields the type varchar(1).",
+      "unproven": "Binary code-point ordering, uppercase before lowercase, and accented letters sorting after 'z'."
+    },
+    {
+      "id": "collation-group-by-distinct-split",
+      "proof": "none",
+      "reason": "The number of groups is a run-time result that the column types do not reveal.",
+      "unproven": "That GROUP BY, DISTINCT, COUNT(DISTINCT) and UNION split case variants into separate values."
+    },
+    {
+      "id": "collation-fold-with-upper",
+      "proof": "partial",
+      "reason": "The observed varchar(24) for UPPER on a varchar(3) input confirms the widening, and the GROUP BY UPPER(v) pattern compiles.",
+      "unproven": "That folding with UPPER actually merges case variants at run time, and the stated reason for the widening."
+    },
+    {
+      "id": "collation-collate-ci-in-expression",
+      "proof": "partial",
+      "reason": "The CI_AS_KS_WS_SC_UTF8 COLLATE clause compiles in both the SELECT list and GROUP BY, which shows it is accepted in expressions.",
+      "unproven": "Case-insensitive behaviour at run time, and that accent, kana and width differences such as 'e' versus 'é' stay distinct."
+    },
+    {
+      "id": "collation-invalid-name",
+      "proof": "full",
+      "reason": "The engine raised error 448 'Invalid collation' for the unknown name at compile time.",
+      "unproven": null
+    },
+    {
+      "id": "collation-join-conflict-468",
+      "proof": "full",
+      "reason": "The engine raised error 468 naming the conflict between the CI and BIN2 collations in the equal to operation.",
+      "unproven": null
+    },
+    {
+      "id": "collation-join-conflict-fix",
+      "proof": "partial",
+      "reason": "With an explicit COLLATE on one side the join compiles, so the conflict is resolved.",
+      "unproven": "That the chosen collation decides whether the join matches case-sensitively at run time."
+    },
+    {
+      "id": "collation-collationproperty-sql-variant",
+      "proof": "partial",
+      "reason": "The cast of COLLATIONPROPERTY to int compiles, which shows the function works.",
+      "unproven": "That COLLATIONPROPERTY returns sql_variant (the cast hides this), that SQL_VARIANT_PROPERTY is unsupported, and that CodePage is 65001."
+    },
+    {
+      "id": "collation-utf8-len-vs-datalength",
+      "proof": "none",
+      "reason": "Only the int result types are observed; the byte and character counts are run-time values.",
+      "unproven": "Multi-byte storage of non-ASCII characters, LEN versus DATALENGTH results, byte-based varchar(n) lengths, and truncation."
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "percentile-cont-grouped-aggregate",
+      "proof": "partial",
+      "reason": "The probe compiled in Fabric without OVER and returned float.",
+      "unproven": "That SQL Server requires OVER and that the code is not portable back to SQL Server; no SQL Server engine was probed."
+    },
+    {
+      "id": "percentile-cont-returns-float",
+      "proof": "full",
+      "reason": "With decimal(10,2) input the engine declared the result as float.",
+      "unproven": null
+    },
+    {
+      "id": "approx-percentile-is-aggregate",
+      "proof": "partial",
+      "reason": "Only APPROX_PERCENTILE_CONT was compiled, with WITHIN GROUP and no OVER, and it returned float.",
+      "unproven": "APPROX_PERCENTILE_DISC was not probed, and use with GROUP BY was not tested because the probe has no GROUP BY."
+    },
+    {
+      "id": "approx-percentile-no-over",
+      "proof": "full",
+      "reason": "Error 4113 explicitly says APPROX_PERCENTILE_CONT cannot be used with the OVER clause.",
+      "unproven": null
+    },
+    {
+      "id": "approx-count-distinct-bigint",
+      "proof": "full",
+      "reason": "The engine declared the result type as bigint.",
+      "unproven": null
+    },
+    {
+      "id": "string-agg-within-group-type",
+      "proof": "partial",
+      "reason": "STRING_AGG with WITHIN GROUP compiled and returned varchar(8000) for non-max varchar input.",
+      "unproven": "That long lists overflow at run time, and that casting the input to varchar(max) lifts the limit."
+    },
+    {
+      "id": "string-agg-no-distinct",
+      "proof": "full",
+      "reason": "The probe is valid for the claim, and error 102 points at the DISTINCT keyword inside STRING_AGG.",
+      "unproven": null
+    },
+    {
+      "id": "any-value-exists",
+      "proof": "partial",
+      "reason": "ANY_VALUE compiled as an aggregate with GROUP BY and returned int.",
+      "unproven": "That it returns an arbitrary value from the group, which is run-time behaviour."
+    },
+    {
+      "id": "lag-ignore-nulls",
+      "proof": "partial",
+      "reason": "LAG with IGNORE NULLS placed before OVER compiled.",
+      "unproven": "LEAD with IGNORE NULLS was not probed, and the carry-forward of the last non-null value is run-time behaviour."
+    },
+    {
+      "id": "last-value-default-frame",
+      "proof": "none",
+      "reason": "The probe uses an explicit ROWS frame, so it says nothing about the default frame or the values LAST_VALUE returns under it.",
+      "unproven": "The default RANGE frame and the claim that LAST_VALUE returns the current row's value."
+    },
+    {
+      "id": "range-offset-not-allowed",
+      "proof": "full",
+      "reason": "Error 4194 states that RANGE only supports UNBOUNDED and CURRENT ROW delimiters.",
+      "unproven": null
+    },
+    {
+      "id": "grouping-returns-tinyint",
+      "proof": "partial",
+      "reason": "With ROLLUP, GROUPING was declared tinyint and GROUPING_ID was declared int.",
+      "unproven": "Use with CUBE and GROUPING SETS was not probed, and telling subtotal rows apart from real NULL keys is run-time behaviour."
+    },
+    {
+      "id": "checksum-agg-int-only",
+      "proof": "partial",
+      "reason": "Error 8117 shows varchar input is rejected.",
+      "unproven": "That only integer input is accepted; other non-integer types such as float and decimal were not tested."
+    },
+    {
+      "id": "avg-int-truncates",
+      "proof": "partial",
+      "reason": "AVG over int input was declared int.",
+      "unproven": "That the average of 1 and 2 comes out as 1 through silent truncation, which is a run-time value."
+    }
+  ]
+}

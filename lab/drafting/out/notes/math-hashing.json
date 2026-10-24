@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "topic": "math-hashing",
  "title": "Math, randomness and hashing in Fabric Warehouse and SQL analytics endpoint",
@@ -244,5 +244,25 @@
    "confidence": "high"
   }
  ],
- "refuted": []
+ "refuted": [
+  "rand-not-supported",
+  "crypt-gen-random-not-supported"
+ ],
+ "not_fully_proven": [
+  "rand-not-supported",
+  "random-from-newid",
+  "crypt-gen-random-not-supported",
+  "newid-exists",
+  "hashbytes-encoding",
+  "checksum-int-collisions",
+  "integer-division",
+  "power-first-arg-type",
+  "sqrt-log-float",
+  "round-keeps-decimal-type",
+  "floor-ceiling-decimal",
+  "greatest-least-null",
+  "bit-count-bigint",
+  "shift-functions"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

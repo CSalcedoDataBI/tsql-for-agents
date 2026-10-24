@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "partly_probed",
  "drafted_by": "claude-review",
  "topic": "strings-utf8",
  "title": "String functions on UTF-8 varchar in Fabric",
@@ -233,5 +233,21 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [],
+ "not_fully_proven": [
+  "strings-utf8-len-vs-datalength",
+  "strings-utf8-varchar-n-is-bytes",
+  "strings-utf8-nvarchar-literals",
+  "strings-utf8-case-sensitive-default",
+  "strings-utf8-collate-ci",
+  "strings-utf8-substring-chars",
+  "strings-utf8-string-agg-8000",
+  "strings-utf8-string-split-ordinal",
+  "strings-utf8-concat-ws-nulls",
+  "strings-utf8-trim-chars",
+  "strings-utf8-regexp-like-predicate",
+  "strings-utf8-regexp-case-flag",
+  "strings-utf8-regexp-tvf-missing"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

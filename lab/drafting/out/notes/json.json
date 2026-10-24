@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "json",
@@ -233,5 +233,22 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [
+  "json-contains-not-supported",
+  "json-native-type"
+ ],
+ "not_fully_proven": [
+  "json-contains-not-supported",
+  "json-native-type",
+  "json-value-object-null",
+  "openjson-default-schema",
+  "openjson-with-typed",
+  "json-path-exists-int",
+  "json-object-builder",
+  "json-arrayagg",
+  "json-objectagg",
+  "json-modify",
+  "isjson-type-constraint"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

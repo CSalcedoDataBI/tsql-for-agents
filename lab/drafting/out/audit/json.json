@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "json-contains-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 names JSON_CONTAINS as not supported, but the suggested alternatives were not probed.",
+      "unproven": "That OPENJSON with EXISTS, or comparing JSON_VALUE, works as a membership test in Fabric."
+    },
+    {
+      "id": "json-native-type",
+      "proof": "partial",
+      "reason": "Error 15871 rejects TYPE 'json' in a CAST, but declaration and the varchar/ISJSON alternative were not probed.",
+      "unproven": "Rejection when declaring a variable or column as json, and the advice to store as text and validate with ISJSON."
+    },
+    {
+      "id": "json-value-type",
+      "proof": "full",
+      "reason": "The observed result type nvarchar(4000) shows it returns a string, so casting before arithmetic or date comparison follows.",
+      "unproven": null
+    },
+    {
+      "id": "json-value-object-null",
+      "proof": "partial",
+      "reason": "The probe only shows the query compiles with nvarchar(4000); the NULL result is run-time behaviour.",
+      "unproven": "That lax mode returns NULL without error for object or array paths, and that JSON_QUERY should be used instead."
+    },
+    {
+      "id": "json-query-type",
+      "proof": "full",
+      "reason": "The observed compiled result type is nvarchar(4000), exactly as stated.",
+      "unproven": null
+    },
+    {
+      "id": "openjson-default-schema",
+      "proof": "none",
+      "reason": "The engine reported value as nvarchar(7) and type as tinyint, which contradicts nvarchar(max) and int.",
+      "unproven": "The value column type nvarchar(max) and the type column type int, both contradicted; the key column type nvarchar(4000) does match."
+    },
+    {
+      "id": "openjson-with-as-json",
+      "proof": "full",
+      "reason": "Error 13618 states that AS JSON is allowed only for nvarchar(max) columns.",
+      "unproven": null
+    },
+    {
+      "id": "openjson-with-typed",
+      "proof": "partial",
+      "reason": "An int column is returned from WITH, but the preference over JSON_VALUE plus CAST is unverified advice.",
+      "unproven": "That OPENJSON WITH should be preferred over chains of JSON_VALUE plus CAST."
+    },
+    {
+      "id": "json-path-exists-int",
+      "proof": "partial",
+      "reason": "The function compiles and returns int, but the returned values are not shown.",
+      "unproven": "That the values are 1 or 0."
+    },
+    {
+      "id": "json-object-builder",
+      "proof": "partial",
+      "reason": "The colon syntax compiles and returns nvarchar(max), but the comma form was not tested.",
+      "unproven": "That a comma separator between key and value is rejected."
+    },
+    {
+      "id": "json-arrayagg",
+      "proof": "partial",
+      "reason": "It compiles as an aggregate returning nvarchar(max); the claim about STRING_AGG and quotes concerns run-time values.",
+      "unproven": "That STRING_AGG with manual quoting breaks on values containing quotes."
+    },
+    {
+      "id": "json-objectagg",
+      "proof": "partial",
+      "reason": "The key:value syntax compiles as an aggregate, but building one object from the rows is run-time output.",
+      "unproven": "That it builds a single object from the rows."
+    },
+    {
+      "id": "json-modify",
+      "proof": "partial",
+      "reason": "The append form compiles and returns nvarchar(max); the append and replace semantics are run-time behaviour.",
+      "unproven": "That 'append' adds to the array and that omitting it replaces the value."
+    },
+    {
+      "id": "isjson-type-constraint",
+      "proof": "partial",
+      "reason": "Only the OBJECT constraint was compiled, and it returned int.",
+      "unproven": "That VALUE, ARRAY and SCALAR are accepted as the second argument."
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "topic": "date-time",
  "title": "Date and time functions in Fabric: traps for SQL Server habits",
@@ -247,5 +247,25 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [
+  "dt-current-date-not-supported",
+  "dt-current-timezone-id-not-supported"
+ ],
+ "not_fully_proven": [
+  "dt-current-date-not-supported",
+  "dt-getdate-is-utc",
+  "dt-sysdatetime-precision",
+  "dt-cast-datetime2-6",
+  "dt-current-timezone-id-not-supported",
+  "dt-current-timezone-exists",
+  "dt-at-time-zone",
+  "dt-datediff-big",
+  "dt-datetrunc-type",
+  "dt-datetrunc-literal",
+  "dt-date-bucket-origin",
+  "dt-eomonth-date",
+  "dt-sysdatetimeoffset-utc",
+  "dt-todatetimeoffset"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "topic": "metadata-security",
  "title": "Metadata and security functions in Fabric Warehouse and SQL analytics endpoint",
@@ -251,5 +251,30 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [
+  "ms-01",
+  "ms-02",
+  "ms-03",
+  "ms-04",
+  "ms-07",
+  "ms-08",
+  "ms-09"
+ ],
+ "not_fully_proven": [
+  "ms-01",
+  "ms-02",
+  "ms-03",
+  "ms-04",
+  "ms-05",
+  "ms-06",
+  "ms-07",
+  "ms-08",
+  "ms-09",
+  "ms-10",
+  "ms-11",
+  "ms-12",
+  "ms-13",
+  "ms-14"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

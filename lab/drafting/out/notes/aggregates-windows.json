@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "partly_probed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "aggregates-windows",
@@ -240,5 +240,17 @@
    "confidence": "high"
   }
  ],
- "refuted": []
+ "refuted": [],
+ "not_fully_proven": [
+  "percentile-cont-grouped-aggregate",
+  "approx-percentile-is-aggregate",
+  "string-agg-within-group-type",
+  "any-value-exists",
+  "lag-ignore-nulls",
+  "last-value-default-frame",
+  "grouping-returns-tinyint",
+  "checksum-agg-int-only",
+  "avg-int-truncates"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

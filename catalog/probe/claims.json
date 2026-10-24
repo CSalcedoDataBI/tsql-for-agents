@@ -1,5 +1,5 @@
 {
- "probed_at": "2026-10-23T23:42:43Z",
+ "probed_at": "2026-10-24T00:00:52Z",
  "engine": {
   "version": "Microsoft Azure SQL Data Warehouse (RTM) - 12.0.2000.8",
   "build_date": "Oct 20 2026 19:34:46",
@@ -7,13 +7,14 @@
  },
  "method": "each claim's probe_sql through sp_describe_first_result_set; compiled, never executed",
  "counts": {
-  "confirmed": 192
+  "matches": 142,
+  "partly": 50
  },
  "results": [
   {
    "topic": "aggregates-windows",
    "claim": "percentile-cont-grouped-aggregate",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) AS p FROM (VALUES (1),(2),(3)) AS t(v);",
     "ok": true,
@@ -25,7 +26,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "percentile-cont-returns-float",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DISTINCT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) OVER () AS p FROM (VALUES (CAST(1.50 AS decimal(10,2))),(CAST(2.50 AS decimal(10,2)))) AS t(v);",
     "ok": true,
@@ -37,7 +38,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "approx-percentile-is-aggregate",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) AS p FROM (VALUES (1.0E0),(2.0E0),(3.0E0)) AS t(v);",
     "ok": true,
@@ -49,7 +50,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "approx-percentile-no-over",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) OVER () AS p FROM (VALUES (1.0E0),(2.0E0)) AS t(v);",
     "ok": false,
@@ -68,7 +69,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "approx-count-distinct-bigint",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT APPROX_COUNT_DISTINCT(v) AS c FROM (VALUES ('a'),('b'),('a')) AS t(v);",
     "ok": true,
@@ -80,7 +81,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "string-agg-within-group-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT STRING_AGG(v, ',') WITHIN GROUP (ORDER BY v) AS s FROM (VALUES ('b'),('a')) AS t(v);",
     "ok": true,
@@ -92,7 +93,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "string-agg-no-distinct",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT STRING_AGG(DISTINCT v, ',') AS s FROM (VALUES ('a'),('a'),('b')) AS t(v);",
     "ok": false,
@@ -111,7 +112,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "any-value-exists",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT k, ANY_VALUE(v) AS v FROM (VALUES (1,10),(1,10),(2,20)) AS t(k,v) GROUP BY k;",
     "ok": true,
@@ -124,7 +125,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "lag-ignore-nulls",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT LAG(v) IGNORE NULLS OVER (ORDER BY k) AS prev_v FROM (VALUES (1,5),(2,CAST(NULL AS int)),(3,7)) AS t(k,v);",
     "ok": true,
@@ -136,7 +137,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "last-value-default-frame",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT LAST_VALUE(v) OVER (ORDER BY k ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_v FROM (VALUES (1,5),(2,6),(3,7)) AS t(k,v);",
     "ok": true,
@@ -148,7 +149,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "range-offset-not-allowed",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SUM(v) OVER (ORDER BY k RANGE BETWEEN 1 PRECEDING AND CURRENT ROW) AS s FROM (VALUES (1,5),(2,6)) AS t(k,v);",
     "ok": false,
@@ -167,7 +168,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "grouping-returns-tinyint",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT GROUPING(k) AS g, GROUPING_ID(k) AS gid, SUM(v) AS s FROM (VALUES ('a',1),('b',2)) AS t(k,v) GROUP BY ROLLUP(k);",
     "ok": true,
@@ -181,7 +182,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "checksum-agg-int-only",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CHECKSUM_AGG(v) AS c FROM (VALUES ('a'),('b')) AS t(v);",
     "ok": false,
@@ -200,7 +201,7 @@
   {
    "topic": "aggregates-windows",
    "claim": "avg-int-truncates",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT AVG(v) AS a FROM (VALUES (1),(2)) AS t(v);",
     "ok": true,
@@ -212,7 +213,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "vector-functions-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT VECTOR_DISTANCE('cosine', '[1,0]', '[0,1]') AS d",
     "ok": false,
@@ -227,7 +228,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "vector-type-missing",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT CAST('[1,2,3]' AS vector(3)) AS v",
     "ok": false,
@@ -242,7 +243,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "vector-math-via-openjson",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SUM(CAST(a.[value] AS float) * CAST(b.[value] AS float)) AS dot FROM OPENJSON('[1,2,3]') AS a JOIN OPENJSON('[4,5,6]') AS b ON a.[key] = b.[key]",
     "ok": true,
@@ -254,7 +255,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "ai-generate-embeddings-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT AI_GENERATE_EMBEDDINGS(N'hello world' USE MODEL EmbedModel) AS e",
     "ok": false,
@@ -269,7 +270,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "ai-generate-chunks-not-recognized",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT * FROM AI_GENERATE_CHUNKS(source = N'some long text', chunk_type = FIXED, chunk_size = 10) AS c",
     "ok": false,
@@ -288,7 +289,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "ai-text-functions-exist",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT AI_SUMMARIZE(N'The quarterly report shows revenue grew while costs stayed flat.') AS s",
     "ok": true,
@@ -300,7 +301,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "ai-classify-labels",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT AI_CLASSIFY(N'The delivery was late and the box was damaged.', N'complaint', N'praise', N'question') AS label",
     "ok": true,
@@ -312,7 +313,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "regexp-like-is-predicate",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CASE WHEN REGEXP_LIKE('ABC123', '^[a-z]+[0-9]+$', 'i') THEN 1 ELSE 0 END AS is_match",
     "ok": true,
@@ -324,7 +325,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "regexp-like-not-selectable",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT REGEXP_LIKE('abc', '^a') AS is_match",
     "ok": false,
@@ -343,7 +344,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "regexp-count-int",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT REGEXP_COUNT('a1b22c333', '[0-9]+') AS n",
     "ok": true,
@@ -355,7 +356,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "regexp-matches-not-recognized",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT * FROM REGEXP_MATCHES('a1b22c333', '[0-9]+') AS m",
     "ok": false,
@@ -374,7 +375,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "regexp-substr-occurrence",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT REGEXP_SUBSTR('a1b22c333', '[0-9]+', 1, CAST(g.[value] AS int)) AS m FROM GENERATE_SERIES(1, REGEXP_COUNT('a1b22c333', '[0-9]+')) AS g",
     "ok": true,
@@ -386,7 +387,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "regexp-split-not-recognized",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a1b22c333', '[0-9]+') AS s",
     "ok": false,
@@ -405,7 +406,7 @@
   {
    "topic": "ai-vector-regex",
    "claim": "fuzzy-match-scales",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JARO_WINKLER_DISTANCE('martha', 'marhta') AS jw, EDIT_DISTANCE('kitten', 'sitting') AS ed, EDIT_DISTANCE_SIMILARITY('kitten', 'sitting') AS eds, JARO_WINKLER_SIMILARITY('martha', 'marhta') AS jws",
     "ok": true,
@@ -420,7 +421,7 @@
   {
    "topic": "collation",
    "claim": "collation-default-bin2-utf8",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS varchar(128)) AS db_collation",
     "ok": true,
@@ -432,7 +433,7 @@
   {
    "topic": "collation",
    "claim": "collation-equality-case-sensitive",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CASE WHEN 'a' = 'A' THEN 1 ELSE 0 END AS same",
     "ok": true,
@@ -444,7 +445,7 @@
   {
    "topic": "collation",
    "claim": "collation-like-charindex-replace",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CHARINDEX('a', 'ABC') AS pos, CASE WHEN 'Abc' LIKE 'a%' THEN 1 ELSE 0 END AS m",
     "ok": true,
@@ -457,7 +458,7 @@
   {
    "topic": "collation",
    "claim": "collation-order-by-code-point",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT v FROM (VALUES ('b'), ('B'), ('a'), ('A'), ('Z')) AS t(v) ORDER BY v",
     "ok": true,
@@ -469,7 +470,7 @@
   {
    "topic": "collation",
    "claim": "collation-group-by-distinct-split",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC'), ('Abc')) AS t(v) GROUP BY v",
     "ok": true,
@@ -482,7 +483,7 @@
   {
    "topic": "collation",
    "claim": "collation-fold-with-upper",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT UPPER(v) AS v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC')) AS t(v) GROUP BY UPPER(v)",
     "ok": true,
@@ -495,7 +496,7 @@
   {
    "topic": "collation",
    "claim": "collation-collate-ci-in-expression",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC')) AS t(v) GROUP BY v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8",
     "ok": true,
@@ -508,7 +509,7 @@
   {
    "topic": "collation",
    "claim": "collation-invalid-name",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT 'a' COLLATE Not_A_Real_Collation AS v",
     "ok": false,
@@ -527,7 +528,7 @@
   {
    "topic": "collation",
    "claim": "collation-join-conflict-468",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT a.v FROM (SELECT 'x' COLLATE Latin1_General_100_BIN2_UTF8 AS v) AS a JOIN (SELECT 'X' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v) AS b ON a.v = b.v",
     "ok": false,
@@ -546,7 +547,7 @@
   {
    "topic": "collation",
    "claim": "collation-join-conflict-fix",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT a.v FROM (SELECT 'x' COLLATE Latin1_General_100_BIN2_UTF8 AS v) AS a JOIN (SELECT 'X' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v) AS b ON a.v = b.v COLLATE Latin1_General_100_BIN2_UTF8",
     "ok": true,
@@ -558,7 +559,7 @@
   {
    "topic": "collation",
    "claim": "collation-collationproperty-sql-variant",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(COLLATIONPROPERTY('Latin1_General_100_BIN2_UTF8', 'CodePage') AS int) AS code_page",
     "ok": true,
@@ -570,7 +571,7 @@
   {
    "topic": "collation",
    "claim": "collation-utf8-len-vs-datalength",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DATALENGTH('é') AS bytes, LEN('é') AS chars",
     "ok": true,
@@ -583,7 +584,7 @@
   {
    "topic": "conversion",
    "claim": "conv-varchar-no-length",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('a fairly long string that is longer than thirty characters' AS varchar) AS v;",
     "ok": true,
@@ -595,7 +596,7 @@
   {
    "topic": "conversion",
    "claim": "conv-decimal-default",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('12.345' AS decimal) AS d;",
     "ok": true,
@@ -607,7 +608,7 @@
   {
    "topic": "conversion",
    "claim": "conv-datetime2-default-precision",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('2024-01-31 10:11:12.1234567' AS datetime2) AS d;",
     "ok": true,
@@ -619,7 +620,7 @@
   {
    "topic": "conversion",
    "claim": "conv-datetime-in-query",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('2024-01-31' AS datetime) AS d;",
     "ok": true,
@@ -631,7 +632,7 @@
   {
    "topic": "conversion",
    "claim": "conv-convert-style-112",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CONVERT(varchar(8), CAST('2024-01-31' AS date), 112) AS s;",
     "ok": true,
@@ -643,7 +644,7 @@
   {
    "topic": "conversion",
    "claim": "conv-invalid-style",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CONVERT(varchar(10), CAST('2024-01-31' AS date), 999) AS s;",
     "ok": true,
@@ -655,7 +656,7 @@
   {
    "topic": "conversion",
    "claim": "conv-try-cast-type-pair",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT TRY_CAST(CAST('2024-01-31' AS date) AS int) AS i;",
     "ok": false,
@@ -670,7 +671,7 @@
   {
    "topic": "conversion",
    "claim": "conv-try-convert-null",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT TRY_CONVERT(int, 'abc') AS i;",
     "ok": true,
@@ -682,7 +683,7 @@
   {
    "topic": "conversion",
    "claim": "conv-implicit-precedence",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT 'abc' + 1 AS x;",
     "ok": true,
@@ -694,7 +695,7 @@
   {
    "topic": "conversion",
    "claim": "conv-int-truncation",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(1.9 AS int) AS i;",
     "ok": true,
@@ -706,7 +707,7 @@
   {
    "topic": "conversion",
    "claim": "conv-format-nvarchar",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT FORMAT(CAST('2024-01-31' AS date), 'yyyy-MM-dd') AS s;",
     "ok": true,
@@ -718,7 +719,7 @@
   {
    "topic": "conversion",
    "claim": "conv-parse-culture",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT PARSE('31/01/2024' AS date USING 'en-GB') AS d;",
     "ok": true,
@@ -730,7 +731,7 @@
   {
    "topic": "conversion",
    "claim": "conv-try-parse-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT TRY_PARSE('abc' AS int USING 'en-US') AS i;",
     "ok": true,
@@ -742,7 +743,7 @@
   {
    "topic": "conversion",
    "claim": "conv-utf8-bytes",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(N'été' AS varchar(3)) AS s;",
     "ok": true,
@@ -754,7 +755,7 @@
   {
    "topic": "data-types",
    "claim": "dt-nvarchar-expr",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(N'déjà vu' AS nvarchar(10)) AS c;",
     "ok": true,
@@ -766,7 +767,7 @@
   {
    "topic": "data-types",
    "claim": "dt-nvarchar-table",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "CREATE TABLE dbo.probe_nvarchar (c nvarchar(10));",
     "ok": false,
@@ -781,7 +782,7 @@
   {
    "topic": "data-types",
    "claim": "dt-getdate-datetime",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT GETDATE() AS c;",
     "ok": true,
@@ -793,7 +794,7 @@
   {
    "topic": "data-types",
    "claim": "dt-datetime2-7-expr",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SYSDATETIME() AS c;",
     "ok": true,
@@ -805,7 +806,7 @@
   {
    "topic": "data-types",
    "claim": "dt-datetime2-6-cast",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('2024-05-01T10:20:30.1234567' AS datetime2(6)) AS c;",
     "ok": true,
@@ -817,7 +818,7 @@
   {
    "topic": "data-types",
    "claim": "dt-datetime2-7-table",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "CREATE TABLE dbo.probe_dt7 (c datetime2(7));",
     "ok": false,
@@ -832,7 +833,7 @@
   {
    "topic": "data-types",
    "claim": "dt-datetimeoffset",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(SYSDATETIMEOFFSET() AT TIME ZONE 'UTC' AS datetime2(6)) AS c;",
     "ok": true,
@@ -844,7 +845,7 @@
   {
    "topic": "data-types",
    "claim": "dt-money",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(CAST(12.3456 AS money) AS decimal(19,4)) AS c;",
     "ok": true,
@@ -856,7 +857,7 @@
   {
    "topic": "data-types",
    "claim": "dt-tinyint",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(200 AS tinyint) AS c;",
     "ok": true,
@@ -868,7 +869,7 @@
   {
    "topic": "data-types",
    "claim": "dt-varchar-max",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('abc' AS varchar(max)) AS c;",
     "ok": true,
@@ -880,7 +881,7 @@
   {
    "topic": "data-types",
    "claim": "dt-uniqueidentifier",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT NEWID() AS c;",
     "ok": true,
@@ -892,7 +893,7 @@
   {
    "topic": "data-types",
    "claim": "dt-sql-variant",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT SQL_VARIANT_PROPERTY(CAST(1 AS sql_variant), 'BaseType') AS c;",
     "ok": false,
@@ -907,7 +908,7 @@
   {
    "topic": "data-types",
    "claim": "dt-xml",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('<a>1</a>' AS xml) AS c;",
     "ok": true,
@@ -919,7 +920,7 @@
   {
    "topic": "data-types",
    "claim": "dt-geography",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('POINT(1 1)' AS geography) AS c;",
     "ok": true,
@@ -931,7 +932,7 @@
   {
    "topic": "date-time",
    "claim": "dt-current-date-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT CURRENT_DATE AS d;",
     "ok": false,
@@ -946,7 +947,7 @@
   {
    "topic": "date-time",
    "claim": "dt-getdate-is-utc",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT GETDATE() AS now_utc;",
     "ok": true,
@@ -958,7 +959,7 @@
   {
    "topic": "date-time",
    "claim": "dt-sysdatetime-precision",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SYSDATETIME() AS ts;",
     "ok": true,
@@ -970,7 +971,7 @@
   {
    "topic": "date-time",
    "claim": "dt-cast-datetime2-6",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(SYSUTCDATETIME() AS datetime2(6)) AS ts;",
     "ok": true,
@@ -982,7 +983,7 @@
   {
    "topic": "date-time",
    "claim": "dt-current-timezone-id-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT CURRENT_TIMEZONE_ID() AS tz;",
     "ok": false,
@@ -997,7 +998,7 @@
   {
    "topic": "date-time",
    "claim": "dt-current-timezone-exists",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CURRENT_TIMEZONE() AS tz;",
     "ok": true,
@@ -1009,7 +1010,7 @@
   {
    "topic": "date-time",
    "claim": "dt-at-time-zone",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST(SYSUTCDATETIME() AS datetime2(6)) AT TIME ZONE 'UTC' AT TIME ZONE 'Pacific Standard Time' AS local_ts;",
     "ok": true,
@@ -1021,7 +1022,7 @@
   {
    "topic": "date-time",
    "claim": "dt-datediff-big",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DATEDIFF_BIG(millisecond, CAST('1900-01-01' AS datetime2(6)), CAST('2024-01-01' AS datetime2(6))) AS ms;",
     "ok": true,
@@ -1033,7 +1034,7 @@
   {
    "topic": "date-time",
    "claim": "dt-datetrunc-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DATETRUNC(month, CAST('2024-05-17' AS date)) AS m;",
     "ok": true,
@@ -1045,7 +1046,7 @@
   {
    "topic": "date-time",
    "claim": "dt-datetrunc-literal",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DATETRUNC(day, '2024-05-17 10:11:12') AS d;",
     "ok": true,
@@ -1057,7 +1058,7 @@
   {
    "topic": "date-time",
    "claim": "dt-date-bucket-origin",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DATE_BUCKET(week, 1, CAST('2024-05-17' AS date), CAST('2024-01-07' AS date)) AS wk;",
     "ok": true,
@@ -1069,7 +1070,7 @@
   {
    "topic": "date-time",
    "claim": "dt-eomonth-date",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT EOMONTH(CAST('2024-02-10 13:00:00' AS datetime2(6))) AS eom;",
     "ok": true,
@@ -1081,7 +1082,7 @@
   {
    "topic": "date-time",
    "claim": "dt-sysdatetimeoffset-utc",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SWITCHOFFSET(SYSDATETIMEOFFSET(), '-05:00') AS ts;",
     "ok": true,
@@ -1093,7 +1094,7 @@
   {
    "topic": "date-time",
    "claim": "dt-todatetimeoffset",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT TODATETIMEOFFSET(CAST('2024-05-17 10:00:00' AS datetime2(6)), '+02:00') AS ts;",
     "ok": true,
@@ -1105,7 +1106,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-01",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT TOP (1) name FROM sys.tables",
     "ok": true,
@@ -1117,7 +1118,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-02",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "CREATE VIEW dbo.v_probe_endpoint AS SELECT 1 AS c",
     "ok": true,
@@ -1127,7 +1128,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-03",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "CREATE FUNCTION dbo.f_probe_endpoint() RETURNS TABLE AS RETURN SELECT 1 AS c",
     "ok": true,
@@ -1137,7 +1138,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-04",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "CREATE PROCEDURE dbo.p_probe_endpoint AS SELECT 1 AS c",
     "ok": true,
@@ -1147,7 +1148,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-05",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "CREATE TABLE dbo.t_probe_endpoint (c int)",
     "ok": true,
@@ -1157,7 +1158,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-06",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "CREATE TABLE dbo.t_probe_ctas AS SELECT 1 AS c",
     "ok": true,
@@ -1167,7 +1168,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-07",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT 1 AS c INTO dbo.t_probe_selectinto",
     "ok": true,
@@ -1177,7 +1178,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-08",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "CREATE TABLE #probe_tmp (c int); INSERT INTO #probe_tmp VALUES (1); SELECT 1 AS c",
     "ok": false,
@@ -1192,7 +1193,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-09",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "CREATE TABLE ##probe_global (c int); SELECT 1 AS c",
     "ok": false,
@@ -1207,7 +1208,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-10",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT TOP (1) name FROM no_such_item_probe.sys.objects",
     "ok": false,
@@ -1226,7 +1227,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-11",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT TOP (1) name FROM no_such_server_probe.no_such_db.sys.objects",
     "ok": false,
@@ -1241,7 +1242,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-12",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT SCOPE_IDENTITY() AS id",
     "ok": false,
@@ -1256,7 +1257,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-13",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT @@IDENTITY AS id",
     "ok": false,
@@ -1271,7 +1272,7 @@
   {
    "topic": "endpoint-vs-warehouse",
    "claim": "evw-14",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DB_NAME() AS item_name",
     "ok": true,
@@ -1283,7 +1284,7 @@
   {
    "topic": "error-handling",
    "claim": "error-line-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT ERROR_LINE() AS l",
     "ok": false,
@@ -1298,7 +1299,7 @@
   {
    "topic": "error-handling",
    "claim": "error-line-in-catch-breaks-batch",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH SELECT ERROR_NUMBER() AS n, ERROR_LINE() AS l; END CATCH",
     "ok": false,
@@ -1313,7 +1314,7 @@
   {
    "topic": "error-handling",
    "claim": "xact-state-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH IF XACT_STATE() <> 0 ROLLBACK; END CATCH",
     "ok": false,
@@ -1328,7 +1329,7 @@
   {
    "topic": "error-handling",
    "claim": "trancount-exists",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT @@TRANCOUNT AS tc",
     "ok": true,
@@ -1340,7 +1341,7 @@
   {
    "topic": "error-handling",
    "claim": "catch-rollback-rethrow-pattern",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "BEGIN TRY SELECT 1 AS a; END TRY BEGIN CATCH IF @@TRANCOUNT > 0 ROLLBACK; THROW; END CATCH",
     "ok": true,
@@ -1352,7 +1353,7 @@
   {
    "topic": "error-handling",
    "claim": "error-number-severity-state",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ERROR_NUMBER() AS n, ERROR_SEVERITY() AS s, ERROR_STATE() AS st",
     "ok": true,
@@ -1366,7 +1367,7 @@
   {
    "topic": "error-handling",
    "claim": "error-message-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ERROR_MESSAGE() AS m",
     "ok": true,
@@ -1378,7 +1379,7 @@
   {
    "topic": "error-handling",
    "claim": "error-procedure-exists",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ERROR_PROCEDURE() AS p",
     "ok": true,
@@ -1390,7 +1391,7 @@
   {
    "topic": "error-handling",
    "claim": "procid-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT OBJECT_NAME(@@PROCID) AS p",
     "ok": false,
@@ -1405,7 +1406,7 @@
   {
    "topic": "error-handling",
    "claim": "formatmessage-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT FORMATMESSAGE('Error in %s', 'step1') AS m",
     "ok": false,
@@ -1420,7 +1421,7 @@
   {
    "topic": "error-handling",
    "claim": "raiserror-ends-describe-path",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "RAISERROR('custom failure', 16, 1); SELECT 1 AS a",
     "ok": false,
@@ -1435,7 +1436,7 @@
   {
    "topic": "error-handling",
    "claim": "rowcount-types",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ROWCOUNT_BIG() AS rb, @@ROWCOUNT AS r",
     "ok": true,
@@ -1448,7 +1449,7 @@
   {
    "topic": "error-handling",
    "claim": "at-at-error-exists",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT @@ERROR AS e",
     "ok": true,
@@ -1460,7 +1461,7 @@
   {
    "topic": "error-handling",
    "claim": "snapshot-isolation-only",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SET TRANSACTION ISOLATION LEVEL SERIALIZABLE; SELECT 1 AS a",
     "ok": true,
@@ -1472,7 +1473,7 @@
   {
    "topic": "json",
    "claim": "json-contains-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT JSON_CONTAINS('{\"a\":1}', 1, '$.a') AS c;",
     "ok": false,
@@ -1487,7 +1488,7 @@
   {
    "topic": "json",
    "claim": "json-native-type",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT CAST('{\"a\":1}' AS json) AS j;",
     "ok": false,
@@ -1502,7 +1503,7 @@
   {
    "topic": "json",
    "claim": "json-value-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_VALUE('{\"a\":\"x\"}', '$.a') AS v;",
     "ok": true,
@@ -1514,7 +1515,7 @@
   {
    "topic": "json",
    "claim": "json-value-object-null",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_VALUE('{\"a\":{\"b\":1}}', '$.a') AS v;",
     "ok": true,
@@ -1526,7 +1527,7 @@
   {
    "topic": "json",
    "claim": "json-query-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_QUERY('{\"a\":[1,2]}', '$.a') AS q;",
     "ok": true,
@@ -1538,7 +1539,7 @@
   {
    "topic": "json",
    "claim": "openjson-default-schema",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT [key], [value], [type] FROM OPENJSON('[10,20]');",
     "ok": true,
@@ -1552,7 +1553,7 @@
   {
    "topic": "json",
    "claim": "openjson-with-as-json",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT j FROM OPENJSON('{\"a\":{\"b\":1}}') WITH (j nvarchar(100) '$.a' AS JSON);",
     "ok": false,
@@ -1567,7 +1568,7 @@
   {
    "topic": "json",
    "claim": "openjson-with-typed",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT n FROM OPENJSON('[{\"n\":1},{\"n\":2}]') WITH (n int '$.n');",
     "ok": true,
@@ -1579,7 +1580,7 @@
   {
    "topic": "json",
    "claim": "json-path-exists-int",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_PATH_EXISTS('{\"a\":1}', '$.a') AS e;",
     "ok": true,
@@ -1591,7 +1592,7 @@
   {
    "topic": "json",
    "claim": "json-object-builder",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_OBJECT('a':1, 'b':'x') AS o;",
     "ok": true,
@@ -1603,7 +1604,7 @@
   {
    "topic": "json",
    "claim": "json-arrayagg",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_ARRAYAGG(v) AS a FROM (VALUES (1),(2),(3)) AS t(v);",
     "ok": true,
@@ -1615,7 +1616,7 @@
   {
    "topic": "json",
    "claim": "json-objectagg",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_OBJECTAGG(k:v) AS o FROM (VALUES ('a',1),('b',2)) AS t(k,v);",
     "ok": true,
@@ -1627,7 +1628,7 @@
   {
    "topic": "json",
    "claim": "json-modify",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT JSON_MODIFY('{\"a\":[1]}', 'append $.a', 2) AS m;",
     "ok": true,
@@ -1639,7 +1640,7 @@
   {
    "topic": "json",
    "claim": "isjson-type-constraint",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ISJSON('{\"a\":1}', OBJECT) AS ok;",
     "ok": true,
@@ -1651,7 +1652,7 @@
   {
    "topic": "math-hashing",
    "claim": "rand-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT RAND() AS r;",
     "ok": false,
@@ -1666,7 +1667,7 @@
   {
    "topic": "math-hashing",
    "claim": "random-from-newid",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ABS(CAST(CHECKSUM(NEWID()) AS bigint)) % 100 AS bucket;",
     "ok": true,
@@ -1678,7 +1679,7 @@
   {
    "topic": "math-hashing",
    "claim": "crypt-gen-random-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT CRYPT_GEN_RANDOM(16) AS b;",
     "ok": false,
@@ -1693,7 +1694,7 @@
   {
    "topic": "math-hashing",
    "claim": "newid-exists",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT NEWID() AS id;",
     "ok": true,
@@ -1705,7 +1706,7 @@
   {
    "topic": "math-hashing",
    "claim": "hashbytes-encoding",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT HASHBYTES('SHA2_256', 'abc') AS h;",
     "ok": true,
@@ -1717,7 +1718,7 @@
   {
    "topic": "math-hashing",
    "claim": "checksum-int-collisions",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CHECKSUM('a', 1) AS c;",
     "ok": true,
@@ -1729,7 +1730,7 @@
   {
    "topic": "math-hashing",
    "claim": "integer-division",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT 7 / 2 AS q;",
     "ok": true,
@@ -1741,7 +1742,7 @@
   {
    "topic": "math-hashing",
    "claim": "power-first-arg-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT POWER(2, 0.5) AS p;",
     "ok": true,
@@ -1753,7 +1754,7 @@
   {
    "topic": "math-hashing",
    "claim": "sqrt-log-float",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SQRT(16) AS s;",
     "ok": true,
@@ -1765,7 +1766,7 @@
   {
    "topic": "math-hashing",
    "claim": "round-keeps-decimal-type",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ROUND(748.58, -1) AS r;",
     "ok": true,
@@ -1777,7 +1778,7 @@
   {
    "topic": "math-hashing",
    "claim": "floor-ceiling-decimal",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CEILING(123.45) AS c;",
     "ok": true,
@@ -1789,7 +1790,7 @@
   {
    "topic": "math-hashing",
    "claim": "greatest-least-null",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT GREATEST(1, NULL, 3) AS g;",
     "ok": true,
@@ -1801,7 +1802,7 @@
   {
    "topic": "math-hashing",
    "claim": "bit-count-bigint",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT BIT_COUNT(CAST(255 AS int)) AS n;",
     "ok": true,
@@ -1813,7 +1814,7 @@
   {
    "topic": "math-hashing",
    "claim": "shift-functions",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT LEFT_SHIFT(1, 4) AS s;",
     "ok": true,
@@ -1825,7 +1826,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-01",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT USER_ID() AS uid;",
     "ok": false,
@@ -1840,7 +1841,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-02",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT DATABASE_PRINCIPAL_ID() AS pid;",
     "ok": false,
@@ -1855,7 +1856,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-03",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT SUSER_ID() AS login_id;",
     "ok": false,
@@ -1870,7 +1871,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-04",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT ORIGINAL_LOGIN() AS who;",
     "ok": false,
@@ -1885,7 +1886,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-05",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SUSER_SNAME() AS who;",
     "ok": true,
@@ -1897,7 +1898,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-06",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CURRENT_USER AS cu, SESSION_USER AS su, USER_NAME() AS un;",
     "ok": true,
@@ -1911,7 +1912,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-07",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT COL_LENGTH('sys.objects', 'name') AS len;",
     "ok": false,
@@ -1926,7 +1927,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-08",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT APP_NAME() AS app, HOST_NAME() AS host;",
     "ok": false,
@@ -1941,7 +1942,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-09",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT SESSIONPROPERTY('ANSI_NULLS') AS ansi_nulls;",
     "ok": false,
@@ -1956,7 +1957,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-10",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SERVERPROPERTY('Edition') AS edition;",
     "ok": true,
@@ -1968,7 +1969,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-11",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS coll;",
     "ok": true,
@@ -1980,7 +1981,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-12",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT OBJECT_ID('sys.objects') AS oid, OBJECT_NAME(OBJECT_ID('sys.objects')) AS oname, SCHEMA_NAME(1) AS sname;",
     "ok": true,
@@ -1994,7 +1995,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-13",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT IS_ROLEMEMBER('db_owner') AS is_owner;",
     "ok": true,
@@ -2006,7 +2007,7 @@
   {
    "topic": "metadata-security",
    "claim": "ms-14",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT @@VERSION AS v;",
     "ok": true,
@@ -2018,7 +2019,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-01",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT * FROM OPENQUERY(remote_srv, 'SELECT 1 AS a') AS q",
     "ok": false,
@@ -2033,7 +2034,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-02",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT * FROM OPENDATASOURCE('MSOLEDBSQL', 'Data Source=srv;Integrated Security=SSPI').master.sys.objects",
     "ok": false,
@@ -2048,7 +2049,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-03",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT name FROM remote_srv.master.sys.objects",
     "ok": false,
@@ -2063,7 +2064,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-04",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT * FROM OPENROWSET('MSOLEDBSQL', 'Server=srv;Trusted_Connection=yes;', 'SELECT 1 AS a') AS r",
     "ok": false,
@@ -2078,7 +2079,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-05",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT r.id FROM OPENROWSET(BULK 'https://onelake.dfs.fabric.microsoft.com/ws/lh.Lakehouse/Files/data/f.parquet', FORMAT = 'PARQUET') WITH (id int) AS r",
     "ok": false,
@@ -2093,7 +2094,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-08",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT * FROM OPENXML(1, '/root/row', 1) WITH (id int) AS x",
     "ok": false,
@@ -2116,7 +2117,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-09",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT [key], [value], [type] FROM OPENJSON(N'{\"a\":1,\"b\":\"x\"}')",
     "ok": true,
@@ -2130,7 +2131,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-10",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT j.a FROM OPENJSON(N'{\"a\":{\"b\":1}}') WITH (a nvarchar(max) '$.a' AS JSON) AS j",
     "ok": true,
@@ -2142,7 +2143,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-11",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT j.a FROM OPENJSON(N'{\"a\":{\"b\":1}}') WITH (a nvarchar(100) '$.a' AS JSON) AS j",
     "ok": false,
@@ -2157,7 +2158,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-12",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT value FROM STRING_SPLIT('a||b', '||')",
     "ok": true,
@@ -2169,7 +2170,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-13",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT value, ordinal FROM STRING_SPLIT('a,b,c', ',', 1)",
     "ok": true,
@@ -2182,7 +2183,7 @@
   {
    "topic": "rowset-external",
    "claim": "rowset-external-14",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT value FROM GENERATE_SERIES(1, 10)",
     "ok": true,
@@ -2194,7 +2195,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-len-vs-datalength",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT LEN('héllo') AS chars, DATALENGTH('héllo') AS bytes;",
     "ok": true,
@@ -2207,7 +2208,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-varchar-n-is-bytes",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CAST('abc' AS varchar(3)) AS v;",
     "ok": true,
@@ -2219,7 +2220,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-nvarchar-literals",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT N'é' AS v;",
     "ok": true,
@@ -2231,7 +2232,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-case-sensitive-default",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CHARINDEX('B', REPLACE('abc','A','x')) AS pos;",
     "ok": true,
@@ -2243,7 +2244,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-collate-ci",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CHARINDEX('B', 'abc' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8) AS pos;",
     "ok": true,
@@ -2255,7 +2256,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-substring-chars",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SUBSTRING('héllo', 2, 3) AS s, LEFT('héllo', 2) AS l, RIGHT('héllo', 2) AS r;",
     "ok": true,
@@ -2269,7 +2270,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-string-agg-8000",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT STRING_AGG(v, ',') WITHIN GROUP (ORDER BY v) AS s FROM (VALUES ('a'),('b')) AS t(v);",
     "ok": true,
@@ -2281,7 +2282,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-string-split-ordinal",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT value, ordinal FROM STRING_SPLIT('a,b,c', ',', 1);",
     "ok": true,
@@ -2294,7 +2295,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-concat-ws-nulls",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT CONCAT_WS(',', 'a', NULL, '', 'b') AS s;",
     "ok": true,
@@ -2306,7 +2307,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-trim-chars",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT TRIM('x' FROM 'xxabcxx') AS a, TRIM(LEADING 'x' FROM 'xxabc') AS b;",
     "ok": true,
@@ -2319,7 +2320,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-regexp-like-predicate",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT IIF(REGEXP_LIKE('abc', '^a'), 1, 0) AS m;",
     "ok": true,
@@ -2331,7 +2332,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-regexp-case-flag",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT REGEXP_REPLACE('Abc', 'a', 'x', 1, 0, 'i') AS r, REGEXP_COUNT('AbA', 'a', 1, 'i') AS c;",
     "ok": true,
@@ -2344,7 +2345,7 @@
   {
    "topic": "strings-utf8",
    "claim": "strings-utf8-regexp-tvf-missing",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a1b2c', '[0-9]');",
     "ok": false,
@@ -2363,7 +2364,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "rand-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT RAND() AS r",
     "ok": false,
@@ -2378,7 +2379,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "rand-alternative-compiles",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT ABS(CHECKSUM(NEWID())) % 100 AS r",
     "ok": true,
@@ -2390,7 +2391,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "crypt-gen-random-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT CRYPT_GEN_RANDOM(16) AS b",
     "ok": false,
@@ -2405,7 +2406,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "newsequentialid-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT NEWSEQUENTIALID() AS g",
     "ok": false,
@@ -2420,7 +2421,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "scope-identity-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT SCOPE_IDENTITY() AS id",
     "ok": false,
@@ -2435,7 +2436,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "identity-at-variable-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT @@IDENTITY AS id",
     "ok": false,
@@ -2450,7 +2451,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "ident-seed-incr-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT IDENT_SEED('sys.objects') AS s",
     "ok": false,
@@ -2465,7 +2466,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "error-line-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT ERROR_LINE() AS l",
     "ok": false,
@@ -2480,7 +2481,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "xact-state-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT XACT_STATE() AS s",
     "ok": false,
@@ -2495,7 +2496,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "formatmessage-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT FORMATMESSAGE('Value %s', 'x') AS m",
     "ok": false,
@@ -2510,7 +2511,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "host-app-name-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT APP_NAME() AS a",
     "ok": false,
@@ -2525,7 +2526,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "session-id-not-recognized",
-   "status": "confirmed",
+   "status": "matches",
    "observed": {
     "sql": "SELECT SESSION_ID() AS s",
     "ok": false,
@@ -2544,7 +2545,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "login-user-id-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT ORIGINAL_LOGIN() AS l",
     "ok": false,
@@ -2559,7 +2560,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "encryption-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT ENCRYPTBYPASSPHRASE('k', 'v') AS e",
     "ok": false,
@@ -2574,7 +2575,7 @@
   {
    "topic": "unsupported-vs-sql-server",
    "claim": "file-metadata-not-supported",
-   "status": "confirmed",
+   "status": "partly",
    "observed": {
     "sql": "SELECT FILEGROUP_NAME(1) AS fg",
     "ok": false,

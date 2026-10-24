@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "partly_probed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "collation",
@@ -199,5 +199,18 @@
    "confidence": "high"
   }
  ],
- "refuted": []
+ "refuted": [],
+ "not_fully_proven": [
+  "collation-default-bin2-utf8",
+  "collation-equality-case-sensitive",
+  "collation-like-charindex-replace",
+  "collation-order-by-code-point",
+  "collation-group-by-distinct-split",
+  "collation-fold-with-upper",
+  "collation-collate-ci-in-expression",
+  "collation-join-conflict-fix",
+  "collation-collationproperty-sql-variant",
+  "collation-utf8-len-vs-datalength"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

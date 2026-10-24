@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "error-handling",
@@ -232,5 +232,21 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [
+  "error-line-not-supported",
+  "error-line-in-catch-breaks-batch",
+  "xact-state-not-supported",
+  "procid-not-supported",
+  "formatmessage-not-supported"
+ ],
+ "not_fully_proven": [
+  "error-line-in-catch-breaks-batch",
+  "trancount-exists",
+  "error-procedure-exists",
+  "raiserror-ends-describe-path",
+  "rowcount-types",
+  "at-at-error-exists",
+  "snapshot-isolation-only"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

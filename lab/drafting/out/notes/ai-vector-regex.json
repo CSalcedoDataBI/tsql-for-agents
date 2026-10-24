@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "ai-vector-regex",
@@ -249,5 +249,27 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [
+  "vector-functions-not-supported",
+  "vector-type-missing",
+  "ai-generate-embeddings-not-supported",
+  "ai-generate-chunks-not-recognized",
+  "regexp-like-not-selectable",
+  "regexp-matches-not-recognized",
+  "regexp-split-not-recognized"
+ ],
+ "not_fully_proven": [
+  "vector-functions-not-supported",
+  "vector-type-missing",
+  "vector-math-via-openjson",
+  "ai-generate-embeddings-not-supported",
+  "ai-generate-chunks-not-recognized",
+  "ai-text-functions-exist",
+  "ai-classify-labels",
+  "regexp-like-is-predicate",
+  "regexp-like-not-selectable",
+  "regexp-substr-occurrence",
+  "fuzzy-match-scales"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "unprobed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "rowset-external",
@@ -198,5 +198,24 @@
    "confidence": "high"
   }
  ],
- "refuted": []
+ "refuted": [
+  "rowset-external-01",
+  "rowset-external-02",
+  "rowset-external-03",
+  "rowset-external-04",
+  "rowset-external-08"
+ ],
+ "not_fully_proven": [
+  "rowset-external-01",
+  "rowset-external-03",
+  "rowset-external-04",
+  "rowset-external-05",
+  "rowset-external-08",
+  "rowset-external-09",
+  "rowset-external-10",
+  "rowset-external-12",
+  "rowset-external-13",
+  "rowset-external-14"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }

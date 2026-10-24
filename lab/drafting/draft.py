@@ -14,6 +14,7 @@ use no other function name. scripts/check_repo.py enforces that on the output.
     python lab/drafting/draft.py samples [--batch 40]
     python lab/drafting/draft.py notes [--topics a,b]
     python lab/drafting/draft.py revise        # notes with refuted claims, once; v1 kept in out/notes-v1/
+    python lab/drafting/draft.py audit         # grade how much of each claim its compile evidence proves
     python lab/drafting/draft.py spent
 
 Budget: the spend is read from claude-review's own log (~/.claude-review/gasto.jsonl), counting only
@@ -160,9 +161,36 @@ def revise(model: str | None) -> None:
         path.write_text(json.dumps(new, indent=2, ensure_ascii=False) + "\n", encoding="utf-8", newline="\n")
 
 
+def audit(model: str | None) -> None:
+    """Grade, claim by claim, how much of each sentence its compile-only evidence proves."""
+    claims = ROOT / "catalog" / "probe" / "claims.json"
+    if not claims.exists():
+        sys.exit("Run `python scripts/probe_fabric.py --only claims` first.")
+    observed = {(r["topic"], r["claim"]): r for r in json.loads(claims.read_text(encoding="utf-8"))["results"]}
+    template = (HERE / "audit.prompt.md").read_text(encoding="utf-8")
+    for path in sorted((OUT / "notes").glob("*.json")):
+        out = OUT / "audit" / path.name
+        if out.exists():
+            continue
+        note = json.loads(path.read_text(encoding="utf-8"))
+        rows = []
+        for claim in note["claims"]:
+            seen = observed.get((note["topic"], claim["id"]), {})
+            rows.append(
+                {
+                    "id": claim["id"],
+                    "statement": claim["statement"],
+                    "probe_sql": claim["probe_sql"],
+                    "expected": claim["expect"],
+                    "engine_answer": seen.get("observed"),
+                }
+            )
+        call(template.replace("{{CLAIMS}}", json.dumps(rows, indent=2, ensure_ascii=False)), HERE / "audit.schema.json", out, model)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("kind", choices=["samples", "notes", "revise", "spent"])
+    parser.add_argument("kind", choices=["samples", "notes", "revise", "audit", "spent"])
     parser.add_argument("--batch", type=int, default=40)
     parser.add_argument("--topics")
     parser.add_argument("--model")
@@ -173,6 +201,8 @@ def main() -> int:
         samples(args.batch, args.model)
     elif args.kind == "revise":
         revise(args.model)
+    elif args.kind == "audit":
+        audit(args.model)
     else:
         notes(args.topics.split(",") if args.topics else None, args.model)
     return 0

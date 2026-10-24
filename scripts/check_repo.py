@@ -61,7 +61,12 @@ def candidate_names() -> set[str]:
 
 
 def invented(text: str, names: set[str]) -> set[str]:
-    """Called names in a piece of T-SQL that are neither candidates nor keywords."""
+    """Called names in a piece of T-SQL that are neither candidates nor keywords.
+
+    Known limit: only names written in capitals are checked. A lower-case word before "(" is read
+    as a table alias or a column list (`AS t(x)`), so an invented `date_add(` passes. Cards and
+    notes write built-in functions in capitals; the per-claim `functions` list is checked in full.
+    """
     found = set()
     text = re.sub(r"N?'(?:[^']|'')*'", "''", text)  # 'POINT(1 1)' is data, not a call
     for match in CALL.finditer(text):
@@ -128,10 +133,12 @@ def check_names() -> list[str]:
         rel = note.relative_to(ROOT).as_posix()
         draft = json.loads(note.read_text(encoding="utf-8"))
         status = draft.get("status")
-        if status not in ("unprobed", "probed"):
-            errors.append(f"{rel}: status must be 'unprobed' or 'probed', not {status!r}")
-        if status == "probed" and not (ROOT / "catalog" / "probe" / "claims.json").exists():
-            errors.append(f"{rel}: 'probed' but catalog/probe/claims.json does not exist")
+        if status not in ("unprobed", "partly_probed", "probed"):
+            errors.append(f"{rel}: status must be 'unprobed', 'partly_probed' or 'probed', not {status!r}")
+        if status != "unprobed" and not (ROOT / "catalog" / "probe" / "claims.json").exists():
+            errors.append(f"{rel}: {status!r} but catalog/probe/claims.json does not exist")
+        if status == "probed" and not (NOTES.parent / "audit" / note.name).exists():
+            errors.append(f"{rel}: 'probed' needs its audit in lab/drafting/out/audit/")
         for claim in draft.get("claims", []):
             for name in claim.get("functions", []):
                 if name.upper() not in names:

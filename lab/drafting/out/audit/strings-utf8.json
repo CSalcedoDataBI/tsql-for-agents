@@ -1,0 +1,82 @@
+{
+  "claims": [
+    {
+      "id": "strings-utf8-len-vs-datalength",
+      "proof": "none",
+      "reason": "Two int columns only show that LEN and DATALENGTH compile, not what they count.",
+      "unproven": "That LEN counts characters and DATALENGTH counts bytes, the 'é' example, the buffer-sizing advice and the trailing-space behaviour."
+    },
+    {
+      "id": "strings-utf8-varchar-n-is-bytes",
+      "proof": "none",
+      "reason": "An ASCII cast to varchar(3) returning varchar(3) says nothing about whether n counts bytes or characters.",
+      "unproven": "That n is a byte count and that non-ASCII text is silently truncated."
+    },
+    {
+      "id": "strings-utf8-nvarchar-literals",
+      "proof": "partial",
+      "reason": "The nvarchar(1) result proves that N'' literals compile as nvarchar in a query.",
+      "unproven": "That Warehouse tables cannot have nvarchar columns and that stored text ends up as UTF-8 varchar."
+    },
+    {
+      "id": "strings-utf8-case-sensitive-default",
+      "proof": "none",
+      "reason": "An int result type cannot show the default collation or what CHARINDEX and REPLACE return.",
+      "unproven": "The default collation name, case-sensitive and binary behaviour of =, LIKE, CHARINDEX and REPLACE, and the example return values."
+    },
+    {
+      "id": "strings-utf8-collate-ci",
+      "proof": "partial",
+      "reason": "The probe proves that COLLATE with a UTF-8 CI collation compiles inside an expression.",
+      "unproven": "That the comparison actually becomes case-insensitive."
+    },
+    {
+      "id": "strings-utf8-substring-chars",
+      "proof": "none",
+      "reason": "The varchar(6) types reflect the byte size of the literal and do not show how positions and lengths are interpreted.",
+      "unproven": "That LEFT, RIGHT and SUBSTRING use character positions rather than byte offsets."
+    },
+    {
+      "id": "strings-utf8-string-agg-8000",
+      "proof": "partial",
+      "reason": "The varchar(8000) result type proves the declared return type for non-max varchar input.",
+      "unproven": "The run-time failure past 8000 bytes and multi-byte characters reaching the limit sooner."
+    },
+    {
+      "id": "strings-utf8-string-split-ordinal",
+      "proof": "partial",
+      "reason": "The probe compiles with the third argument 1 and exposes a bigint ordinal column.",
+      "unproven": "The single-character separator restriction and that row order is not guaranteed without ordering by ordinal."
+    },
+    {
+      "id": "strings-utf8-concat-ws-nulls",
+      "proof": "none",
+      "reason": "A varchar(6) result type cannot show how NULLs and empty strings are handled.",
+      "unproven": "That NULLs are skipped with their separator while empty strings are kept, so NULL and '' give different output."
+    },
+    {
+      "id": "strings-utf8-trim-chars",
+      "proof": "partial",
+      "reason": "The probe proves that the 'chars' FROM form and the LEADING keyword compile.",
+      "unproven": "That TRIM removes only spaces by default, and that the forms strip the stated characters."
+    },
+    {
+      "id": "strings-utf8-regexp-like-predicate",
+      "proof": "partial",
+      "reason": "The probe proves that REGEXP_LIKE compiles inside IIF and yields int.",
+      "unproven": "That REGEXP_LIKE cannot be used as a value directly, and its use in WHERE or CASE."
+    },
+    {
+      "id": "strings-utf8-regexp-case-flag",
+      "proof": "partial",
+      "reason": "The probe only proves that the 'i' flag argument is accepted by REGEXP_REPLACE and REGEXP_COUNT.",
+      "unproven": "That matching is case-sensitive by default and case-insensitive with 'i'."
+    },
+    {
+      "id": "strings-utf8-regexp-tvf-missing",
+      "proof": "partial",
+      "reason": "Error 208 'Invalid object name' proves that REGEXP_SPLIT_TO_TABLE is not recognized.",
+      "unproven": "That REGEXP_MATCHES is not recognized; it was not probed."
+    }
+  ]
+}

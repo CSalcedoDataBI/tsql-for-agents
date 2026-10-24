@@ -1,5 +1,5 @@
 {
- "status": "probed",
+ "status": "partly_probed",
  "drafted_by": "claude-review",
  "revision": 2,
  "topic": "conversion",
@@ -235,5 +235,21 @@
    "confidence": "low"
   }
  ],
- "refuted": []
+ "refuted": [],
+ "not_fully_proven": [
+  "conv-varchar-no-length",
+  "conv-decimal-default",
+  "conv-datetime2-default-precision",
+  "conv-datetime-in-query",
+  "conv-convert-style-112",
+  "conv-try-cast-type-pair",
+  "conv-try-convert-null",
+  "conv-implicit-precedence",
+  "conv-int-truncation",
+  "conv-format-nvarchar",
+  "conv-parse-culture",
+  "conv-try-parse-type",
+  "conv-utf8-bytes"
+ ],
+ "probed_on": "sql_analytics_endpoint"
 }
