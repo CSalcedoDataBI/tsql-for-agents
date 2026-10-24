@@ -1,0 +1,275 @@
+{
+ "status": "unprobed",
+ "drafted_by": "claude-review",
+ "revision": 2,
+ "topic": "ai-vector-regex",
+ "title": "AI, vector and regular-expression functions in Fabric: what exists and what fails",
+ "summary": "Fabric Warehouse and the Lakehouse SQL analytics endpoint support the text AI functions: AI_SUMMARIZE, AI_CLASSIFY, AI_EXTRACT, AI_ANALYZE_SENTIMENT, AI_FIX_GRAMMAR, AI_TRANSLATE and AI_GENERATE_RESPONSE. They also support the scalar regex functions REGEXP_LIKE, REGEXP_REPLACE, REGEXP_SUBSTR, REGEXP_INSTR and REGEXP_COUNT, and the fuzzy-match functions EDIT_DISTANCE, EDIT_DISTANCE_SIMILARITY, JARO_WINKLER_DISTANCE and JARO_WINKLER_SIMILARITY. The SQL Server 2025 vector and embedding stack is missing. VECTOR_DISTANCE, VECTOR_NORM, VECTOR_NORMALIZE, VECTOR_SEARCH, VECTORPROPERTY and AI_GENERATE_EMBEDDINGS are not supported. AI_GENERATE_CHUNKS is not recognized. The regex table functions REGEXP_MATCHES and REGEXP_SPLIT_TO_TABLE are also not recognized. REGEXP_LIKE is a predicate, not a value you can SELECT.",
+ "claims": [
+  {
+   "id": "vector-functions-not-supported",
+   "statement": "VECTOR_DISTANCE, VECTOR_NORM, VECTOR_NORMALIZE, VECTOR_SEARCH and VECTORPROPERTY are not supported in Fabric. Any query that uses them fails to compile.",
+   "functions": [
+    "VECTOR_DISTANCE",
+    "VECTOR_NORM",
+    "VECTOR_NORMALIZE",
+    "VECTOR_SEARCH",
+    "VECTORPROPERTY"
+   ],
+   "probe_sql": "SELECT VECTOR_DISTANCE('cosine', '[1,0]', '[0,1]') AS d",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 has the vector functions and VECTOR_SEARCH.",
+   "alternative": "Store vectors as JSON arrays and compute the math with OPENJSON, SUM and SQRT. See claim vector-math-via-openjson.",
+   "confidence": "high"
+  },
+  {
+   "id": "vector-type-missing",
+   "statement": "The vector data type is not available. CAST to vector(n) and columns declared as vector(n) fail.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('[1,2,3]' AS vector(3)) AS v",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 has the vector(n) type.",
+   "alternative": "Keep embeddings in varchar(max) or nvarchar(max) as JSON arrays.",
+   "confidence": "low"
+  },
+  {
+   "id": "vector-math-via-openjson",
+   "statement": "A dot product over two JSON arrays compiles in Fabric and returns float. Building cosine similarity this way (dot product divided by the product of SQRT of the sums of squares) is the workaround for VECTOR_DISTANCE.",
+   "functions": [
+    "OPENJSON",
+    "SUM",
+    "CAST",
+    "SQRT"
+   ],
+   "probe_sql": "SELECT SUM(CAST(a.[value] AS float) * CAST(b.[value] AS float)) AS dot FROM OPENJSON('[1,2,3]') AS a JOIN OPENJSON('[4,5,6]') AS b ON a.[key] = b.[key]",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "float"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "ai-generate-embeddings-not-supported",
+   "statement": "AI_GENERATE_EMBEDDINGS is not supported, so embeddings cannot be generated inside a Fabric query.",
+   "functions": [
+    "AI_GENERATE_EMBEDDINGS"
+   ],
+   "probe_sql": "SELECT AI_GENERATE_EMBEDDINGS(N'hello world' USE MODEL EmbedModel) AS e",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 has AI_GENERATE_EMBEDDINGS with USE MODEL against an external model.",
+   "alternative": "Generate embeddings outside the warehouse and load them as JSON text.",
+   "confidence": "high"
+  },
+  {
+   "id": "ai-generate-chunks-not-recognized",
+   "statement": "AI_GENERATE_CHUNKS is not recognized. Text chunking for retrieval pipelines must be done another way.",
+   "functions": [
+    "AI_GENERATE_CHUNKS"
+   ],
+   "probe_sql": "SELECT * FROM AI_GENERATE_CHUNKS(source = N'some long text', chunk_type = FIXED, chunk_size = 10) AS c",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 has the AI_GENERATE_CHUNKS table function.",
+   "alternative": "For fixed-size chunks, use GENERATE_SERIES with SUBSTRING and LEN.",
+   "confidence": "high"
+  },
+  {
+   "id": "ai-text-functions-exist",
+   "statement": "The text AI functions compile in Fabric: AI_SUMMARIZE, AI_CLASSIFY, AI_EXTRACT, AI_ANALYZE_SENTIMENT, AI_FIX_GRAMMAR, AI_TRANSLATE and AI_GENERATE_RESPONSE. AI_SUMMARIZE returns varchar(max), not nvarchar(max), even when the input is an nvarchar literal; cast the result to nvarchar(max) if you need Unicode typing downstream.",
+   "functions": [
+    "AI_SUMMARIZE",
+    "AI_CLASSIFY",
+    "AI_EXTRACT",
+    "AI_ANALYZE_SENTIMENT",
+    "AI_FIX_GRAMMAR",
+    "AI_TRANSLATE",
+    "AI_GENERATE_RESPONSE"
+   ],
+   "probe_sql": "SELECT AI_SUMMARIZE(N'The quarterly report shows revenue grew while costs stayed flat.') AS s",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(max)"
+   },
+   "sql_server": "SQL Server 2025 does not have AI_SUMMARIZE, AI_CLASSIFY, AI_EXTRACT, AI_ANALYZE_SENTIMENT, AI_FIX_GRAMMAR, AI_TRANSLATE or AI_GENERATE_RESPONSE.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "ai-classify-labels",
+   "statement": "AI_CLASSIFY takes the input text followed by candidate labels as separate arguments, not a single delimited list.",
+   "functions": [
+    "AI_CLASSIFY"
+   ],
+   "probe_sql": "SELECT AI_CLASSIFY(N'The delivery was late and the box was damaged.', N'complaint', N'praise', N'question') AS label",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "regexp-like-is-predicate",
+   "statement": "REGEXP_LIKE is a predicate. Use it in WHERE, in a JOIN condition or inside CASE WHEN; it does not return a bit or int value.",
+   "functions": [
+    "REGEXP_LIKE"
+   ],
+   "probe_sql": "SELECT CASE WHEN REGEXP_LIKE('ABC123', '^[a-z]+[0-9]+$', 'i') THEN 1 ELSE 0 END AS is_match",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "regexp-like-not-selectable",
+   "statement": "Selecting REGEXP_LIKE directly as a column fails, because it is boolean and not a value type.",
+   "functions": [
+    "REGEXP_LIKE"
+   ],
+   "probe_sql": "SELECT REGEXP_LIKE('abc', '^a') AS is_match",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": "Wrap it in CASE WHEN ... THEN 1 ELSE 0 END.",
+   "confidence": "low"
+  },
+  {
+   "id": "regexp-count-int",
+   "statement": "REGEXP_COUNT exists and returns int.",
+   "functions": [
+    "REGEXP_COUNT"
+   ],
+   "probe_sql": "SELECT REGEXP_COUNT('a1b22c333', '[0-9]+') AS n",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "regexp-matches-not-recognized",
+   "statement": "The table function REGEXP_MATCHES is not recognized in Fabric. Code that lists all matches with it fails.",
+   "functions": [
+    "REGEXP_MATCHES"
+   ],
+   "probe_sql": "SELECT * FROM REGEXP_MATCHES('a1b22c333', '[0-9]+') AS m",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 has REGEXP_MATCHES as a table-valued function.",
+   "alternative": "Number the matches with GENERATE_SERIES(1, REGEXP_COUNT(...)) and pull each one with REGEXP_SUBSTR(text, pattern, 1, n). See claim regexp-substr-occurrence.",
+   "confidence": "high"
+  },
+  {
+   "id": "regexp-substr-occurrence",
+   "statement": "REGEXP_SUBSTR with its occurrence argument, driven by GENERATE_SERIES and REGEXP_COUNT, compiles. It replaces REGEXP_MATCHES.",
+   "functions": [
+    "REGEXP_SUBSTR",
+    "REGEXP_COUNT",
+    "GENERATE_SERIES"
+   ],
+   "probe_sql": "SELECT REGEXP_SUBSTR('a1b22c333', '[0-9]+', 1, CAST(g.[value] AS int)) AS m FROM GENERATE_SERIES(1, REGEXP_COUNT('a1b22c333', '[0-9]+')) AS g",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "regexp-split-not-recognized",
+   "statement": "The table function REGEXP_SPLIT_TO_TABLE is not recognized in Fabric.",
+   "functions": [
+    "REGEXP_SPLIT_TO_TABLE"
+   ],
+   "probe_sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a1b22c333', '[0-9]+') AS s",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 has REGEXP_SPLIT_TO_TABLE.",
+   "alternative": "Use REGEXP_REPLACE to turn each match into a single delimiter character, then split with STRING_SPLIT.",
+   "confidence": "high"
+  },
+  {
+   "id": "fuzzy-match-scales",
+   "statement": "EDIT_DISTANCE returns an int count of edits. EDIT_DISTANCE_SIMILARITY returns an int from 0 to 100. JARO_WINKLER_DISTANCE returns a float from 0 to 1. Comparing them against the same threshold silently gives wrong matches.",
+   "functions": [
+    "EDIT_DISTANCE",
+    "EDIT_DISTANCE_SIMILARITY",
+    "JARO_WINKLER_DISTANCE",
+    "JARO_WINKLER_SIMILARITY"
+   ],
+   "probe_sql": "SELECT JARO_WINKLER_DISTANCE('martha', 'marhta') AS jw, EDIT_DISTANCE('kitten', 'sitting') AS ed, EDIT_DISTANCE_SIMILARITY('kitten', 'sitting') AS eds, JARO_WINKLER_SIMILARITY('martha', 'marhta') AS jws",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "float"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "low"
+  }
+ ],
+ "refuted": [
+  "vector-functions-not-supported",
+  "vector-type-missing",
+  "ai-generate-embeddings-not-supported",
+  "ai-generate-chunks-not-recognized",
+  "regexp-like-not-selectable",
+  "regexp-matches-not-recognized",
+  "regexp-split-not-recognized"
+ ],
+ "not_fully_proven": [
+  "vector-functions-not-supported",
+  "vector-type-missing",
+  "vector-math-via-openjson",
+  "ai-generate-embeddings-not-supported",
+  "ai-generate-chunks-not-recognized",
+  "ai-text-functions-exist",
+  "ai-classify-labels",
+  "regexp-like-is-predicate",
+  "regexp-like-not-selectable",
+  "regexp-substr-occurrence",
+  "fuzzy-match-scales"
+ ],
+ "probed_on": "sql_analytics_endpoint"
+}

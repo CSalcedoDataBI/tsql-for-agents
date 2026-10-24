@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "dt-nvarchar-expr",
+      "proof": "partial",
+      "reason": "The probe shows that a CAST to nvarchar(10) compiles and returns nvarchar(10) in an expression.",
+      "unproven": "That only table columns reject nvarchar, and that varchar uses a UTF-8 collation that preserves Unicode text."
+    },
+    {
+      "id": "dt-nvarchar-table",
+      "proof": "partial",
+      "reason": "Error 24574 proves that an nvarchar column is rejected in CREATE TABLE.",
+      "unproven": "That an nchar column is also rejected; no nchar probe was run."
+    },
+    {
+      "id": "dt-getdate-datetime",
+      "proof": "partial",
+      "reason": "The observed type proves that GETDATE returns datetime.",
+      "unproven": "That a table column cannot use datetime, and that casting to datetime2(6) makes the value insertable."
+    },
+    {
+      "id": "dt-datetime2-7-expr",
+      "proof": "partial",
+      "reason": "The observed type proves that SYSDATETIME returns datetime2(7).",
+      "unproven": "That table columns allow at most datetime2(6), and the advice to CAST before persisting."
+    },
+    {
+      "id": "dt-datetime2-6-cast",
+      "proof": "partial",
+      "reason": "The CAST compiles and returns datetime2(6).",
+      "unproven": "That datetime2(6) is storable in a table, and that plain datetime2 means datetime2(7)."
+    },
+    {
+      "id": "dt-datetime2-7-table",
+      "proof": "partial",
+      "reason": "Error 24597 proves that a datetime2(7) column is rejected and that precision must be between 0 and 6.",
+      "unproven": "That a column declared as plain datetime2 is also rejected; no such probe was run."
+    },
+    {
+      "id": "dt-datetimeoffset",
+      "proof": "partial",
+      "reason": "The probe shows that AT TIME ZONE 'UTC' followed by a CAST compiles to datetime2(6).",
+      "unproven": "That SYSDATETIMEOFFSET returns datetimeoffset(7) (that type was not observed), that datetimeoffset cannot be a table column, and that the UTC normalization gives correct values."
+    },
+    {
+      "id": "dt-money",
+      "proof": "partial",
+      "reason": "The probe shows that money compiles in an expression and that a CAST to decimal(19,4) yields decimal(19,4).",
+      "unproven": "That money and smallmoney are rejected as table columns, that smallmoney works in expressions, and that the decimal mappings preserve values."
+    },
+    {
+      "id": "dt-tinyint",
+      "proof": "partial",
+      "reason": "The observed type proves that a CAST to tinyint yields tinyint in a query.",
+      "unproven": "That tinyint cannot be a table column type, and that smallint is the right replacement."
+    },
+    {
+      "id": "dt-varchar-max",
+      "proof": "partial",
+      "reason": "The probe shows only that a CAST to varchar(max) compiles and returns varchar(max) in a query.",
+      "unproven": "That varchar(max) replaces text, ntext and nvarchar(max) in a Warehouse, and the varchar(8000) exposure and truncation in the Lakehouse SQL analytics endpoint."
+    },
+    {
+      "id": "dt-uniqueidentifier",
+      "proof": "partial",
+      "reason": "The probe shows that NEWID compiles and returns uniqueidentifier.",
+      "unproven": "That NEWSEQUENTIALID is unsupported and fails as a column default, and that uniqueidentifier is allowed as a table column."
+    },
+    {
+      "id": "dt-sql-variant",
+      "proof": "partial",
+      "reason": "Error 15871 proves that SQL_VARIANT_PROPERTY is not supported.",
+      "unproven": "That sql_variant cannot be a column type."
+    },
+    {
+      "id": "dt-xml",
+      "proof": "partial",
+      "reason": "The probe shows that a CAST to xml compiles and returns xml.",
+      "unproven": "That xml cannot be a table column type, and the advice to store XML as varchar(max)."
+    },
+    {
+      "id": "dt-geography",
+      "proof": "partial",
+      "reason": "The probe shows that a CAST to geography compiles and returns geography.",
+      "unproven": "That geography and geometry cannot be table column types, and the storage alternatives."
+    }
+  ]
+}

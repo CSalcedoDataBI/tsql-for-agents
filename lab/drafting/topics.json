@@ -1,0 +1,72 @@
+[
+  {
+    "id": "unsupported-vs-sql-server",
+    "title": "Built-in functions SQL Server has and Fabric rejects",
+    "scope": "Functions an agent trained on SQL Server will reach for and that the Fabric engine answers with 'not supported' (error 15871/15868) or does not recognise: randomness, identity and sequences, session and connection info, error handling functions, cryptography, file and filegroup metadata. For each, the Fabric-native alternative when one exists in the list."
+  },
+  {
+    "id": "data-types",
+    "title": "Data types: what Fabric Warehouse stores and what it rejects",
+    "scope": "Column data types a Fabric Warehouse table accepts versus SQL Server: nvarchar/nchar, datetime vs datetime2 precision, datetimeoffset, money, tinyint, xml, sql_variant, text/ntext/image, geography/geometry, uniqueidentifier, varchar(max) limits. Claims must be about types in expressions (CAST to the type) or in CREATE TABLE statements that are only compiled, never run."
+  },
+  {
+    "id": "collation",
+    "title": "Collation and case sensitivity in Fabric",
+    "scope": "Default collation of a Fabric Warehouse and SQL analytics endpoint (UTF-8, binary, case-sensitive), how it changes string comparison, ORDER BY, GROUP BY and joins, the COLLATE clause in expressions, COLLATIONPROPERTY, and what breaks when code assumes SQL Server's case-insensitive default."
+  },
+  {
+    "id": "strings-utf8",
+    "title": "String functions on UTF-8 varchar",
+    "scope": "LEN vs DATALENGTH, LEFT/RIGHT/SUBSTRING, CHARINDEX, REPLACE, TRANSLATE, TRIM, STRING_AGG, STRING_SPLIT and CONCAT_WS when varchar holds UTF-8 and nvarchar may not be available; the regular expression functions REGEXP_*."
+  },
+  {
+    "id": "date-time",
+    "title": "Date and time functions in Fabric",
+    "scope": "GETDATE, SYSDATETIME, SYSUTCDATETIME, CURRENT_TIMESTAMP, CURRENT_DATE, DATETRUNC, DATE_BUCKET, DATEADD/DATEDIFF/DATEDIFF_BIG, EOMONTH, AT TIME ZONE, SWITCHOFFSET, TODATETIMEOFFSET, CURRENT_TIMEZONE; session time zone is UTC; datetime2 precision."
+  },
+  {
+    "id": "json",
+    "title": "JSON functions in Fabric",
+    "scope": "ISJSON, JSON_VALUE, JSON_QUERY, JSON_MODIFY, JSON_OBJECT, JSON_ARRAY, JSON_OBJECTAGG, JSON_ARRAYAGG, JSON_PATH_EXISTS, JSON_CONTAINS, OPENJSON with and without WITH; the native json type."
+  },
+  {
+    "id": "aggregates-windows",
+    "title": "Aggregates and window functions",
+    "scope": "STRING_AGG with WITHIN GROUP, APPROX_COUNT_DISTINCT, APPROX_PERCENTILE_CONT/DISC, PERCENTILE_CONT/DISC, GROUPING/GROUPING_ID with ROLLUP/CUBE/GROUPING SETS, ANY_VALUE, LAG/LEAD/FIRST_VALUE/LAST_VALUE with IGNORE NULLS, window frames, CHECKSUM_AGG."
+  },
+  {
+    "id": "conversion",
+    "title": "Conversion functions",
+    "scope": "CAST, CONVERT with style numbers, TRY_CAST, TRY_CONVERT, PARSE, TRY_PARSE, FORMAT; which styles and cultures work, and implicit conversion surprises between varchar and numeric or date types."
+  },
+  {
+    "id": "metadata-security",
+    "title": "Metadata and security functions",
+    "scope": "OBJECT_ID, OBJECT_NAME, SCHEMA_NAME, DB_NAME, DB_ID, COL_NAME, COLUMNPROPERTY, OBJECTPROPERTY(EX), TYPE_NAME, USER_NAME, SUSER_SNAME, CURRENT_USER, SESSION_USER, IS_MEMBER, IS_ROLEMEMBER, HAS_PERMS_BY_NAME, SERVERPROPERTY, DATABASEPROPERTYEX, @@VERSION; what they return for an Entra identity in Fabric."
+  },
+  {
+    "id": "error-handling",
+    "title": "Error handling and transactions",
+    "scope": "TRY...CATCH, THROW, RAISERROR, ERROR_NUMBER, ERROR_MESSAGE, ERROR_SEVERITY, ERROR_STATE, ERROR_PROCEDURE, ERROR_LINE, XACT_STATE, @@ERROR, @@TRANCOUNT, @@ROWCOUNT, ROWCOUNT_BIG; snapshot isolation only; which of these Fabric rejects and the alternative."
+  },
+  {
+    "id": "rowset-external",
+    "title": "Rowset functions and reading files",
+    "scope": "OPENROWSET(BULK) over OneLake/ADLS files (parquet, csv, jsonl), OPENJSON, STRING_SPLIT, GENERATE_SERIES; the SQL Server rowset functions Fabric rejects (OPENQUERY, OPENDATASOURCE, OPENXML, linked servers)."
+  },
+  {
+    "id": "math-hashing",
+    "title": "Math, randomness and hashing",
+    "scope": "RAND, NEWID, CHECKSUM, BINARY_CHECKSUM, HASHBYTES algorithms, CRYPT_GEN_RANDOM, ROUND/FLOOR/CEILING with decimal precision, POWER/SQRT/LOG with float, integer division, GREATEST/LEAST, bit functions (BIT_COUNT, GET_BIT, SET_BIT, LEFT_SHIFT, RIGHT_SHIFT)."
+  },
+  {
+    "id": "endpoint-vs-warehouse",
+    "title": "SQL analytics endpoint versus Warehouse",
+    "scope": "What the read-only SQL analytics endpoint of a Lakehouse accepts compared with a Warehouse: views, functions and procedures yes; INSERT/UPDATE/DELETE/CREATE TABLE no; three-part names across items in the same workspace; temp tables. Claims must be probes that compile or fail at compile time."
+  },
+  {
+    "id": "ai-vector-regex",
+    "title": "AI, vector and regular-expression functions",
+    "scope": "AI_* functions, VECTOR_* functions and the vector type, REGEXP_LIKE/REGEXP_REPLACE/REGEXP_SUBSTR/REGEXP_INSTR/REGEXP_COUNT/REGEXP_MATCHES/REGEXP_SPLIT_TO_TABLE, EDIT_DISTANCE, JARO_WINKLER_*: which the Fabric engine has today, which are preview, and what a probe shows."
+  }
+]

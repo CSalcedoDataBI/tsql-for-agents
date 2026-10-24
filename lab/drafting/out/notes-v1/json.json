@@ -1,0 +1,235 @@
+{
+  "status": "unprobed",
+  "drafted_by": "claude-review",
+  "topic": "json",
+  "title": "JSON functions in Fabric: what works, what does not, and what type comes back",
+  "summary": "Fabric Warehouse and the SQL analytics endpoint support most SQL Server JSON functions: ISJSON, JSON_VALUE, JSON_QUERY, JSON_MODIFY, JSON_OBJECT, JSON_ARRAY, JSON_OBJECTAGG, JSON_ARRAYAGG, JSON_PATH_EXISTS and OPENJSON. JSON_CONTAINS is not supported. Do not assume a native json data type exists; keep JSON in string columns. The main silent traps are lax-mode NULLs, the 4000-character limit on JSON_VALUE, and the string result types. The claims marked low confidence still need to be checked by their probes.",
+  "claims": [
+    {
+      "id": "json-contains-not-supported",
+      "statement": "JSON_CONTAINS is not supported in Fabric. The engine rejects it with a 'not supported' error. Test for membership with OPENJSON and EXISTS, or compare JSON_VALUE to the value.",
+      "functions": [
+        "JSON_CONTAINS"
+      ],
+      "probe_sql": "SELECT JSON_CONTAINS('{\"a\":1}', 1, '$.a') AS c;",
+      "expect": {
+        "outcome": "error",
+        "error_number": null,
+        "result_type": null
+      },
+      "sql_server": "SQL Server 2025 and Azure SQL Database provide JSON_CONTAINS.",
+      "alternative": "SELECT CASE WHEN EXISTS (SELECT 1 FROM OPENJSON('{\"a\":[1,2,3]}', '$.a') WHERE [value] = '2') THEN 1 ELSE 0 END AS c;",
+      "confidence": "high"
+    },
+    {
+      "id": "json-native-type",
+      "statement": "Do not declare or cast to the native json data type in Fabric. Store and pass JSON as varchar or nvarchar text, and validate it with ISJSON.",
+      "functions": [
+        "CAST"
+      ],
+      "probe_sql": "SELECT CAST('{\"a\":1}' AS json) AS j;",
+      "expect": {
+        "outcome": "error",
+        "error_number": null,
+        "result_type": null
+      },
+      "sql_server": "SQL Server 2025 and Azure SQL Database have a native json type.",
+      "alternative": "SELECT CAST('{\"a\":1}' AS varchar(8000)) AS j WHERE ISJSON('{\"a\":1}') = 1;",
+      "confidence": "low"
+    },
+    {
+      "id": "json-value-type",
+      "statement": "JSON_VALUE returns nvarchar(4000). It returns a string, not a number or a date. Wrap it in TRY_CAST or CAST before you do arithmetic or date comparisons with it.",
+      "functions": [
+        "JSON_VALUE"
+      ],
+      "probe_sql": "SELECT JSON_VALUE('{\"a\":\"x\"}', '$.a') AS v;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(4000)"
+      },
+      "sql_server": "Same as SQL Server when no RETURNING clause is used.",
+      "alternative": "SELECT TRY_CAST(JSON_VALUE('{\"n\":42}', '$.n') AS int) AS n;",
+      "confidence": "low"
+    },
+    {
+      "id": "json-value-object-null",
+      "statement": "In lax mode (the default), JSON_VALUE on a path that points to an object or an array returns NULL, with no error. Use JSON_QUERY for objects and arrays. The query compiles either way, so the bug is silent.",
+      "functions": [
+        "JSON_VALUE",
+        "JSON_QUERY"
+      ],
+      "probe_sql": "SELECT JSON_VALUE('{\"a\":{\"b\":1}}', '$.a') AS v;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(4000)"
+      },
+      "sql_server": "Same lax-mode behaviour as SQL Server.",
+      "alternative": "SELECT JSON_QUERY('{\"a\":{\"b\":1}}', '$.a') AS v;",
+      "confidence": "low"
+    },
+    {
+      "id": "json-query-type",
+      "statement": "JSON_QUERY returns nvarchar(max). In lax mode it returns NULL when the path points to a scalar.",
+      "functions": [
+        "JSON_QUERY"
+      ],
+      "probe_sql": "SELECT JSON_QUERY('{\"a\":[1,2]}', '$.a') AS q;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(max)"
+      },
+      "sql_server": "Same as SQL Server.",
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "openjson-default-schema",
+      "statement": "OPENJSON without a WITH clause returns three columns: key (nvarchar(4000)), value (nvarchar(max)) and type (int). Every value comes back as text, so cast it explicitly.",
+      "functions": [
+        "OPENJSON"
+      ],
+      "probe_sql": "SELECT [key], [value], [type] FROM OPENJSON('[10,20]');",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(4000)"
+      },
+      "sql_server": "Same as SQL Server.",
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "openjson-with-as-json",
+      "statement": "In OPENJSON ... WITH, a column marked AS JSON must be declared nvarchar(max). Any other type is a compile error.",
+      "functions": [
+        "OPENJSON"
+      ],
+      "probe_sql": "SELECT j FROM OPENJSON('{\"a\":{\"b\":1}}') WITH (j nvarchar(100) '$.a' AS JSON);",
+      "expect": {
+        "outcome": "error",
+        "error_number": 13618,
+        "result_type": null
+      },
+      "sql_server": "SQL Server raises the same error.",
+      "alternative": "SELECT j FROM OPENJSON('{\"a\":{\"b\":1}}') WITH (j nvarchar(max) '$.a' AS JSON);",
+      "confidence": "low"
+    },
+    {
+      "id": "openjson-with-typed",
+      "statement": "OPENJSON with a WITH clause returns typed columns. Prefer it over chains of JSON_VALUE plus CAST when you shred many properties.",
+      "functions": [
+        "OPENJSON"
+      ],
+      "probe_sql": "SELECT n FROM OPENJSON('[{\"n\":1},{\"n\":2}]') WITH (n int '$.n');",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": "Same as SQL Server.",
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "json-path-exists-int",
+      "statement": "JSON_PATH_EXISTS exists in Fabric and returns int (1 or 0), not bit. Compare it with = 1.",
+      "functions": [
+        "JSON_PATH_EXISTS"
+      ],
+      "probe_sql": "SELECT JSON_PATH_EXISTS('{\"a\":1}', '$.a') AS e;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": "Same as SQL Server 2022.",
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "json-object-builder",
+      "statement": "JSON_OBJECT uses key:value pairs separated by a colon, not by a comma. It returns nvarchar(max).",
+      "functions": [
+        "JSON_OBJECT"
+      ],
+      "probe_sql": "SELECT JSON_OBJECT('a':1, 'b':'x') AS o;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(max)"
+      },
+      "sql_server": "Same syntax as SQL Server 2022.",
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "json-arrayagg",
+      "statement": "JSON_ARRAYAGG is available as an aggregate. Use it instead of STRING_AGG plus manual brackets and quoting, which breaks on values that contain quotes.",
+      "functions": [
+        "JSON_ARRAYAGG",
+        "STRING_AGG"
+      ],
+      "probe_sql": "SELECT JSON_ARRAYAGG(v) AS a FROM (VALUES (1),(2),(3)) AS t(v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(max)"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "json-objectagg",
+      "statement": "JSON_OBJECTAGG builds one object from rows, using the syntax key:value.",
+      "functions": [
+        "JSON_OBJECTAGG"
+      ],
+      "probe_sql": "SELECT JSON_OBJECTAGG(k:v) AS o FROM (VALUES ('a',1),('b',2)) AS t(k,v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(max)"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "json-modify",
+      "statement": "JSON_MODIFY works in Fabric and returns the updated text. Use the 'append $.path' form to add to an array. Without 'append', the call replaces the value.",
+      "functions": [
+        "JSON_MODIFY"
+      ],
+      "probe_sql": "SELECT JSON_MODIFY('{\"a\":[1]}', 'append $.a', 2) AS m;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "nvarchar(max)"
+      },
+      "sql_server": "Same as SQL Server.",
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "isjson-type-constraint",
+      "statement": "ISJSON accepts an optional second argument that restricts the JSON type (VALUE, ARRAY, OBJECT, SCALAR). It returns int.",
+      "functions": [
+        "ISJSON"
+      ],
+      "probe_sql": "SELECT ISJSON('{\"a\":1}', OBJECT) AS ok;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": "SELECT ISJSON('{\"a\":1}') AS ok;",
+      "confidence": "low"
+    }
+  ]
+}

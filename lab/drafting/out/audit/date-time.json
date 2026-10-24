@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "dt-current-date-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 naming current_date proves that it is unsupported, but the replacement advice and the UTC date semantics are not compiled.",
+      "unproven": "That CAST(GETDATE() AS date) is the right replacement and that it yields the UTC date rather than the local date."
+    },
+    {
+      "id": "dt-getdate-is-utc",
+      "proof": "partial",
+      "reason": "The observed datetime type proves only that GETDATE returns datetime.",
+      "unproven": "That GETDATE, CURRENT_TIMESTAMP and SYSDATETIME return UTC because the session time zone is UTC; CURRENT_TIMESTAMP and SYSDATETIME were not probed."
+    },
+    {
+      "id": "dt-sysdatetime-precision",
+      "proof": "partial",
+      "reason": "The observed datetime2(7) proves the return type of SYSDATETIME and nothing about table storage.",
+      "unproven": "That warehouse tables only store datetime2 up to precision 6, and that a cast is needed before INSERT or CTAS."
+    },
+    {
+      "id": "dt-cast-datetime2-6",
+      "proof": "partial",
+      "reason": "The probe proves the cast yields datetime2(6), but no table was involved.",
+      "unproven": "That datetime2(6) is the precision warehouse tables can store."
+    },
+    {
+      "id": "dt-current-timezone-id-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 naming CURRENT_TIMEZONE_ID proves that it is unsupported; CURRENT_TIMEZONE was not part of this probe.",
+      "unproven": "That CURRENT_TIMEZONE exists and reports UTC."
+    },
+    {
+      "id": "dt-current-timezone-exists",
+      "proof": "partial",
+      "reason": "The successful compile and the nvarchar(128) type prove that CURRENT_TIMEZONE exists and returns a string.",
+      "unproven": "That the string describes the session time zone and that the zone is UTC."
+    },
+    {
+      "id": "dt-at-time-zone",
+      "proof": "partial",
+      "reason": "The chained AT TIME ZONE compiled and the observed type proves the datetimeoffset result.",
+      "unproven": "That Windows time zone names actually resolve at run time and convert correctly, since zone names are not validated by compilation."
+    },
+    {
+      "id": "dt-datediff-big",
+      "proof": "partial",
+      "reason": "The probe proves only that DATEDIFF_BIG returns bigint.",
+      "unproven": "That DATEDIFF returns int and fails at run time on overflow; DATEDIFF was not probed."
+    },
+    {
+      "id": "dt-datetrunc-type",
+      "proof": "partial",
+      "reason": "The probe proves that DATETRUNC exists and that a date input gives date.",
+      "unproven": "That DATETRUNC returns its input type in general, beyond this single date case."
+    },
+    {
+      "id": "dt-datetrunc-literal",
+      "proof": "partial",
+      "reason": "The observed datetime2(7) for a string literal input proves the result type.",
+      "unproven": "That datetime2(7) cannot be stored in a warehouse table."
+    },
+    {
+      "id": "dt-date-bucket-origin",
+      "proof": "partial",
+      "reason": "The probe proves that DATE_BUCKET exists and returns date, but it passed an explicit origin.",
+      "unproven": "That the default origin is 1900-01-01 (a Monday), that week buckets ignore @@DATEFIRST, and the resulting bucket boundaries."
+    },
+    {
+      "id": "dt-eomonth-date",
+      "proof": "partial",
+      "reason": "The probe proves EOMONTH returns date for datetime2 input.",
+      "unproven": "The consequences for inclusive upper bounds and the correctness of the suggested < DATEADD(day, 1, EOMONTH(x)) pattern."
+    },
+    {
+      "id": "dt-sysdatetimeoffset-utc",
+      "proof": "partial",
+      "reason": "SWITCHOFFSET over SYSDATETIMEOFFSET giving datetimeoffset(7) only indirectly supports the type, since SYSDATETIMEOFFSET was not probed alone.",
+      "unproven": "That the offset is +00:00 because the session is UTC; the direct return type of SYSDATETIMEOFFSET; TODATETIMEOFFSET usage."
+    },
+    {
+      "id": "dt-todatetimeoffset",
+      "proof": "none",
+      "reason": "Compiling shows only that TODATETIMEOFFSET exists and its type, while the statement is entirely about run-time behaviour.",
+      "unproven": "That TODATETIMEOFFSET only labels the value without shifting the clock time, and that applying it to a GETDATE UTC value gives a wrong instant."
+    }
+  ]
+}

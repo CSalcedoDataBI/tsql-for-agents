@@ -1,0 +1,271 @@
+{
+ "status": "unprobed",
+ "drafted_by": "claude-review",
+ "topic": "date-time",
+ "title": "Date and time functions in Fabric: traps for SQL Server habits",
+ "summary": "Fabric Warehouse and the Lakehouse SQL analytics endpoint run in UTC. GETDATE, SYSDATETIME and CURRENT_TIMESTAMP return UTC, not local time, so convert explicitly with AT TIME ZONE. CURRENT_DATE and CURRENT_TIMEZONE_ID are not supported. SYSDATETIME returns datetime2(7), but warehouse tables store at most datetime2(6). Use DATEDIFF_BIG for fine-grained differences. DATETRUNC and DATE_BUCKET exist, and their result type and bucket origin can surprise you.",
+ "claims": [
+  {
+   "id": "dt-current-date-not-supported",
+   "statement": "CURRENT_DATE is not supported in Fabric. Use CAST(GETDATE() AS date) instead. That gives the UTC date, not the local date.",
+   "functions": [
+    "CURRENT_DATE",
+    "GETDATE",
+    "CAST"
+   ],
+   "probe_sql": "SELECT CURRENT_DATE AS d;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2025 and Azure SQL Database accept CURRENT_DATE and return date.",
+   "alternative": "SELECT CAST(GETDATE() AS date) AS d;",
+   "confidence": "low"
+  },
+  {
+   "id": "dt-getdate-is-utc",
+   "statement": "GETDATE, CURRENT_TIMESTAMP and SYSDATETIME return the current time in UTC, because the session time zone is UTC. Code that assumes server local time silently gets UTC. GETDATE returns datetime.",
+   "functions": [
+    "GETDATE",
+    "CURRENT_TIMESTAMP",
+    "SYSDATETIME"
+   ],
+   "probe_sql": "SELECT GETDATE() AS now_utc;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime"
+   },
+   "sql_server": "On SQL Server these functions return the local time of the host operating system.",
+   "alternative": "For local time, convert explicitly: SELECT CAST(SYSUTCDATETIME() AS datetime2(6)) AT TIME ZONE 'UTC' AT TIME ZONE 'W. Europe Standard Time';",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-sysdatetime-precision",
+   "statement": "SYSDATETIME returns datetime2(7), but Fabric Warehouse tables only store datetime2 up to precision 6. Cast to datetime2(6) before you insert the value or use it in CTAS.",
+   "functions": [
+    "SYSDATETIME",
+    "CAST"
+   ],
+   "probe_sql": "SELECT SYSDATETIME() AS ts;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime2(7)"
+   },
+   "sql_server": "SQL Server tables accept datetime2(7) and datetime columns.",
+   "alternative": "SELECT CAST(SYSDATETIME() AS datetime2(6)) AS ts;",
+   "confidence": "high"
+  },
+  {
+   "id": "dt-cast-datetime2-6",
+   "statement": "Casting to datetime2(6) gives the precision that warehouse tables can store.",
+   "functions": [
+    "CAST",
+    "SYSUTCDATETIME"
+   ],
+   "probe_sql": "SELECT CAST(SYSUTCDATETIME() AS datetime2(6)) AS ts;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime2(6)"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-current-timezone-id-not-supported",
+   "statement": "CURRENT_TIMEZONE_ID is not supported. CURRENT_TIMEZONE exists and reports UTC.",
+   "functions": [
+    "CURRENT_TIMEZONE_ID",
+    "CURRENT_TIMEZONE"
+   ],
+   "probe_sql": "SELECT CURRENT_TIMEZONE_ID() AS tz;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SQL Server 2022 supports CURRENT_TIMEZONE_ID.",
+   "alternative": "SELECT CURRENT_TIMEZONE() AS tz;",
+   "confidence": "low"
+  },
+  {
+   "id": "dt-current-timezone-exists",
+   "statement": "CURRENT_TIMEZONE compiles and returns a string description of the session time zone, which is UTC.",
+   "functions": [
+    "CURRENT_TIMEZONE"
+   ],
+   "probe_sql": "SELECT CURRENT_TIMEZONE() AS tz;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-at-time-zone",
+   "statement": "AT TIME ZONE works with Windows time zone names. Apply AT TIME ZONE 'UTC' first so the UTC value gets an offset, then convert to the target zone. The result is datetimeoffset.",
+   "functions": [
+    "CAST",
+    "SYSUTCDATETIME"
+   ],
+   "probe_sql": "SELECT CAST(SYSUTCDATETIME() AS datetime2(6)) AT TIME ZONE 'UTC' AT TIME ZONE 'Pacific Standard Time' AS local_ts;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetimeoffset(6)"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "dt-datediff-big",
+   "statement": "DATEDIFF returns int and fails at run time when the difference overflows. For second, millisecond or smaller parts over long ranges, use DATEDIFF_BIG, which returns bigint.",
+   "functions": [
+    "DATEDIFF",
+    "DATEDIFF_BIG",
+    "CAST"
+   ],
+   "probe_sql": "SELECT DATEDIFF_BIG(millisecond, CAST('1900-01-01' AS datetime2(6)), CAST('2024-01-01' AS datetime2(6))) AS ms;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "bigint"
+   },
+   "sql_server": "Same overflow behaviour as SQL Server.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-datetrunc-type",
+   "statement": "DATETRUNC exists. It returns the data type of its input. A date input gives date, so cast the input explicitly instead of passing a string literal.",
+   "functions": [
+    "DATETRUNC",
+    "CAST"
+   ],
+   "probe_sql": "SELECT DATETRUNC(month, CAST('2024-05-17' AS date)) AS m;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "date"
+   },
+   "sql_server": "DATETRUNC was added in SQL Server 2022. Older habits use DATEADD/DATEDIFF tricks.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-datetrunc-literal",
+   "statement": "When DATETRUNC gets an untyped string literal, the result type is datetime2(7). That precision cannot be stored in a warehouse table.",
+   "functions": [
+    "DATETRUNC"
+   ],
+   "probe_sql": "SELECT DATETRUNC(day, '2024-05-17 10:11:12') AS d;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime2(7)"
+   },
+   "sql_server": null,
+   "alternative": "SELECT DATETRUNC(day, CAST('2024-05-17 10:11:12' AS datetime2(6))) AS d;",
+   "confidence": "low"
+  },
+  {
+   "id": "dt-date-bucket-origin",
+   "statement": "DATE_BUCKET exists. Without an origin argument, buckets start at 1900-01-01, a Monday. So week buckets start on Monday whatever @@DATEFIRST says. Pass an explicit origin when you need different bucket boundaries.",
+   "functions": [
+    "DATE_BUCKET",
+    "CAST"
+   ],
+   "probe_sql": "SELECT DATE_BUCKET(week, 1, CAST('2024-05-17' AS date), CAST('2024-01-07' AS date)) AS wk;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "date"
+   },
+   "sql_server": null,
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-eomonth-date",
+   "statement": "EOMONTH returns date, even for datetime2 input, so the time part is lost. Do not use it as an inclusive upper bound on datetime2 columns. Use < DATEADD(day, 1, EOMONTH(x)) instead.",
+   "functions": [
+    "EOMONTH",
+    "DATEADD",
+    "CAST"
+   ],
+   "probe_sql": "SELECT EOMONTH(CAST('2024-02-10 13:00:00' AS datetime2(6))) AS eom;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "date"
+   },
+   "sql_server": "Same in SQL Server.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "dt-sysdatetimeoffset-utc",
+   "statement": "SYSDATETIMEOFFSET returns datetimeoffset(7) with offset +00:00, because the session is UTC. Use SWITCHOFFSET or TODATETIMEOFFSET to attach or shift an offset explicitly.",
+   "functions": [
+    "SYSDATETIMEOFFSET",
+    "SWITCHOFFSET",
+    "TODATETIMEOFFSET"
+   ],
+   "probe_sql": "SELECT SWITCHOFFSET(SYSDATETIMEOFFSET(), '-05:00') AS ts;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetimeoffset(7)"
+   },
+   "sql_server": "On SQL Server the offset is the host's local offset.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "dt-todatetimeoffset",
+   "statement": "TODATETIMEOFFSET only labels a value with an offset and does not shift the clock time. Applying it to a UTC value from GETDATE with a non-zero offset silently produces a wrong instant.",
+   "functions": [
+    "TODATETIMEOFFSET",
+    "CAST"
+   ],
+   "probe_sql": "SELECT TODATETIMEOFFSET(CAST('2024-05-17 10:00:00' AS datetime2(6)), '+02:00') AS ts;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetimeoffset(6)"
+   },
+   "sql_server": null,
+   "alternative": "To get correct local time from UTC: CAST(x AS datetime2(6)) AT TIME ZONE 'UTC' AT TIME ZONE '<Windows zone name>'",
+   "confidence": "low"
+  }
+ ],
+ "refuted": [
+  "dt-current-date-not-supported",
+  "dt-current-timezone-id-not-supported"
+ ],
+ "not_fully_proven": [
+  "dt-current-date-not-supported",
+  "dt-getdate-is-utc",
+  "dt-sysdatetime-precision",
+  "dt-cast-datetime2-6",
+  "dt-current-timezone-id-not-supported",
+  "dt-current-timezone-exists",
+  "dt-at-time-zone",
+  "dt-datediff-big",
+  "dt-datetrunc-type",
+  "dt-datetrunc-literal",
+  "dt-date-bucket-origin",
+  "dt-eomonth-date",
+  "dt-sysdatetimeoffset-utc",
+  "dt-todatetimeoffset"
+ ],
+ "probed_on": "sql_analytics_endpoint"
+}

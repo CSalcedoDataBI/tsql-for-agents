@@ -1,0 +1,204 @@
+{
+  "samples": [
+    {
+      "name": "OPENJSON",
+      "sql": "SELECT * FROM OPENJSON(N'[1,2]')",
+      "confidence": "high"
+    },
+    {
+      "name": "OPENQUERY",
+      "sql": "SELECT * FROM OPENQUERY(LinkedSrv, 'SELECT 1')",
+      "confidence": "low"
+    },
+    {
+      "name": "OPENROWSET",
+      "sql": "SELECT * FROM OPENROWSET('SQLNCLI', 'Server=.;Trusted_Connection=yes;', 'SELECT 1')",
+      "confidence": "low"
+    },
+    {
+      "name": "OPENROWSET BULK",
+      "sql": "SELECT * FROM OPENROWSET(BULK 'https://account.dfs.core.windows.net/container/file.parquet', FORMAT = 'PARQUET') AS r",
+      "confidence": "low"
+    },
+    {
+      "name": "OPENXML",
+      "sql": "SELECT * FROM OPENXML(1, N'/root', 1)",
+      "confidence": "low"
+    },
+    {
+      "name": "PARSE",
+      "sql": "PARSE(N'123' AS int)",
+      "confidence": "high"
+    },
+    {
+      "name": "PARSENAME",
+      "sql": "PARSENAME(N'a.b.c', 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "PATINDEX",
+      "sql": "PATINDEX(N'%b%', N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "PERCENTILE_CONT",
+      "sql": "SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY x) OVER () AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "PERCENTILE_DISC",
+      "sql": "SELECT PERCENTILE_DISC(0.5) WITHIN GROUP (ORDER BY x) OVER () AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "PERCENT_RANK",
+      "sql": "SELECT PERCENT_RANK() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "PI",
+      "sql": "PI()",
+      "confidence": "high"
+    },
+    {
+      "name": "POWER",
+      "sql": "POWER(2, 3)",
+      "confidence": "high"
+    },
+    {
+      "name": "PRODUCT",
+      "sql": "SELECT PRODUCT(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "low"
+    },
+    {
+      "name": "PUBLISHINGSERVERNAME",
+      "sql": "PUBLISHINGSERVERNAME()",
+      "confidence": "high"
+    },
+    {
+      "name": "QUANTILE",
+      "sql": "SELECT QUANTILE(x, 0.5) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "low"
+    },
+    {
+      "name": "QUOTENAME",
+      "sql": "QUOTENAME(N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "RADIANS",
+      "sql": "RADIANS(180.0)",
+      "confidence": "high"
+    },
+    {
+      "name": "RANK",
+      "sql": "SELECT RANK() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "REGEXP_COUNT",
+      "sql": "REGEXP_COUNT('abc', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "REGEXP_INSTR",
+      "sql": "REGEXP_INSTR('abc', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "REGEXP_LIKE",
+      "sql": "SELECT 1 AS v WHERE REGEXP_LIKE('abc', 'a.c')",
+      "confidence": "high"
+    },
+    {
+      "name": "REGEXP_MATCHES",
+      "sql": "SELECT * FROM REGEXP_MATCHES('abc', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "REGEXP_REPLACE",
+      "sql": "REGEXP_REPLACE('abc', 'b', 'x')",
+      "confidence": "high"
+    },
+    {
+      "name": "REGEXP_SPLIT_TO_TABLE",
+      "sql": "SELECT * FROM REGEXP_SPLIT_TO_TABLE('a,b', ',')",
+      "confidence": "high"
+    },
+    {
+      "name": "REGEXP_SUBSTR",
+      "sql": "REGEXP_SUBSTR('abc', 'b')",
+      "confidence": "high"
+    },
+    {
+      "name": "REPLACE",
+      "sql": "REPLACE(N'abc', N'b', N'x')",
+      "confidence": "high"
+    },
+    {
+      "name": "REPLICATE",
+      "sql": "REPLICATE(N'a', 3)",
+      "confidence": "high"
+    },
+    {
+      "name": "REVERSE",
+      "sql": "REVERSE(N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "RIGHT",
+      "sql": "RIGHT(N'abc', 2)",
+      "confidence": "high"
+    },
+    {
+      "name": "RIGHT_SHIFT",
+      "sql": "RIGHT_SHIFT(8, 1)",
+      "confidence": "high"
+    },
+    {
+      "name": "ROUND",
+      "sql": "ROUND(1.234, 2)",
+      "confidence": "high"
+    },
+    {
+      "name": "ROWCOUNT_BIG",
+      "sql": "ROWCOUNT_BIG()",
+      "confidence": "high"
+    },
+    {
+      "name": "ROW_NUMBER",
+      "sql": "SELECT ROW_NUMBER() OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "RTRIM",
+      "sql": "RTRIM(N'abc  ')",
+      "confidence": "high"
+    },
+    {
+      "name": "SCHEMA_ID",
+      "sql": "SCHEMA_ID(N'dbo')",
+      "confidence": "high"
+    },
+    {
+      "name": "SCHEMA_NAME",
+      "sql": "SCHEMA_NAME(1)",
+      "confidence": "high"
+    },
+    {
+      "name": "SERVERPROPERTY",
+      "sql": "SERVERPROPERTY(N'ProductVersion')",
+      "confidence": "high"
+    },
+    {
+      "name": "SESSION_CONTEXT",
+      "sql": "SESSION_CONTEXT(N'key')",
+      "confidence": "high"
+    },
+    {
+      "name": "SESSION_ID",
+      "sql": "SESSION_ID()",
+      "confidence": "high"
+    }
+  ]
+}

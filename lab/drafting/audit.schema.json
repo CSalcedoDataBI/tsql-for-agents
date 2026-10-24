@@ -1,0 +1,21 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["claims"],
+  "properties": {
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "proof", "reason", "unproven"],
+        "properties": {
+          "id": { "type": "string" },
+          "proof": { "type": "string", "enum": ["full", "partial", "none"] },
+          "reason": { "type": "string" },
+          "unproven": { "type": ["string", "null"] }
+        }
+      }
+    }
+  }
+}

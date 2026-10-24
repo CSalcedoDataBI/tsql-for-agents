@@ -1,0 +1,243 @@
+{
+  "status": "unprobed",
+  "drafted_by": "claude-review",
+  "topic": "aggregates-windows",
+  "title": "Aggregates and window functions in Fabric: traps for SQL Server habits",
+  "summary": "Fabric Warehouse and the Lakehouse SQL analytics endpoint support STRING_AGG with WITHIN GROUP, APPROX_COUNT_DISTINCT, APPROX_PERCENTILE_CONT/DISC, PERCENTILE_CONT/DISC, GROUPING/GROUPING_ID with ROLLUP/CUBE/GROUPING SETS, ANY_VALUE, LAG/LEAD/FIRST_VALUE/LAST_VALUE and CHECKSUM_AGG. The traps are about syntax and types. PERCENTILE_CONT/DISC need OVER, while the APPROX_ variants are plain aggregates. Some functions return float, tinyint or int when you might expect another type. STRING_AGG does not take DISTINCT. RANGE frames only take UNBOUNDED and CURRENT ROW. LAST_VALUE has a default frame that silently returns the current row. Confidence is high only where the behaviour is well established. Low-confidence claims, including several expected error numbers, still need to be checked by their probes.",
+  "claims": [
+    {
+      "id": "percentile-cont-needs-over",
+      "statement": "PERCENTILE_CONT and PERCENTILE_DISC are window functions only. Used as a plain grouped aggregate without OVER, they fail to compile.",
+      "functions": [
+        "PERCENTILE_CONT",
+        "PERCENTILE_DISC"
+      ],
+      "probe_sql": "SELECT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) AS p FROM (VALUES (1),(2),(3)) AS t(v);",
+      "expect": {
+        "outcome": "error",
+        "error_number": 10753,
+        "result_type": null
+      },
+      "sql_server": "Same in SQL Server: an OVER clause is mandatory.",
+      "alternative": "Use APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) for a grouped result. Or use PERCENTILE_CONT ... OVER (PARTITION BY ...) with SELECT DISTINCT.",
+      "confidence": "low"
+    },
+    {
+      "id": "percentile-cont-returns-float",
+      "statement": "PERCENTILE_CONT returns float even when the ordered column is decimal. Cast the result back if exact decimal output matters.",
+      "functions": [
+        "PERCENTILE_CONT",
+        "CAST"
+      ],
+      "probe_sql": "SELECT DISTINCT PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) OVER () AS p FROM (VALUES (CAST(1.50 AS decimal(10,2))),(CAST(2.50 AS decimal(10,2)))) AS t(v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "float"
+      },
+      "sql_server": "Same in SQL Server: PERCENTILE_CONT returns float.",
+      "alternative": "CAST(PERCENTILE_CONT(...) WITHIN GROUP (ORDER BY v) OVER (...) AS decimal(p,s))",
+      "confidence": "high"
+    },
+    {
+      "id": "approx-percentile-is-aggregate",
+      "statement": "APPROX_PERCENTILE_CONT and APPROX_PERCENTILE_DISC are plain aggregates. They take WITHIN GROUP (ORDER BY ...) and work with GROUP BY, with no OVER clause.",
+      "functions": [
+        "APPROX_PERCENTILE_CONT",
+        "APPROX_PERCENTILE_DISC"
+      ],
+      "probe_sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) AS p FROM (VALUES (1.0E0),(2.0E0),(3.0E0)) AS t(v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "float"
+      },
+      "sql_server": null,
+      "alternative": null,
+      "confidence": "low"
+    },
+    {
+      "id": "approx-percentile-no-over",
+      "statement": "Adding OVER to APPROX_PERCENTILE_CONT, as you would for PERCENTILE_CONT, is rejected.",
+      "functions": [
+        "APPROX_PERCENTILE_CONT"
+      ],
+      "probe_sql": "SELECT APPROX_PERCENTILE_CONT(0.5) WITHIN GROUP (ORDER BY v) OVER () AS p FROM (VALUES (1.0E0),(2.0E0)) AS t(v);",
+      "expect": {
+        "outcome": "error",
+        "error_number": 4113,
+        "result_type": null
+      },
+      "sql_server": null,
+      "alternative": "Drop OVER and use GROUP BY. Or switch to PERCENTILE_CONT ... OVER (...) for a per-row value.",
+      "confidence": "low"
+    },
+    {
+      "id": "approx-count-distinct-bigint",
+      "statement": "APPROX_COUNT_DISTINCT returns bigint, not int. Size target columns and variables accordingly.",
+      "functions": [
+        "APPROX_COUNT_DISTINCT"
+      ],
+      "probe_sql": "SELECT APPROX_COUNT_DISTINCT(v) AS c FROM (VALUES ('a'),('b'),('a')) AS t(v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "bigint"
+      },
+      "sql_server": "Same in SQL Server: bigint.",
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "string-agg-within-group-type",
+      "statement": "STRING_AGG with WITHIN GROUP (ORDER BY ...) compiles. On non-max varchar input the result is varchar(8000), so long lists can overflow. Cast the input to varchar(max) to lift the limit.",
+      "functions": [
+        "STRING_AGG",
+        "CAST"
+      ],
+      "probe_sql": "SELECT STRING_AGG(v, ',') WITHIN GROUP (ORDER BY v) AS s FROM (VALUES ('b'),('a')) AS t(v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "varchar(8000)"
+      },
+      "sql_server": "In SQL Server, non-max varchar input also yields varchar(8000), and the aggregate fails at run time if the result exceeds 8000 bytes.",
+      "alternative": "STRING_AGG(CAST(v AS varchar(max)), ',') WITHIN GROUP (ORDER BY v)",
+      "confidence": "low"
+    },
+    {
+      "id": "string-agg-no-distinct",
+      "statement": "STRING_AGG does not accept DISTINCT. Writing STRING_AGG(DISTINCT v, ',') fails to compile.",
+      "functions": [
+        "STRING_AGG"
+      ],
+      "probe_sql": "SELECT STRING_AGG(DISTINCT v, ',') AS s FROM (VALUES ('a'),('a'),('b')) AS t(v);",
+      "expect": {
+        "outcome": "error",
+        "error_number": 102,
+        "result_type": null
+      },
+      "sql_server": "Same in SQL Server: DISTINCT is not allowed in STRING_AGG.",
+      "alternative": "Remove duplicates first: SELECT STRING_AGG(v, ',') FROM (SELECT DISTINCT v FROM ...) AS d.",
+      "confidence": "low"
+    },
+    {
+      "id": "any-value-exists",
+      "statement": "ANY_VALUE is available as an aggregate. It returns an arbitrary value from the group, so use it only when all values in the group are known to be equal.",
+      "functions": [
+        "ANY_VALUE"
+      ],
+      "probe_sql": "SELECT k, ANY_VALUE(v) AS v FROM (VALUES (1,10),(1,10),(2,20)) AS t(k,v) GROUP BY k;",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": "MIN(v) or MAX(v) when a deterministic choice is needed.",
+      "confidence": "low"
+    },
+    {
+      "id": "lag-ignore-nulls",
+      "statement": "LAG and LEAD accept IGNORE NULLS between the call and OVER. This is the way to carry the last non-null value forward.",
+      "functions": [
+        "LAG",
+        "LEAD"
+      ],
+      "probe_sql": "SELECT LAG(v) IGNORE NULLS OVER (ORDER BY k) AS prev_v FROM (VALUES (1,5),(2,CAST(NULL AS int)),(3,7)) AS t(k,v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": null,
+      "alternative": "LAST_VALUE(v) IGNORE NULLS OVER (ORDER BY k ROWS BETWEEN UNBOUNDED PRECEDING AND 1 PRECEDING)",
+      "confidence": "low"
+    },
+    {
+      "id": "last-value-default-frame",
+      "statement": "With ORDER BY and no explicit frame, the frame defaults to RANGE BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW. LAST_VALUE then silently returns the current row's value. Always spell out the frame.",
+      "functions": [
+        "LAST_VALUE",
+        "FIRST_VALUE"
+      ],
+      "probe_sql": "SELECT LAST_VALUE(v) OVER (ORDER BY k ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS last_v FROM (VALUES (1,5),(2,6),(3,7)) AS t(k,v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": "Same default frame in SQL Server.",
+      "alternative": "FIRST_VALUE(v) OVER (ORDER BY k DESC) gives the last value without a frame clause.",
+      "confidence": "high"
+    },
+    {
+      "id": "range-offset-not-allowed",
+      "statement": "RANGE frames only accept UNBOUNDED PRECEDING/FOLLOWING and CURRENT ROW. A numeric offset such as RANGE BETWEEN 1 PRECEDING AND CURRENT ROW is rejected.",
+      "functions": [
+        "SUM"
+      ],
+      "probe_sql": "SELECT SUM(v) OVER (ORDER BY k RANGE BETWEEN 1 PRECEDING AND CURRENT ROW) AS s FROM (VALUES (1,5),(2,6)) AS t(k,v);",
+      "expect": {
+        "outcome": "error",
+        "error_number": 4194,
+        "result_type": null
+      },
+      "sql_server": "Same restriction in SQL Server.",
+      "alternative": "Use ROWS BETWEEN n PRECEDING AND CURRENT ROW, or a self-join on the value range.",
+      "confidence": "low"
+    },
+    {
+      "id": "grouping-returns-tinyint",
+      "statement": "GROUPING returns tinyint and GROUPING_ID returns int. Both work with ROLLUP, CUBE and GROUPING SETS to tell subtotal rows from real NULL keys.",
+      "functions": [
+        "GROUPING",
+        "GROUPING_ID",
+        "SUM"
+      ],
+      "probe_sql": "SELECT GROUPING(k) AS g, GROUPING_ID(k) AS gid, SUM(v) AS s FROM (VALUES ('a',1),('b',2)) AS t(k,v) GROUP BY ROLLUP(k);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "tinyint"
+      },
+      "sql_server": "Same types in SQL Server.",
+      "alternative": null,
+      "confidence": "high"
+    },
+    {
+      "id": "checksum-agg-int-only",
+      "statement": "CHECKSUM_AGG only takes integer input. Passing a string column fails, so hash the row first.",
+      "functions": [
+        "CHECKSUM_AGG",
+        "CHECKSUM"
+      ],
+      "probe_sql": "SELECT CHECKSUM_AGG(v) AS c FROM (VALUES ('a'),('b')) AS t(v);",
+      "expect": {
+        "outcome": "error",
+        "error_number": 8117,
+        "result_type": null
+      },
+      "sql_server": "Same in SQL Server: CHECKSUM_AGG requires an integer expression.",
+      "alternative": "CHECKSUM_AGG(CHECKSUM(v))",
+      "confidence": "low"
+    },
+    {
+      "id": "avg-int-truncates",
+      "statement": "AVG over an int column returns int and truncates silently: the average of 1 and 2 is 1. Cast the input to decimal or float first.",
+      "functions": [
+        "AVG",
+        "CAST"
+      ],
+      "probe_sql": "SELECT AVG(v) AS a FROM (VALUES (1),(2)) AS t(v);",
+      "expect": {
+        "outcome": "compiles",
+        "error_number": null,
+        "result_type": "int"
+      },
+      "sql_server": "Same in SQL Server.",
+      "alternative": "AVG(CAST(v AS decimal(18,4)))",
+      "confidence": "high"
+    }
+  ]
+}

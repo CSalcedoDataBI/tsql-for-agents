@@ -22,19 +22,21 @@ T-SQL does not describe itself. Built-in scalar functions such as `LEN` or `DATE
 `sys.objects`, so there is no `SHOW FUNCTIONS` to export. The honest method has three steps:
 
 1. A list of **candidates** taken from the official T-SQL function documentation.
-2. Each candidate is **probed** on a Fabric Warehouse with a minimal `SELECT`. The result records
-   whether it exists, the engine's error if it does not, and the returned type
-   (`sp_describe_first_result_set`).
+2. Each candidate is **probed** on a Fabric engine with a minimal `SELECT`, through
+   `sp_describe_first_result_set`, which compiles the statement and never runs it. The result
+   records whether the name exists, the engine's error if it does not (`not supported` is not the
+   same as `not recognized`), and the returned type. The first run used a SQL analytics endpoint;
+   a Warehouse run is still to come.
 3. System views and procedures come directly from `sys.all_objects` and `sys.all_parameters`.
 
 ## What it will contain
 
 | Piece | Source | Status |
 |---|---|---|
-| Candidate list of built-in functions | official T-SQL function reference | in progress |
-| Probe results (exists / error / return type) | minimal `SELECT` on a Fabric Warehouse | planned (needs a workspace) |
-| System views and procedures | `sys.all_objects` + `sys.all_parameters` on the engine | planned |
-| Fabric traps (unsupported vs SQL Server, types, collation) | drafts marked *unprobed* until a probe confirms them | in progress |
+| Candidate list of built-in functions ([`catalog/candidates.json`](catalog/candidates.json)) | official T-SQL function reference (`MicrosoftDocs/sql-docs`, CC-BY-4.0, pinned commit) | first version |
+| Probe results ([`catalog/probe/functions.json`](catalog/probe/functions.json)) | `sp_describe_first_result_set` on a minimal `SELECT`, compiled on a Fabric SQL analytics endpoint, never executed | first run |
+| System views and procedures ([`catalog/probe/system_objects.json`](catalog/probe/system_objects.json)) | `sys.all_objects` + `sys.all_parameters` on the engine | first run |
+| Fabric traps (unsupported vs SQL Server, types, collation) | drafts in [`lab/drafting/`](lab/drafting/), each claim with its own probe | drafts |
 | `tsql-feedback` skill | report a wrong or missing card as a public issue | planned |
 
 ## Not in scope

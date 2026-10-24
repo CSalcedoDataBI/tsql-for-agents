@@ -4,8 +4,9 @@ This repository is **public and in pre-release**. Write every issue and commit w
 no client names, no real engagements, no credentials, no workspace or server names, and nothing
 from private repositories.
 
-It follows [NORTE](https://github.com/CSalcedoDataBI/docker-lab/blob/main/NORTE.md). The north for
-every PR is [FICHA.md](FICHA.md), and `.claude/agents/experto.md` merges against it.
+It is maintained with the maintainer's internal rules: its north is [FICHA.md](FICHA.md), and the
+`experto` agent (`.claude/agents/experto.md`) merges against it. How to contribute:
+[CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## Rules specific to this repo
 
@@ -18,7 +19,9 @@ every PR is [FICHA.md](FICHA.md), and `.claude/agents/experto.md` merges against
 - **Every number in the README is counted from the tree**, not typed. Until a check backs a
   number, do not write it.
 - **CI runs on GitHub runners, never on a self-hosted one.** The repo is public, and a self-hosted
-  runner would execute fork PRs on the maintainer's machine (DIRECTRICES, RUNSEC A exception).
+  runner would execute fork PRs on the maintainer's machine.
+- **No local paths, no links to private repositories and no data of the probe target** (workspace,
+  server, database, item ids) in any versioned file. The target lives in `.local/`, which git ignores.
 - **The probe never runs in CI.** It needs a Fabric workspace and an Entra sign-in, which stay on
   the maintainer's machine. Its JSON output is committed.
 - The repository is in English. Specs and ADRs under `docs/` are in Spanish, as in dax-for-agents.

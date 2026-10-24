@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "error-line-not-supported",
+      "proof": "full",
+      "reason": "Error 15871 explicitly names ERROR_LINE as not supported, which implies any code using it fails to compile.",
+      "unproven": null
+    },
+    {
+      "id": "error-line-in-catch-breaks-batch",
+      "proof": "partial",
+      "reason": "The batch with ERROR_LINE only in a CATCH block of a non-failing TRY was rejected with 15871 at compile time.",
+      "unproven": "That a stored procedure containing this template breaks; only an ad-hoc batch was compiled, not a CREATE PROCEDURE."
+    },
+    {
+      "id": "xact-state-not-supported",
+      "proof": "full",
+      "reason": "The exact IF XACT_STATE() <> 0 ROLLBACK pattern failed with 15871 naming XACT_STATE.",
+      "unproven": null
+    },
+    {
+      "id": "trancount-exists",
+      "proof": "partial",
+      "reason": "@@TRANCOUNT compiled and is typed int.",
+      "unproven": "That it correctly reports open transactions at run time and is the recommended way to test for them."
+    },
+    {
+      "id": "catch-rollback-rethrow-pattern",
+      "proof": "full",
+      "reason": "The exact @@TRANCOUNT/ROLLBACK/THROW CATCH pattern compiled.",
+      "unproven": null
+    },
+    {
+      "id": "error-number-severity-state",
+      "proof": "full",
+      "reason": "All three functions compiled and each is typed int.",
+      "unproven": null
+    },
+    {
+      "id": "error-message-type",
+      "proof": "full",
+      "reason": "ERROR_MESSAGE compiled and is typed nvarchar(4000).",
+      "unproven": null
+    },
+    {
+      "id": "error-procedure-exists",
+      "proof": "partial",
+      "reason": "ERROR_PROCEDURE compiled and is typed nvarchar(128).",
+      "unproven": "That at run time it returns the name of the module where the error happened."
+    },
+    {
+      "id": "procid-not-supported",
+      "proof": "full",
+      "reason": "OBJECT_NAME(@@PROCID) failed with 15871 naming @@PROCID.",
+      "unproven": null
+    },
+    {
+      "id": "formatmessage-not-supported",
+      "proof": "full",
+      "reason": "Error 15871 names FORMATMESSAGE as not supported, so it cannot be used anywhere, including for message text.",
+      "unproven": null
+    },
+    {
+      "id": "raiserror-ends-describe-path",
+      "proof": "partial",
+      "reason": "sp_describe_first_result_set returned 11530 for RAISERROR severity 16 before the SELECT.",
+      "unproven": "That severity 16 specifically is the cause, since no other severity was tested, and that other result-set-describing tools fail the same way."
+    },
+    {
+      "id": "rowcount-types",
+      "proof": "partial",
+      "reason": "ROWCOUNT_BIG compiled as bigint and @@ROWCOUNT compiled as int.",
+      "unproven": "The advice that ROWCOUNT_BIG avoids int overflow on large loads, which is run-time behaviour."
+    },
+    {
+      "id": "at-at-error-exists",
+      "proof": "partial",
+      "reason": "@@ERROR compiled and is typed int.",
+      "unproven": "That it is reset by every statement as in SQL Server."
+    },
+    {
+      "id": "snapshot-isolation-only",
+      "proof": "none",
+      "reason": "Compiling the SET statement only shows it is accepted; it shows nothing about which isolation level is actually applied.",
+      "unproven": "That only snapshot isolation is used, that the requested level is not honoured, and that locking-dependent code silently returns different results."
+    }
+  ]
+}

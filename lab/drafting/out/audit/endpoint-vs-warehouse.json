@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "evw-01",
+      "proof": "partial",
+      "reason": "The probe shows that sys.tables can be queried and that name is nvarchar(128) on one Fabric item.",
+      "unproven": "That catalog reads behave the same on the endpoint and the Warehouse, and that sys.tables lists the exposed Lakehouse Delta tables."
+    },
+    {
+      "id": "evw-02",
+      "proof": "partial",
+      "reason": "CREATE VIEW compiles, but a compile check cannot tell which item it targets or whether the create would succeed there.",
+      "unproven": "That CREATE VIEW actually succeeds on the read-only endpoint, and that views are the normal way to add logic."
+    },
+    {
+      "id": "evw-03",
+      "proof": "partial",
+      "reason": "The inline TVF compiles, but compiling does not show that creation succeeds on the endpoint.",
+      "unproven": "That the function can actually be created when run on the read-only endpoint."
+    },
+    {
+      "id": "evw-04",
+      "proof": "partial",
+      "reason": "A read-only procedure compiles, but nothing shows run-time creation on the endpoint, and no writing body was tested.",
+      "unproven": "Creation on the endpoint at run time, and the restriction that the body may only read data or use temp tables."
+    },
+    {
+      "id": "evw-05",
+      "proof": "partial",
+      "reason": "CREATE TABLE compiled with an empty result set, which supports the compile-time part of the claim.",
+      "unproven": "That the read-only restriction is enforced when the statement runs."
+    },
+    {
+      "id": "evw-06",
+      "proof": "full",
+      "reason": "CTAS compiled with no result columns, and the remaining sentence is only a caveat about what compiling can show.",
+      "unproven": null
+    },
+    {
+      "id": "evw-07",
+      "proof": "full",
+      "reason": "SELECT INTO compiled with no result columns, and the remaining sentence is only a caveat about what compiling can show.",
+      "unproven": null
+    },
+    {
+      "id": "evw-08",
+      "proof": "full",
+      "reason": "The engine returned error 11525, and its message states the single-statement temp-table limitation of metadata discovery.",
+      "unproven": null
+    },
+    {
+      "id": "evw-09",
+      "proof": "full",
+      "reason": "Error 24581 states that global temporary tables are not supported, which directly covers the claim.",
+      "unproven": null
+    },
+    {
+      "id": "evw-10",
+      "proof": "partial",
+      "reason": "A non-existent item name fails with error 208 as an invalid object, as the second sentence says.",
+      "unproven": "That three-part names resolve only against Warehouses and Lakehouse endpoints in the same workspace."
+    },
+    {
+      "id": "evw-11",
+      "proof": "none",
+      "reason": "Error 7202 reports that a server was not found in sys.servers and even suggests sp_addlinkedserver, rather than saying four-part names are unsupported.",
+      "unproven": "That four-part names or linked servers do not exist in Fabric."
+    },
+    {
+      "id": "evw-12",
+      "proof": "full",
+      "reason": "Error 15871 names SCOPE_IDENTITY as not supported.",
+      "unproven": null
+    },
+    {
+      "id": "evw-13",
+      "proof": "full",
+      "reason": "Error 15871 names @@IDENTITY as not supported.",
+      "unproven": null
+    },
+    {
+      "id": "evw-14",
+      "proof": "partial",
+      "reason": "DB_NAME() compiles and returns nvarchar(128) on one Fabric item.",
+      "unproven": "That it works on both the endpoint and the Warehouse, and that the value it returns is the item name."
+    }
+  ]
+}

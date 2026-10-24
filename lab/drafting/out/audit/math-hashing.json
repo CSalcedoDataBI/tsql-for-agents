@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "rand-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 names RAND as unsupported, but only the unseeded call was compiled.",
+      "unproven": "That the seeded form RAND(seed) also fails at compile time."
+    },
+    {
+      "id": "random-from-newid",
+      "proof": "partial",
+      "reason": "The probe only shows the bigint-cast expression compiles and returns bigint.",
+      "unproven": "That CHECKSUM can return -2147483648, that ABS of that int overflows at run time, and that this is the usual RAND replacement."
+    },
+    {
+      "id": "crypt-gen-random-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 names CRYPT_GEN_RANDOM as unsupported, but the broader conclusion was not tested.",
+      "unproven": "That no other T-SQL means of generating cryptographic random bytes exists."
+    },
+    {
+      "id": "newid-exists",
+      "proof": "partial",
+      "reason": "NEWID compiles and returns uniqueidentifier.",
+      "unproven": "That it is evaluated per row and works for random ordering or sampling with ORDER BY NEWID()."
+    },
+    {
+      "id": "hashbytes-encoding",
+      "proof": "partial",
+      "reason": "HASHBYTES compiles and returns varbinary(8000).",
+      "unproven": "That varchar and nvarchar inputs hash differently, the UTF-8 default collation and its byte differences, and the advice on casting and algorithm choice."
+    },
+    {
+      "id": "checksum-int-collisions",
+      "proof": "partial",
+      "reason": "Only CHECKSUM was probed, and it returns int.",
+      "unproven": "That BINARY_CHECKSUM exists and returns int, the collision frequency, and the collation versus raw-byte behaviour."
+    },
+    {
+      "id": "integer-division",
+      "proof": "partial",
+      "reason": "The int result type shows integer division, but the value is not observed.",
+      "unproven": "That 7 / 2 returns exactly 3, that is, it truncates rather than rounds."
+    },
+    {
+      "id": "power-first-arg-type",
+      "proof": "partial",
+      "reason": "POWER(2, 0.5) is typed int, consistent with the first-argument rule.",
+      "unproven": "The run-time values 1 and 0, the POWER(2, -1) case, and the general rule beyond this one probe."
+    },
+    {
+      "id": "sqrt-log-float",
+      "proof": "partial",
+      "reason": "Only SQRT on int input was shown to return float.",
+      "unproven": "The float return of LOG, LOG10 and EXP, the rounding behaviour, and the optional base argument of LOG."
+    },
+    {
+      "id": "round-keeps-decimal-type",
+      "proof": "partial",
+      "reason": "ROUND(748.58, -1) is typed numeric(5,2).",
+      "unproven": "That ROUND(748.58, -4) overflows at run time instead of returning 10000."
+    },
+    {
+      "id": "floor-ceiling-decimal",
+      "proof": "partial",
+      "reason": "CEILING on a decimal literal returns numeric(5,0).",
+      "unproven": "The FLOOR behaviour and the float return for float input."
+    },
+    {
+      "id": "greatest-least-null",
+      "proof": "partial",
+      "reason": "GREATEST compiles and returns int.",
+      "unproven": "That LEAST exists, the NULL-ignoring semantics, and type promotion for mixed arguments."
+    },
+    {
+      "id": "bit-count-bigint",
+      "proof": "partial",
+      "reason": "BIT_COUNT on int is typed bigint.",
+      "unproven": "That GET_BIT and SET_BIT exist."
+    },
+    {
+      "id": "shift-functions",
+      "proof": "partial",
+      "reason": "LEFT_SHIFT with int arguments returns int.",
+      "unproven": "That RIGHT_SHIFT exists, that the result follows the first argument's type in general, and that shifted-out bits are lost silently without error."
+    }
+  ]
+}

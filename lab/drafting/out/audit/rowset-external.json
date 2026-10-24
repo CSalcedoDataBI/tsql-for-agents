@@ -1,0 +1,76 @@
+{
+  "claims": [
+    {
+      "id": "rowset-external-01",
+      "proof": "partial",
+      "reason": "Error 15868 explicitly names OPENQUERY as not supported, but the engine says nothing about linked servers.",
+      "unproven": "That Fabric has no linked servers at all."
+    },
+    {
+      "id": "rowset-external-02",
+      "proof": "full",
+      "reason": "Error 15868 explicitly states OPENDATASOURCE is not supported, which is the ad hoc connection-string mechanism described.",
+      "unproven": null
+    },
+    {
+      "id": "rowset-external-03",
+      "proof": "partial",
+      "reason": "Error 7202 shows only that this server name is absent from sys.servers, which any SQL Server would also report for a missing linked server.",
+      "unproven": "That linked servers cannot exist in Fabric, and that three-part names to items in the same workspace resolve."
+    },
+    {
+      "id": "rowset-external-04",
+      "proof": "partial",
+      "reason": "The provider form was rejected at compile time with 15281, but the message attributes this to a configuration switch, not to the feature being unsupported.",
+      "unproven": "That OPENROWSET(BULK ...) is confirmed to work, which was not probed and failed in claim 05, and whether the block is permanent rather than a configuration setting."
+    },
+    {
+      "id": "rowset-external-05",
+      "proof": "partial",
+      "reason": "Error 13836 at sp_describe_first_result_set proves the OneLake path is checked at compile time.",
+      "unproven": "That the cause is non-resolution of placeholder names, and that the check happens before the WITH clause and FORMAT options are validated, since both were valid here."
+    },
+    {
+      "id": "rowset-external-08",
+      "proof": "none",
+      "reason": "The probe failed with syntax error 102, possibly from the literal handle argument, not with a feature-unsupported error.",
+      "unproven": "That OPENXML is unavailable in Fabric."
+    },
+    {
+      "id": "rowset-external-09",
+      "proof": "partial",
+      "reason": "Columns key nvarchar(4000), value and type compiled, but value was observed as nvarchar(15), not nvarchar(max).",
+      "unproven": "That value is nvarchar(max); the engine contradicts this for this input."
+    },
+    {
+      "id": "rowset-external-10",
+      "proof": "partial",
+      "reason": "The probe only shows that an nvarchar(max) AS JSON column compiles and returns nvarchar(max).",
+      "unproven": "That AS JSON is required, and that omitting it silently returns NULL at run time."
+    },
+    {
+      "id": "rowset-external-11",
+      "proof": "full",
+      "reason": "Error 13618 states that AS JSON is allowed only for nvarchar(max) columns, matching the claim.",
+      "unproven": null
+    },
+    {
+      "id": "rowset-external-12",
+      "proof": "partial",
+      "reason": "The probe confirms a clean compile with a multi-character separator and a value column of varchar(4).",
+      "unproven": "The run-time behaviour of the split and the documented single-character restriction."
+    },
+    {
+      "id": "rowset-external-13",
+      "proof": "partial",
+      "reason": "The enable_ordinal form compiles and exposes an ordinal column typed bigint.",
+      "unproven": "That output order is not guaranteed without ordering by ordinal."
+    },
+    {
+      "id": "rowset-external-14",
+      "proof": "partial",
+      "reason": "GENERATE_SERIES compiles and value is int for int literals.",
+      "unproven": "That value is the only column, since the probe selected only value; the advice to prefer it over alternatives is also unverified."
+    }
+  ]
+}

@@ -1,0 +1,94 @@
+{
+  "claims": [
+    {
+      "id": "rand-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 naming RAND proves RAND is unsupported, but the alternative and its per-row evaluation were not probed.",
+      "unproven": "That ABS(CHECKSUM(NEWID())) with a modulo is the replacement, and that it is evaluated per row unlike RAND without a seed."
+    },
+    {
+      "id": "rand-alternative-compiles",
+      "proof": "full",
+      "reason": "The expression compiled and its declared result type is int.",
+      "unproven": null
+    },
+    {
+      "id": "crypt-gen-random-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 naming CRYPT_GEN_RANDOM proves it is unsupported, but the NEWID-to-varbinary(16) cast and its cryptographic strength were not probed.",
+      "unproven": "That casting NEWID to varbinary(16) works as a replacement and that it is not cryptographically strong."
+    },
+    {
+      "id": "newsequentialid-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 naming NEWSEQUENTIALID proves it is unsupported, but NEWID was not probed.",
+      "unproven": "That NEWID exists and returns uniqueidentifier, and that its values are not ordered."
+    },
+    {
+      "id": "scope-identity-not-supported",
+      "proof": "partial",
+      "reason": "Only SCOPE_IDENTITY was probed and rejected with 15871.",
+      "unproven": "That @@IDENTITY and IDENT_CURRENT are unsupported, and the ROW_NUMBER-plus-MAX key-generation advice."
+    },
+    {
+      "id": "identity-at-variable-not-supported",
+      "proof": "full",
+      "reason": "Error 15871 names @@IDENTITY as unsupported, which also shows that rewriting SCOPE_IDENTITY to @@IDENTITY cannot help.",
+      "unproven": null
+    },
+    {
+      "id": "ident-seed-incr-not-supported",
+      "proof": "partial",
+      "reason": "Only IDENT_SEED was probed and rejected with 15871.",
+      "unproven": "That IDENT_INCR is unsupported."
+    },
+    {
+      "id": "error-line-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 proves ERROR_LINE is unsupported, but the other ERROR_ functions and the effect inside a CATCH batch were not probed.",
+      "unproven": "That ERROR_NUMBER, ERROR_MESSAGE, ERROR_SEVERITY, ERROR_STATE and ERROR_PROCEDURE exist, and that a CATCH block logging ERROR_LINE makes the whole batch fail."
+    },
+    {
+      "id": "xact-state-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 proves XACT_STATE is unsupported, but the @@TRANCOUNT alternative was not probed.",
+      "unproven": "That testing @@TRANCOUNT > 0 before ROLLBACK in a CATCH block works as a replacement."
+    },
+    {
+      "id": "formatmessage-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 proves FORMATMESSAGE is unsupported, but the CONCAT/THROW alternative was not probed.",
+      "unproven": "That building the error text with CONCAT before THROW works."
+    },
+    {
+      "id": "host-app-name-not-supported",
+      "proof": "partial",
+      "reason": "Only APP_NAME was probed and rejected with 15871.",
+      "unproven": "That HOST_NAME is unsupported and that @@SPID exists."
+    },
+    {
+      "id": "session-id-not-recognized",
+      "proof": "partial",
+      "reason": "Error 195 proves SESSION_ID is not a recognized built-in function, but @@SPID was not probed.",
+      "unproven": "That @@SPID exists and works as the replacement."
+    },
+    {
+      "id": "login-user-id-not-supported",
+      "proof": "partial",
+      "reason": "Only ORIGINAL_LOGIN was probed and rejected with 15871.",
+      "unproven": "That SUSER_ID, USER_ID and DATABASE_PRINCIPAL_ID are unsupported, and that SUSER_SNAME, USER_NAME, CURRENT_USER and SYSTEM_USER are available."
+    },
+    {
+      "id": "encryption-not-supported",
+      "proof": "partial",
+      "reason": "Only ENCRYPTBYPASSPHRASE was probed and rejected with 15871.",
+      "unproven": "That DECRYPTBYPASSPHRASE, ENCRYPTBYKEY, DECRYPTBYKEY and the certificate and asymmetric key variants are unsupported, and that HASHBYTES exists."
+    },
+    {
+      "id": "file-metadata-not-supported",
+      "proof": "partial",
+      "reason": "Only FILEGROUP_NAME was probed and rejected with 15871.",
+      "unproven": "That FILE_ID, FILE_NAME, FILEPROPERTY, FILEGROUP_ID and FILEGROUPPROPERTY are unsupported, and that no alternative is offered."
+    }
+  ]
+}

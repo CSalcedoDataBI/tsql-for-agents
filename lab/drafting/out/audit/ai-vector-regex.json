@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "vector-functions-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 names VECTOR_DISTANCE only; the other four functions were not probed.",
+      "unproven": "That VECTOR_NORM, VECTOR_NORMALIZE, VECTOR_SEARCH and VECTORPROPERTY are unsupported."
+    },
+    {
+      "id": "vector-type-missing",
+      "proof": "partial",
+      "reason": "Error 15871 confirms CAST to vector(3) fails; no column declaration was probed.",
+      "unproven": "That columns declared as vector(n) fail."
+    },
+    {
+      "id": "vector-math-via-openjson",
+      "proof": "partial",
+      "reason": "The dot-product query compiled and returned float; the cosine formula was never probed.",
+      "unproven": "That the cosine-similarity construction compiles, gives correct values and works as a VECTOR_DISTANCE replacement."
+    },
+    {
+      "id": "ai-generate-embeddings-not-supported",
+      "proof": "partial",
+      "reason": "Error 15871 names AI_GENERATE_EMBEDDINGS, which proves only that this function is unsupported.",
+      "unproven": "The broader conclusion that embeddings cannot be generated in a Fabric query by any other means."
+    },
+    {
+      "id": "ai-generate-chunks-not-recognized",
+      "proof": "none",
+      "reason": "The probe failed with syntax error 102 near '=', a probe syntax problem rather than an unrecognized-function error.",
+      "unproven": "That AI_GENERATE_CHUNKS is not recognized in Fabric."
+    },
+    {
+      "id": "ai-text-functions-exist",
+      "proof": "partial",
+      "reason": "Only AI_SUMMARIZE was probed; it compiled and returned varchar(max) for nvarchar input.",
+      "unproven": "That AI_CLASSIFY, AI_EXTRACT, AI_ANALYZE_SENTIMENT, AI_FIX_GRAMMAR, AI_TRANSLATE and AI_GENERATE_RESPONSE compile."
+    },
+    {
+      "id": "ai-classify-labels",
+      "proof": "partial",
+      "reason": "The form with separate label arguments compiled; the single-delimited-list form was not tested.",
+      "unproven": "That a single delimited label list is wrong or treated differently."
+    },
+    {
+      "id": "regexp-like-is-predicate",
+      "proof": "partial",
+      "reason": "REGEXP_LIKE compiled inside CASE WHEN; the int type comes from the CASE expression, not from REGEXP_LIKE.",
+      "unproven": "Use in WHERE and JOIN conditions, and that it returns no bit or int value."
+    },
+    {
+      "id": "regexp-like-not-selectable",
+      "proof": "partial",
+      "reason": "Selecting REGEXP_LIKE directly did fail to compile, with a parser error.",
+      "unproven": "That the cause is its boolean nature rather than some other parsing rule."
+    },
+    {
+      "id": "regexp-count-int",
+      "proof": "full",
+      "reason": "The query compiled and the int type was observed.",
+      "unproven": null
+    },
+    {
+      "id": "regexp-matches-not-recognized",
+      "proof": "full",
+      "reason": "Error 208, invalid object name, shows REGEXP_MATCHES is not recognized, so code using it fails.",
+      "unproven": null
+    },
+    {
+      "id": "regexp-substr-occurrence",
+      "proof": "partial",
+      "reason": "The GENERATE_SERIES and REGEXP_SUBSTR query compiled.",
+      "unproven": "That it returns the same matches as REGEXP_MATCHES and so can replace it."
+    },
+    {
+      "id": "regexp-split-not-recognized",
+      "proof": "full",
+      "reason": "Error 208 shows REGEXP_SPLIT_TO_TABLE is not recognized.",
+      "unproven": null
+    },
+    {
+      "id": "fuzzy-match-scales",
+      "proof": "partial",
+      "reason": "The types int, int and float were observed for the three named functions.",
+      "unproven": "The value ranges 0-100 and 0-1, and that a shared threshold silently gives wrong matches."
+    }
+  ]
+}

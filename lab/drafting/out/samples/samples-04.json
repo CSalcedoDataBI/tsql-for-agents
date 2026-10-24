@@ -1,0 +1,204 @@
+{
+  "samples": [
+    {
+      "name": "IS_SRVROLEMEMBER",
+      "sql": "IS_SRVROLEMEMBER('sysadmin')",
+      "confidence": "high"
+    },
+    {
+      "name": "JARO_WINKLER_DISTANCE",
+      "sql": "JARO_WINKLER_DISTANCE(N'abc', N'abd')",
+      "confidence": "high"
+    },
+    {
+      "name": "JARO_WINKLER_SIMILARITY",
+      "sql": "JARO_WINKLER_SIMILARITY(N'abc', N'abd')",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_ARRAY",
+      "sql": "JSON_ARRAY(1, 2, 3)",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_ARRAYAGG",
+      "sql": "SELECT JSON_ARRAYAGG(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_MODIFY",
+      "sql": "JSON_MODIFY(N'{\"a\":1}', '$.a', 2)",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_OBJECT",
+      "sql": "JSON_OBJECT('a':1, 'b':2)",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_OBJECTAGG",
+      "sql": "SELECT JSON_OBJECTAGG(k:v) AS v FROM (VALUES ('a',1),('b',2)) AS t(k,v)",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_PATH_EXISTS",
+      "sql": "JSON_PATH_EXISTS(N'{\"a\":1}', '$.a')",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_QUERY",
+      "sql": "JSON_QUERY(N'{\"a\":[1,2]}', '$.a')",
+      "confidence": "high"
+    },
+    {
+      "name": "JSON_VALUE",
+      "sql": "JSON_VALUE(N'{\"a\":1}', '$.a')",
+      "confidence": "high"
+    },
+    {
+      "name": "LAG",
+      "sql": "SELECT LAG(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "LAST_VALUE",
+      "sql": "SELECT LAST_VALUE(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "LEAD",
+      "sql": "SELECT LEAD(x) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "LEAST",
+      "sql": "LEAST(1, 2, 3)",
+      "confidence": "high"
+    },
+    {
+      "name": "LEFT",
+      "sql": "LEFT(N'abc', 2)",
+      "confidence": "high"
+    },
+    {
+      "name": "LEFT_SHIFT",
+      "sql": "LEFT_SHIFT(8, 2)",
+      "confidence": "low"
+    },
+    {
+      "name": "LEN",
+      "sql": "LEN(N'abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "LOG",
+      "sql": "LOG(10)",
+      "confidence": "high"
+    },
+    {
+      "name": "LOG10",
+      "sql": "LOG10(100)",
+      "confidence": "high"
+    },
+    {
+      "name": "LOWER",
+      "sql": "LOWER(N'ABC')",
+      "confidence": "high"
+    },
+    {
+      "name": "LTRIM",
+      "sql": "LTRIM(N'  abc')",
+      "confidence": "high"
+    },
+    {
+      "name": "MAX",
+      "sql": "SELECT MAX(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "MEDIAN",
+      "sql": "SELECT MEDIAN(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "low"
+    },
+    {
+      "name": "MIN",
+      "sql": "SELECT MIN(x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "MONTH",
+      "sql": "MONTH('2020-01-15')",
+      "confidence": "high"
+    },
+    {
+      "name": "NCHAR",
+      "sql": "NCHAR(65)",
+      "confidence": "high"
+    },
+    {
+      "name": "NEWID",
+      "sql": "NEWID()",
+      "confidence": "high"
+    },
+    {
+      "name": "NEXT VALUE FOR",
+      "sql": "NEXT VALUE FOR dbo.NonExistentSeq",
+      "confidence": "low"
+    },
+    {
+      "name": "NODE_ID_FROM_PARTS",
+      "sql": "NODE_ID_FROM_PARTS(1, 1)",
+      "confidence": "low"
+    },
+    {
+      "name": "NTILE",
+      "sql": "SELECT NTILE(2) OVER (ORDER BY x) AS v FROM (VALUES (1),(2)) AS t(x)",
+      "confidence": "high"
+    },
+    {
+      "name": "OBJECTPROPERTY",
+      "sql": "OBJECTPROPERTY(1, 'IsTable')",
+      "confidence": "high"
+    },
+    {
+      "name": "OBJECTPROPERTYEX",
+      "sql": "OBJECTPROPERTYEX(1, 'IsTable')",
+      "confidence": "high"
+    },
+    {
+      "name": "OBJECT_DEFINITION",
+      "sql": "OBJECT_DEFINITION(1)",
+      "confidence": "high"
+    },
+    {
+      "name": "OBJECT_ID",
+      "sql": "OBJECT_ID('dbo.SomeTable')",
+      "confidence": "high"
+    },
+    {
+      "name": "OBJECT_ID_FROM_EDGE_ID",
+      "sql": "OBJECT_ID_FROM_EDGE_ID(0x00)",
+      "confidence": "low"
+    },
+    {
+      "name": "OBJECT_ID_FROM_NODE_ID",
+      "sql": "OBJECT_ID_FROM_NODE_ID(0x00)",
+      "confidence": "low"
+    },
+    {
+      "name": "OBJECT_NAME",
+      "sql": "OBJECT_NAME(1)",
+      "confidence": "high"
+    },
+    {
+      "name": "OBJECT_SCHEMA_NAME",
+      "sql": "OBJECT_SCHEMA_NAME(1)",
+      "confidence": "high"
+    },
+    {
+      "name": "OPENDATASOURCE",
+      "sql": "SELECT * FROM OPENDATASOURCE('SQLNCLI', 'Data Source=x;Integrated Security=SSPI').db.dbo.tbl",
+      "confidence": "low"
+    }
+  ]
+}

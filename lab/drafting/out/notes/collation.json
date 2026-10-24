@@ -1,0 +1,216 @@
+{
+ "status": "partly_probed",
+ "drafted_by": "claude-review",
+ "revision": 2,
+ "topic": "collation",
+ "title": "Collation and case sensitivity in Fabric",
+ "summary": "A Fabric Warehouse and SQL analytics endpoint default to Latin1_General_100_BIN2_UTF8. That collation is binary, case-sensitive, accent-sensitive and UTF-8. SQL Server code that assumes a case-insensitive default still compiles but returns different results without warning. Equality, LIKE, CHARINDEX, REPLACE, ORDER BY, GROUP BY, DISTINCT and string joins all compare exact code points. Fold case with UPPER or LOWER, or apply COLLATE in the expression. Joins between columns of different collations fail with error 468 unless one side gets an explicit COLLATE. COLLATIONPROPERTY and DATABASEPROPERTYEX return sql_variant. SQL_VARIANT_PROPERTY is not supported, so CAST the result.",
+ "claims": [
+  {
+   "id": "collation-default-bin2-utf8",
+   "statement": "The default database collation is Latin1_General_100_BIN2_UTF8, not a case-insensitive collation. Read it with DATABASEPROPERTYEX(DB_NAME(), 'Collation') and CAST the sql_variant result to varchar. Never hard-code an assumption of case-insensitivity.",
+   "functions": [
+    "DATABASEPROPERTYEX",
+    "DB_NAME",
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST(DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS varchar(128)) AS db_collation",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(128)"
+   },
+   "sql_server": "A default SQL Server install for US English uses SQL_Latin1_General_CP1_CI_AS, which is case-insensitive.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "collation-equality-case-sensitive",
+   "statement": "String equality is case-sensitive. 'a' = 'A' is false, so WHERE filters on user-typed values silently return fewer rows.",
+   "functions": [],
+   "probe_sql": "SELECT CASE WHEN 'a' = 'A' THEN 1 ELSE 0 END AS same",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Under the default CI collation, 'a' = 'A' is true.",
+   "alternative": "Compare UPPER(x) = UPPER(y), or add COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 to one side.",
+   "confidence": "high"
+  },
+  {
+   "id": "collation-like-charindex-replace",
+   "statement": "LIKE, CHARINDEX, PATINDEX and REPLACE follow the collation, so they are case-sensitive too. 'Abc' LIKE 'a%' is false. CHARINDEX('a', 'ABC') returns 0. REPLACE('Abc', 'a', 'x') changes nothing.",
+   "functions": [
+    "CHARINDEX",
+    "PATINDEX",
+    "REPLACE"
+   ],
+   "probe_sql": "SELECT CHARINDEX('a', 'ABC') AS pos, CASE WHEN 'Abc' LIKE 'a%' THEN 1 ELSE 0 END AS m",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Under the default CI collation, these match regardless of case.",
+   "alternative": "Apply LOWER to both the input and the pattern, or COLLATE the input to a CI collation.",
+   "confidence": "high"
+  },
+  {
+   "id": "collation-order-by-code-point",
+   "statement": "ORDER BY on strings sorts by binary code point. All uppercase letters come before all lowercase letters ('Z' sorts before 'a'). Accented letters sort after 'z'.",
+   "functions": [],
+   "probe_sql": "SELECT v FROM (VALUES ('b'), ('B'), ('a'), ('A'), ('Z')) AS t(v) ORDER BY v",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(1)"
+   },
+   "sql_server": "The default CI collation sorts alphabetically with case ignored: a, A, b, B, Z.",
+   "alternative": "ORDER BY v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 for dictionary-like order.",
+   "confidence": "high"
+  },
+  {
+   "id": "collation-group-by-distinct-split",
+   "statement": "GROUP BY, DISTINCT, COUNT(DISTINCT) and UNION treat 'abc' and 'ABC' as different values. Aggregates silently return extra groups and higher distinct counts than on SQL Server.",
+   "functions": [
+    "COUNT"
+   ],
+   "probe_sql": "SELECT v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC'), ('Abc')) AS t(v) GROUP BY v",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(3)"
+   },
+   "sql_server": "Under the default CI collation, these three values form one group.",
+   "alternative": "GROUP BY UPPER(v), or GROUP BY v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8.",
+   "confidence": "high"
+  },
+  {
+   "id": "collation-fold-with-upper",
+   "statement": "The portable fix for case-insensitive grouping and matching is to fold case with UPPER or LOWER. Use the same expression in the SELECT list and in GROUP BY. Under the UTF-8 collation the folded result is typed wider than the input: UPPER on a varchar(3) value is described as varchar(24), because case mapping can change the byte length. CAST the result back to the intended length if a downstream column or contract expects the original width.",
+   "functions": [
+    "UPPER",
+    "LOWER",
+    "COUNT",
+    "CAST"
+   ],
+   "probe_sql": "SELECT UPPER(v) AS v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC')) AS t(v) GROUP BY UPPER(v)",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(24)"
+   },
+   "sql_server": "Under a non-UTF-8 collation, UPPER on varchar(3) keeps the type varchar(3).",
+   "alternative": "CAST(UPPER(v) AS varchar(3)) when the original width must be preserved.",
+   "confidence": "high"
+  },
+  {
+   "id": "collation-collate-ci-in-expression",
+   "statement": "COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 can be applied in expressions to get case-insensitive comparison, grouping and sorting. This collation is still accent-, kana- and width-sensitive, so 'e' and 'é' stay different.",
+   "functions": [
+    "COUNT"
+   ],
+   "probe_sql": "SELECT v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v, COUNT(*) AS n FROM (VALUES ('abc'), ('ABC')) AS t(v) GROUP BY v COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(3)"
+   },
+   "sql_server": null,
+   "alternative": "GROUP BY UPPER(v)",
+   "confidence": "low"
+  },
+  {
+   "id": "collation-invalid-name",
+   "statement": "A misspelled or unknown collation name in a COLLATE clause fails at compile time with error 448.",
+   "functions": [],
+   "probe_sql": "SELECT 'a' COLLATE Not_A_Real_Collation AS v",
+   "expect": {
+    "outcome": "error",
+    "error_number": 448,
+    "result_type": null
+   },
+   "sql_server": "Same error 448.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "collation-join-conflict-468",
+   "statement": "Comparing or joining two string columns whose collations differ, such as a BIN2 column and a CI column, fails with error 468, 'Cannot resolve the collation conflict'.",
+   "functions": [],
+   "probe_sql": "SELECT a.v FROM (SELECT 'x' COLLATE Latin1_General_100_BIN2_UTF8 AS v) AS a JOIN (SELECT 'X' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v) AS b ON a.v = b.v",
+   "expect": {
+    "outcome": "error",
+    "error_number": 468,
+    "result_type": null
+   },
+   "sql_server": "Same error 468 when column collations differ.",
+   "alternative": "Add COLLATE to one side of the predicate, e.g. ON a.v = b.v COLLATE Latin1_General_100_BIN2_UTF8.",
+   "confidence": "low"
+  },
+  {
+   "id": "collation-join-conflict-fix",
+   "statement": "An explicit COLLATE on one side of the join predicate resolves the conflict. The chosen collation decides whether the join matches case-sensitively.",
+   "functions": [],
+   "probe_sql": "SELECT a.v FROM (SELECT 'x' COLLATE Latin1_General_100_BIN2_UTF8 AS v) AS a JOIN (SELECT 'X' COLLATE Latin1_General_100_CI_AS_KS_WS_SC_UTF8 AS v) AS b ON a.v = b.v COLLATE Latin1_General_100_BIN2_UTF8",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(1)"
+   },
+   "sql_server": null,
+   "alternative": "COLLATE DATABASE_DEFAULT on one side.",
+   "confidence": "low"
+  },
+  {
+   "id": "collation-collationproperty-sql-variant",
+   "statement": "COLLATIONPROPERTY works but returns sql_variant. SQL_VARIANT_PROPERTY is not supported, so CAST the result to a concrete type before using it. For Latin1_General_100_BIN2_UTF8, the CodePage property is 65001 (UTF-8).",
+   "functions": [
+    "COLLATIONPROPERTY",
+    "CAST",
+    "SQL_VARIANT_PROPERTY"
+   ],
+   "probe_sql": "SELECT CAST(COLLATIONPROPERTY('Latin1_General_100_BIN2_UTF8', 'CodePage') AS int) AS code_page",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "SQL_VARIANT_PROPERTY is available there to inspect the sql_variant base type.",
+   "alternative": "CAST or TRY_CAST the COLLATIONPROPERTY result.",
+   "confidence": "high"
+  },
+  {
+   "id": "collation-utf8-len-vs-datalength",
+   "statement": "With a UTF-8 collation, varchar holds Unicode and non-ASCII characters take 2 to 4 bytes. LEN counts characters, while DATALENGTH counts bytes. A varchar(n) length is in bytes, so code that assumes one byte per character truncates or miscounts.",
+   "functions": [
+    "LEN",
+    "DATALENGTH"
+   ],
+   "probe_sql": "SELECT DATALENGTH('é') AS bytes, LEN('é') AS chars",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Under SQL_Latin1_General_CP1_CI_AS, varchar uses code page 1252 and every character is one byte.",
+   "alternative": "Size varchar columns in bytes. Use DATALENGTH when checking storage limits.",
+   "confidence": "high"
+  }
+ ],
+ "refuted": [],
+ "not_fully_proven": [
+  "collation-default-bin2-utf8",
+  "collation-equality-case-sensitive",
+  "collation-like-charindex-replace",
+  "collation-order-by-code-point",
+  "collation-group-by-distinct-split",
+  "collation-fold-with-upper",
+  "collation-collate-ci-in-expression",
+  "collation-join-conflict-fix",
+  "collation-collationproperty-sql-variant",
+  "collation-utf8-len-vs-datalength"
+ ],
+ "probed_on": "sql_analytics_endpoint"
+}

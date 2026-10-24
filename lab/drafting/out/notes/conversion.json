@@ -1,0 +1,255 @@
+{
+ "status": "partly_probed",
+ "drafted_by": "claude-review",
+ "revision": 2,
+ "topic": "conversion",
+ "title": "Conversion functions in Fabric: CAST, CONVERT, TRY_*, PARSE, FORMAT",
+ "summary": "CAST, CONVERT, TRY_CAST, TRY_CONVERT, PARSE, TRY_PARSE and FORMAT all exist in Fabric Warehouse and the SQL analytics endpoint. Most traps are SQL Server traps that still apply. Defaults without length or precision silently truncate or round. TRY_* hide bad data but not disallowed type pairs. Data type precedence turns varchar into numbers. FORMAT returns nvarchar(4000). Fabric adds its own traps: table columns accept datetime2 only up to precision 6, nvarchar is not a table column type, and the default UTF-8 collation counts varchar length in bytes.",
+ "claims": [
+  {
+   "id": "conv-varchar-no-length",
+   "statement": "CAST or CONVERT to varchar with no length gives varchar(30). Longer values are cut silently. Always give a length.",
+   "functions": [
+    "CAST",
+    "CONVERT"
+   ],
+   "probe_sql": "SELECT CAST('a fairly long string that is longer than thirty characters' AS varchar) AS v;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(30)"
+   },
+   "sql_server": "Same: varchar without length in CAST/CONVERT means varchar(30).",
+   "alternative": "CAST(x AS varchar(200)) with an explicit length.",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-decimal-default",
+   "statement": "CAST to decimal with no precision gives decimal(18,0), so fractions are rounded away without an error.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('12.345' AS decimal) AS d;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "decimal(18,0)"
+   },
+   "sql_server": "Same default of decimal(18,0).",
+   "alternative": "CAST('12.345' AS decimal(18,4)).",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-datetime2-default-precision",
+   "statement": "CAST to datetime2 with no precision gives datetime2(7). Warehouse table columns accept datetime2 only up to precision 6, so declare datetime2(6) when the result will be stored.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('2024-01-31 10:11:12.1234567' AS datetime2) AS d;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime2(7)"
+   },
+   "sql_server": "SQL Server tables accept datetime2(7).",
+   "alternative": "CAST(x AS datetime2(6)).",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-datetime-in-query",
+   "statement": "datetime is not a valid table column type in Warehouse, but CAST to datetime may still work inside a query expression. Probe before relying on it. Prefer datetime2(6).",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST('2024-01-31' AS datetime) AS d;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "datetime"
+   },
+   "sql_server": null,
+   "alternative": "CAST('2024-01-31' AS datetime2(6)).",
+   "confidence": "low"
+  },
+  {
+   "id": "conv-convert-style-112",
+   "statement": "CONVERT with date style numbers works. Style 112 gives yyyymmdd and style 23 gives yyyy-mm-dd.",
+   "functions": [
+    "CONVERT",
+    "CAST"
+   ],
+   "probe_sql": "SELECT CONVERT(varchar(8), CAST('2024-01-31' AS date), 112) AS s;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(8)"
+   },
+   "sql_server": "Same style numbers.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "conv-invalid-style",
+   "statement": "An undocumented literal style number such as 999 is not rejected at compile time: CONVERT(varchar(10), date, 999) compiles and is described as varchar(10). Compiling cannot catch a bad style, so use only documented styles.",
+   "functions": [
+    "CONVERT",
+    "CAST"
+   ],
+   "probe_sql": "SELECT CONVERT(varchar(10), CAST('2024-01-31' AS date), 999) AS s;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(10)"
+   },
+   "sql_server": null,
+   "alternative": "CONVERT(varchar(10), d, 23).",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-try-cast-type-pair",
+   "statement": "TRY_CAST returns NULL only for bad values. A type pair that can never convert, such as date to int, is still an error (529), not NULL.",
+   "functions": [
+    "TRY_CAST",
+    "CAST"
+   ],
+   "probe_sql": "SELECT TRY_CAST(CAST('2024-01-31' AS date) AS int) AS i;",
+   "expect": {
+    "outcome": "error",
+    "error_number": 529,
+    "result_type": null
+   },
+   "sql_server": "Same: an explicit conversion that is not allowed raises error 529 even inside TRY_CAST.",
+   "alternative": "DATEDIFF(day, '19000101', d) or CONVERT(int, CONVERT(char(8), d, 112)) for a yyyymmdd key.",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-try-convert-null",
+   "statement": "TRY_CONVERT on bad text compiles and returns NULL at run time. Rows silently become NULL, so check for NULLs after converting.",
+   "functions": [
+    "TRY_CONVERT"
+   ],
+   "probe_sql": "SELECT TRY_CONVERT(int, 'abc') AS i;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "conv-implicit-precedence",
+   "statement": "varchar + int converts the varchar to int, because int has higher precedence. It does not concatenate. Non-numeric text fails only at run time (error 245), so the batch compiles.",
+   "functions": [],
+   "probe_sql": "SELECT 'abc' + 1 AS x;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same precedence rule.",
+   "alternative": "CONCAT('abc', 1) for string concatenation.",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-int-truncation",
+   "statement": "CAST of a decimal to int truncates toward zero. It does not round, so 1.9 becomes 1.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST(1.9 AS int) AS i;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same truncation.",
+   "alternative": "CAST(ROUND(1.9, 0) AS int).",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-format-nvarchar",
+   "statement": "FORMAT returns nvarchar(4000). Warehouse tables do not accept nvarchar columns, so cast the result to varchar(n) before storing it.",
+   "functions": [
+    "FORMAT",
+    "CAST"
+   ],
+   "probe_sql": "SELECT FORMAT(CAST('2024-01-31' AS date), 'yyyy-MM-dd') AS s;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(4000)"
+   },
+   "sql_server": "FORMAT also returns nvarchar(4000) in SQL Server.",
+   "alternative": "CAST(FORMAT(d, 'yyyy-MM-dd') AS varchar(10)), or CONVERT(varchar(10), d, 23), which avoids the culture-aware formatting path.",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-parse-culture",
+   "statement": "PARSE and TRY_PARSE exist and accept a USING culture, so day-first strings can be read with 'en-GB'. Without USING, the session language decides the meaning.",
+   "functions": [
+    "PARSE",
+    "TRY_PARSE"
+   ],
+   "probe_sql": "SELECT PARSE('31/01/2024' AS date USING 'en-GB') AS d;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "date"
+   },
+   "sql_server": null,
+   "alternative": "CONVERT(date, '31/01/2024', 103).",
+   "confidence": "high"
+  },
+  {
+   "id": "conv-try-parse-type",
+   "statement": "TRY_PARSE returns the target type and NULL on failure.",
+   "functions": [
+    "TRY_PARSE"
+   ],
+   "probe_sql": "SELECT TRY_PARSE('abc' AS int USING 'en-US') AS i;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "conv-utf8-bytes",
+   "statement": "The default Warehouse collation is UTF-8, so varchar(n) counts bytes, not characters. Accented or non-Latin text can be truncated silently in a short varchar.",
+   "functions": [
+    "CAST"
+   ],
+   "probe_sql": "SELECT CAST(N'été' AS varchar(3)) AS s;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "varchar(3)"
+   },
+   "sql_server": null,
+   "alternative": "Size varchar columns for bytes, up to 4 per character for non-ASCII text.",
+   "confidence": "low"
+  }
+ ],
+ "refuted": [],
+ "not_fully_proven": [
+  "conv-varchar-no-length",
+  "conv-decimal-default",
+  "conv-datetime2-default-precision",
+  "conv-datetime-in-query",
+  "conv-convert-style-112",
+  "conv-try-cast-type-pair",
+  "conv-try-convert-null",
+  "conv-implicit-precedence",
+  "conv-int-truncation",
+  "conv-format-nvarchar",
+  "conv-parse-culture",
+  "conv-try-parse-type",
+  "conv-utf8-bytes"
+ ],
+ "probed_on": "sql_analytics_endpoint"
+}

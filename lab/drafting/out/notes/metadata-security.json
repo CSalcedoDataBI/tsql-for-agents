@@ -1,0 +1,280 @@
+{
+ "status": "unprobed",
+ "drafted_by": "claude-review",
+ "topic": "metadata-security",
+ "title": "Metadata and security functions in Fabric Warehouse and SQL analytics endpoint",
+ "summary": "Most name-to-ID metadata functions work in Fabric: OBJECT_ID, OBJECT_NAME, SCHEMA_NAME, DB_NAME, DB_ID, COL_NAME, COLUMNPROPERTY, OBJECTPROPERTY(EX), TYPE_NAME, SERVERPROPERTY, DATABASEPROPERTYEX and @@VERSION. Several SQL Server habits fail to compile. These include USER_ID, DATABASE_PRINCIPAL_ID, SUSER_ID, ORIGINAL_LOGIN, COL_LENGTH, APP_NAME, HOST_NAME and SESSIONPROPERTY. Identity functions return Entra names (UPNs), not DOMAIN\\user. Property functions return sql_variant and need an explicit CAST. Workspace roles are not database roles, so role checks can quietly return 0.",
+ "claims": [
+  {
+   "id": "ms-01",
+   "statement": "USER_ID is not supported in Fabric and fails at compile time. To get the current database user, use USER_NAME() or CURRENT_USER. To get a principal id, look it up in sys.database_principals.",
+   "functions": [
+    "USER_ID",
+    "USER_NAME",
+    "CURRENT_USER"
+   ],
+   "probe_sql": "SELECT USER_ID() AS uid;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "USER_ID() returns the int principal id of the current database user (deprecated, but it still works).",
+   "alternative": "SELECT principal_id FROM sys.database_principals WHERE name = USER_NAME();",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-02",
+   "statement": "DATABASE_PRINCIPAL_ID is not supported in Fabric. Look up principal_id in sys.database_principals by name instead.",
+   "functions": [
+    "DATABASE_PRINCIPAL_ID",
+    "USER_NAME"
+   ],
+   "probe_sql": "SELECT DATABASE_PRINCIPAL_ID() AS pid;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "DATABASE_PRINCIPAL_ID() returns the int id of the current database principal.",
+   "alternative": "SELECT principal_id FROM sys.database_principals WHERE name = USER_NAME();",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-03",
+   "statement": "SUSER_ID is not supported. SUSER_SNAME, SUSER_NAME and SUSER_SID do exist. Identify the caller by name or SID, not by a server login id.",
+   "functions": [
+    "SUSER_ID",
+    "SUSER_SNAME",
+    "SUSER_SID",
+    "SUSER_NAME"
+   ],
+   "probe_sql": "SELECT SUSER_ID() AS login_id;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SUSER_ID() returns the int login identification number.",
+   "alternative": "SELECT SUSER_SNAME() AS login_name, SUSER_SID() AS login_sid;",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-04",
+   "statement": "ORIGINAL_LOGIN is not supported, so audit columns that default to it will not compile. Use SUSER_SNAME() or SYSTEM_USER instead. For an Entra identity, these return the Entra name (typically a UPN such as user@tenant domain), not DOMAIN\\user.",
+   "functions": [
+    "ORIGINAL_LOGIN",
+    "SUSER_SNAME",
+    "SYSTEM_USER"
+   ],
+   "probe_sql": "SELECT ORIGINAL_LOGIN() AS who;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "ORIGINAL_LOGIN() returns the login that opened the connection, even after impersonation.",
+   "alternative": "SELECT SUSER_SNAME() AS who;",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-05",
+   "statement": "SUSER_SNAME() compiles and returns nvarchar(128). For an Entra user the value is the Entra principal name (UPN), and for a service principal it is the app name or id. Do not parse it for a backslash domain prefix.",
+   "functions": [
+    "SUSER_SNAME"
+   ],
+   "probe_sql": "SELECT SUSER_SNAME() AS who;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(128)"
+   },
+   "sql_server": "With Windows authentication the value has the form DOMAIN\\user.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "ms-06",
+   "statement": "CURRENT_USER, SESSION_USER and USER_NAME() compile and return a sysname (nvarchar(128)) database user name. In Fabric this is the Entra identity name, not dbo, even for workspace admins.",
+   "functions": [
+    "CURRENT_USER",
+    "SESSION_USER",
+    "USER_NAME"
+   ],
+   "probe_sql": "SELECT CURRENT_USER AS cu, SESSION_USER AS su, USER_NAME() AS un;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(128)"
+   },
+   "sql_server": "Members of sysadmin or the database owner see dbo.",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "ms-07",
+   "statement": "COL_LENGTH is not supported. Read max_length from sys.columns, or use COLUMNPROPERTY with 'Precision'.",
+   "functions": [
+    "COL_LENGTH",
+    "COLUMNPROPERTY",
+    "OBJECT_ID"
+   ],
+   "probe_sql": "SELECT COL_LENGTH('sys.objects', 'name') AS len;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "COL_LENGTH returns the defined length of a column in bytes as smallint.",
+   "alternative": "SELECT c.max_length FROM sys.columns AS c WHERE c.object_id = OBJECT_ID('sys.objects') AND c.name = 'name';",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-08",
+   "statement": "APP_NAME and HOST_NAME are not supported. Read program_name and host_name from sys.dm_exec_sessions for the current @@SPID.",
+   "functions": [
+    "APP_NAME",
+    "HOST_NAME",
+    "@@SPID"
+   ],
+   "probe_sql": "SELECT APP_NAME() AS app, HOST_NAME() AS host;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "Both are commonly used in audit defaults and logging.",
+   "alternative": "SELECT s.program_name, s.host_name FROM sys.dm_exec_sessions AS s WHERE s.session_id = @@SPID;",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-09",
+   "statement": "SESSIONPROPERTY is not supported. To inspect SET options, decode @@OPTIONS, which exists.",
+   "functions": [
+    "SESSIONPROPERTY",
+    "@@OPTIONS"
+   ],
+   "probe_sql": "SELECT SESSIONPROPERTY('ANSI_NULLS') AS ansi_nulls;",
+   "expect": {
+    "outcome": "error",
+    "error_number": null,
+    "result_type": null
+   },
+   "sql_server": "SESSIONPROPERTY returns the setting of a SET option for the session.",
+   "alternative": "SELECT CASE WHEN @@OPTIONS & 32 = 32 THEN 1 ELSE 0 END AS ansi_nulls;",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-10",
+   "statement": "SERVERPROPERTY returns sql_variant. CAST the result before you concatenate or compare it, and do not assume on-premises values such as a Windows machine name or edition.",
+   "functions": [
+    "SERVERPROPERTY",
+    "CAST"
+   ],
+   "probe_sql": "SELECT SERVERPROPERTY('Edition') AS edition;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "sql_variant"
+   },
+   "sql_server": "The type is also sql_variant in SQL Server, but the values describe a box product.",
+   "alternative": "SELECT CAST(SERVERPROPERTY('Edition') AS nvarchar(128)) AS edition;",
+   "confidence": "high"
+  },
+  {
+   "id": "ms-11",
+   "statement": "DATABASEPROPERTYEX returns sql_variant. The warehouse collation it reports is typically a case-sensitive BIN2 UTF-8 collation. Name comparisons against metadata can therefore be case-sensitive, and a lookup in the wrong case silently returns nothing.",
+   "functions": [
+    "DATABASEPROPERTYEX",
+    "DB_NAME"
+   ],
+   "probe_sql": "SELECT DATABASEPROPERTYEX(DB_NAME(), 'Collation') AS coll;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "sql_variant"
+   },
+   "sql_server": "The default server collation is usually case-insensitive (for example SQL_Latin1_General_CP1_CI_AS).",
+   "alternative": null,
+   "confidence": "low"
+  },
+  {
+   "id": "ms-12",
+   "statement": "OBJECT_ID, OBJECT_NAME and SCHEMA_NAME compile and work against catalog views. OBJECT_ID returns int.",
+   "functions": [
+    "OBJECT_ID",
+    "OBJECT_NAME",
+    "SCHEMA_NAME"
+   ],
+   "probe_sql": "SELECT OBJECT_ID('sys.objects') AS oid, OBJECT_NAME(OBJECT_ID('sys.objects')) AS oname, SCHEMA_NAME(1) AS sname;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "Same signature and return type.",
+   "alternative": null,
+   "confidence": "high"
+  },
+  {
+   "id": "ms-13",
+   "statement": "IS_ROLEMEMBER compiles and returns int. Fabric workspace roles (Admin, Member, Contributor, Viewer) are not database roles. A workspace admin can therefore get 0 from IS_ROLEMEMBER('db_owner'), which makes role-based guards wrong without raising any error. Prefer HAS_PERMS_BY_NAME for permission checks.",
+   "functions": [
+    "IS_ROLEMEMBER",
+    "IS_MEMBER",
+    "HAS_PERMS_BY_NAME"
+   ],
+   "probe_sql": "SELECT IS_ROLEMEMBER('db_owner') AS is_owner;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "int"
+   },
+   "sql_server": "The database owner and sysadmin members return 1 for db_owner.",
+   "alternative": "SELECT HAS_PERMS_BY_NAME(DB_NAME(), 'DATABASE', 'CONTROL') AS can_control;",
+   "confidence": "low"
+  },
+  {
+   "id": "ms-14",
+   "statement": "@@VERSION compiles and returns nvarchar(300), but the text describes the Fabric engine, not a numbered SQL Server release. Do not parse it to branch on a SQL Server version.",
+   "functions": [
+    "@@VERSION"
+   ],
+   "probe_sql": "SELECT @@VERSION AS v;",
+   "expect": {
+    "outcome": "compiles",
+    "error_number": null,
+    "result_type": "nvarchar(300)"
+   },
+   "sql_server": "Returns a string such as 'Microsoft SQL Server 2022 (RTM) ...', which scripts often parse.",
+   "alternative": null,
+   "confidence": "low"
+  }
+ ],
+ "refuted": [
+  "ms-01",
+  "ms-02",
+  "ms-03",
+  "ms-04",
+  "ms-07",
+  "ms-08",
+  "ms-09"
+ ],
+ "not_fully_proven": [
+  "ms-01",
+  "ms-02",
+  "ms-03",
+  "ms-04",
+  "ms-05",
+  "ms-06",
+  "ms-07",
+  "ms-08",
+  "ms-09",
+  "ms-10",
+  "ms-11",
+  "ms-12",
+  "ms-13",
+  "ms-14"
+ ],
+ "probed_on": "sql_analytics_endpoint"
+}

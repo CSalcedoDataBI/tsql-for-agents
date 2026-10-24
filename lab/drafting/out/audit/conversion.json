@@ -1,0 +1,88 @@
+{
+  "claims": [
+    {
+      "id": "conv-varchar-no-length",
+      "proof": "partial",
+      "reason": "The observed varchar(30) proves the default length, but not what happens to longer values.",
+      "unproven": "That longer values are cut silently at run time."
+    },
+    {
+      "id": "conv-decimal-default",
+      "proof": "partial",
+      "reason": "The observed decimal(18,0) proves the default precision and scale, but not the rounding behaviour.",
+      "unproven": "That fractions are rounded away without an error at run time."
+    },
+    {
+      "id": "conv-datetime2-default-precision",
+      "proof": "partial",
+      "reason": "The observed datetime2(7) proves the default precision; the table-column limit was never probed.",
+      "unproven": "That Warehouse table columns accept datetime2 only up to precision 6."
+    },
+    {
+      "id": "conv-datetime-in-query",
+      "proof": "partial",
+      "reason": "The compile and the datetime result type show CAST to datetime works in a query; the table-column restriction was not tested.",
+      "unproven": "That datetime is not a valid Warehouse table column type."
+    },
+    {
+      "id": "conv-convert-style-112",
+      "proof": "partial",
+      "reason": "Style 112 compiles with type varchar(8), but compiling cannot show the output format, and style 23 was not probed.",
+      "unproven": "That style 112 yields yyyymmdd, and anything about style 23 yielding yyyy-mm-dd."
+    },
+    {
+      "id": "conv-invalid-style",
+      "proof": "full",
+      "reason": "Style 999 compiled and was described as varchar(10), exactly as claimed, which shows compiling does not catch it.",
+      "unproven": null
+    },
+    {
+      "id": "conv-try-cast-type-pair",
+      "proof": "partial",
+      "reason": "Error 529 for TRY_CAST from date to int is observed, but the NULL-for-bad-values behaviour is run-time.",
+      "unproven": "That TRY_CAST returns NULL for bad values of a convertible type pair."
+    },
+    {
+      "id": "conv-try-convert-null",
+      "proof": "partial",
+      "reason": "It compiles and returns int, but the NULL result is a run-time value.",
+      "unproven": "That bad text returns NULL at run time and rows silently become NULL."
+    },
+    {
+      "id": "conv-implicit-precedence",
+      "proof": "partial",
+      "reason": "The int result type shows the varchar converts to int rather than concatenating, and that the batch compiles.",
+      "unproven": "That non-numeric text fails at run time with error 245."
+    },
+    {
+      "id": "conv-int-truncation",
+      "proof": "none",
+      "reason": "An int result type says nothing about whether 1.9 becomes 1 or 2.",
+      "unproven": "That the cast truncates toward zero rather than rounding, so 1.9 becomes 1."
+    },
+    {
+      "id": "conv-format-nvarchar",
+      "proof": "partial",
+      "reason": "The observed nvarchar(4000) proves FORMAT's return type; table column support was not probed.",
+      "unproven": "That Warehouse tables do not accept nvarchar columns."
+    },
+    {
+      "id": "conv-parse-culture",
+      "proof": "partial",
+      "reason": "PARSE with USING 'en-GB' compiles to date, but TRY_PARSE was not in this probe and value interpretation is run-time.",
+      "unproven": "That TRY_PARSE exists, that day-first strings are read correctly, and that the session language decides the meaning without USING."
+    },
+    {
+      "id": "conv-try-parse-type",
+      "proof": "partial",
+      "reason": "The int result type proves TRY_PARSE returns the target type, but the NULL on failure is run-time.",
+      "unproven": "That TRY_PARSE returns NULL on failure."
+    },
+    {
+      "id": "conv-utf8-bytes",
+      "proof": "none",
+      "reason": "The varchar(3) type only echoes the requested length and reveals nothing about collation or byte counting.",
+      "unproven": "That the default collation is UTF-8, that varchar(n) counts bytes, and that text is truncated silently."
+    }
+  ]
+}
