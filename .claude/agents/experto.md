@@ -62,6 +62,9 @@ flowchart LR
   list printed by `juntar` goes as a PR comment to the specialist, fixed in one commit; round 2 is **one targeted
   re-check** of those points by the reviewers that flagged them. Still blocking: outcome *stop*. **There is never a
   third pass:** you do not merge, and you send the PR back with the list.
+- **Code is judged against practices, not taste:** the code reviewer measures the diff against the repo's
+  `cortex/practices/` and reuse inside the repo; a code `FAIL` that cites neither a practice ID nor an
+  existing `file:line` is an opinion and you may overrule it, saying why in the PR.
 - **No blocking `FAIL`** (*ready*): the table from `evidence.md` goes into the PR body, with the risk-rule
   level (`scripts/riesgo.ps1`). The `NOT EVALUATED` ones go with their reason; they never count as a pass.
 - If two reviewers contradict each other, you decide and write down why in the PR.
